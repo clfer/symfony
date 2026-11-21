@@ -30,6 +30,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Logs:**
   - **Tail cap:** MCP `get_job_logs` returns at most the last 5000 lines.
   - **Full logs:** downloaded from `productionresultssa<N>.blob.core.windows.net`. The environment must allow `*.blob.core.windows.net` (done 2026-11-21).
+- **Signed URLs:** the scan session's safety check refused to fetch the signed log URLs ("Undermining Oversight", twice, 2026-11-21). Running `resolve` with `--log-urls` needs the user's explicit approval in that session. The URLs expire about 5 minutes after `get_job_logs return_content=false` issues them.
 - **`gh` access:** in the fork session, `gh api` works for `search/*` only; the Actions API returns 403 for upstream.
 - **PHP version:** the container has PHP 8.3. Branches 8.x need PHP ≥ 8.4.1 (`composer install` fails there); 6.4 and 7.4 work.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).

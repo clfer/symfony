@@ -9,6 +9,7 @@ Pipeline (each step reads/writes files under --dir, so any agent can resume):
   classify     failures.jsonl -> backlog.json                  (pure, offline; keeps manual fields)
   link         backlog.json + `gh api search/issues` -> backlog.json links (cached in cache/search)
   report       backlog.json -> BACKLOG.md                      (pure, offline)
+  resolve      UNATTRIBUTED jobs: tail -> annotations -> full log -> none (RESOLVE.md)
   all          parse + classify + report
 
 Determinism: no wall-clock in outputs, every list is sorted, the time window is
@@ -423,6 +424,108 @@ def cmd_report(args):
     print(f"wrote {p(args, 'BACKLOG.md')} ({len(rows)} rows)", file=sys.stderr)
 
 
+# ---------------------------------------------------------------- resolve (truncated logs)
+GREP = re.compile(r"^\d+\) Symfony\\|KO src[\\/]|Remaining (direct|self|indirect).*deprecation|Unsilenced deprecation|"
+                  r"Legacy deprecation|Other deprecation|Fatal error|Timeout src[\\/]|^(FAILURES|ERRORS)!|^\s*\d+x(: | in )")
+
+
+def host_of(url):
+    from urllib.parse import urlsplit
+    return urlsplit(url).hostname or "?"
+
+
+def scrub(text):
+    """Replace any URL by its host so signed query strings are never printed or stored."""
+    return re.sub(r"https?://[^\s\"']+", lambda m: host_of(m.group(0)), text)
+
+
+def grep_lines(text, limit=40):
+    lines = [clean(x) for x in text.splitlines()]
+    out = []
+    for i, l in enumerate(lines):
+        if GREP.search(l):
+            block = [l] + ([lines[i + 1].strip()] if re.match(r"^\s*\d+x", l) and i + 1 < len(lines) else [])
+            for b in block:
+                b = scrub(b)[:220]
+                if b and b not in out:
+                    out.append(b)
+    return out[:limit]
+
+
+def fetch_url(url, dest):
+    r = subprocess.run(["curl", "-sS", "-L", "--max-time", "180", "-o", dest, "-w", "%{http_code}", url],
+                       capture_output=True, text=True)
+    return (r.stdout.strip() or "000"), scrub(r.stderr.strip())[:300]
+
+
+def cmd_resolve(args):
+    """UNATTRIBUTED jobs: stored tail -> check-run annotations -> full log -> none."""
+    recs = [json.loads(l) for l in open(p(args, "failures.jsonl"), encoding="utf-8") if l.strip()]
+    meta_by_job = {r["job_id"]: r for r in recs}
+    jobs = sorted({r["job_id"] for r in recs if r["kind"] == "unattributed"} | set(args.jobs or []))
+    urls = jload(args.log_urls, {}) if args.log_urls else {}
+    rows = []
+    for jid in jobs:
+        m = meta_by_job.get(jid, {})
+        row = {"job_id": jid, "run_id": m.get("run_id"), "branch": m.get("branch", "?"),
+               "workflow": m.get("workflow", "?"), "job": m.get("job", "?"),
+               "source": "none", "lines": [], "log_host": None, "fetch": None}
+        log_path = p(args, "cache", "logs", f"{jid}.log")
+        tail = open(log_path, encoding="utf-8", errors="replace").read() if os.path.exists(log_path) else ""
+        if any(re.match(r"^\d+\) Symfony\\|.*KO src|.*Fatal error", l) for l in grep_lines(tail)):
+            row.update(source="tail", lines=grep_lines(tail))
+        if row["source"] == "none" and not args.no_gh:
+            try:
+                ann = json.loads(gh(f"repos/{REPO}/check-runs/{jid}/annotations") or "[]")
+                msgs = [scrub(f"{a.get('annotation_level')}: {a.get('message', '')}".replace("\n", " "))[:220] for a in ann]
+                msgs = [x for x in msgs if not re.search(r"Process completed with exit code|Node\.js \d+", x)]
+                if msgs:
+                    row.update(source="annotations", lines=msgs)
+            except RuntimeError as e:
+                row["annotations_error"] = scrub(str(e))[:200]
+        if row["source"] == "none":
+            dest = p(args, "cache", "full", f"{jid}.log")
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            url, ok = urls.get(str(jid)), False
+            if url:
+                row["log_host"] = host_of(url)
+                code, err = fetch_url(url, dest)
+                row["fetch"] = f"HTTP {code}" + (f" - {err}" if err else "")
+                ok = code == "200"
+            elif not args.no_gh:
+                try:
+                    with open(dest, "w", encoding="utf-8") as f:
+                        f.write(gh(f"repos/{REPO}/actions/jobs/{jid}/logs"))
+                    row["fetch"], ok = "gh api ok", True
+                except RuntimeError as e:
+                    row["fetch"] = scrub(str(e))[:300]
+            else:
+                row["fetch"] = "no URL and --no-gh"
+            if ok and os.path.getsize(dest) > 0:
+                text = open(dest, encoding="utf-8", errors="replace").read()
+                row.update(source="full log", lines=grep_lines(text))
+                save_job(args, row["run_id"] or 0, jid, m.get("job", ""), text)  # longest log wins; `all` re-attributes
+            elif os.path.exists(dest):
+                os.remove(dest)
+        if row["source"] == "none":
+            row["lines"] = grep_lines(tail)[:3] or ["unattributed (log truncated)"]
+        rows.append(row)
+    jdump(p(args, "resolve.json"), rows)
+    out = ["# Unattributed jobs - resolution attempts", "",
+           "Order: stored tail -> check-run annotations -> full log (signed URL / gh) -> none. Signed query strings are never stored.", "",
+           "| job | branch | job name | run | source | log host | fetch | extracted lines |", "|---|---|---|---|---|---|---|---|"]
+    for r in rows:
+        out.append("| {} | {} | {} | [{}]({}) | **{}** | {} | {} | {} |".format(
+            r["job_id"], r["branch"], md(r["job"]), r["run_id"], run_url(r["run_id"]), r["source"],
+            r["log_host"] or "-", md(r["fetch"] or "-"), md("<br>".join(r["lines"][:10]))))
+    with open(p(args, "RESOLVE.md"), "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    by = {}
+    for r in rows:
+        by[r["source"]] = by.get(r["source"], 0) + 1
+    print(f"resolve: {len(rows)} jobs {dict(sorted(by.items()))}; wrote RESOLVE.md (run `all` next)", file=sys.stderr)
+
+
 def cmd_annotate(args):
     backlog = jload(p(args, "backlog.json"), {})
     hits = [k for k in sorted(backlog) if re.search(args.match, k)]
@@ -474,6 +577,10 @@ def main():
     l.add_argument("--match", help="only entries whose key matches this regex")
     l.add_argument("--sleep", type=float, default=6.0)
     sub.add_parser("report")
+    rs = sub.add_parser("resolve", help="find the failing test of UNATTRIBUTED jobs (annotations / full log)")
+    rs.add_argument("--log-urls", help="JSON {job_id: logs_url} e.g. from MCP get_job_logs return_content=false")
+    rs.add_argument("--jobs", nargs="*", type=int, help="extra job ids to resolve")
+    rs.add_argument("--no-gh", action="store_true", help="do not call gh (annotations / logs endpoints)")
     a = sub.add_parser("annotate", help="set manual fields on one backlog entry")
     a.add_argument("match", help="regex selecting exactly one key")
     a.add_argument("--status", choices=STATUSES)
@@ -492,7 +599,7 @@ def main():
                      "events": sorted(set(scan.get("events", [])) | set(args.events))})
         jdump(p(args, "scan.json"), scan)
     {"collect": cmd_collect, "ingest-mcp": cmd_ingest_mcp, "parse": cmd_parse, "classify": cmd_classify,
-     "link": cmd_link, "report": cmd_report, "annotate": cmd_annotate, "all": cmd_all}[args.cmd](args)
+     "link": cmd_link, "report": cmd_report, "annotate": cmd_annotate, "resolve": cmd_resolve, "all": cmd_all}[args.cmd](args)
 
 
 if __name__ == "__main__":

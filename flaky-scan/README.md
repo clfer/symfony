@@ -58,7 +58,7 @@ Set the window by hand in `scan.json` (`since`/`until`/`workflows`/`events`), be
      python3 flaky_scan.py report
      ```
      Statuses: `new → triaged → reported → fix-proposed → fixed`, or `wontfix` / `not-flaky`.
-3. **`UNATTRIBUTED <job>` rows:** the failing test wasn't in the stored log. Re-fetch that job's full log with `gh run view --job <id> --log` (or path A), then run `all`. The row then splits into real test keys.
+3. **`UNATTRIBUTED <job>` rows:** run `resolve`. It tries the stored tail, then check-run annotations, then the full log (signed URL from MCP `get_job_logs return_content=false`, passed as `--log-urls urls.json`, or `gh api …/logs`), then none. Query strings are scrubbed; never commit `urls.json`. Then run `all`. Fallback: the failing test wasn't in the stored log. Re-fetch that job's full log with `gh run view --job <id> --log` (or path A), then run `all`. The row then splits into real test keys.
 4. **Tune the rules, not the output.** The `REAL_PATTERNS` and `FLAKY_PATTERNS` lists sit at the top of the script and the first match wins. After editing them, run `all` and look at the `git diff` of `backlog.json`/`BACKLOG.md` to review the effect.
 5. **Several agents at once:** split the work by `--match` regex or by component, and give each agent its own `--owner`. Commit only `backlog.json`, `BACKLOG.md`, `scan.json` and `failures.jsonl`. Never commit `cache/`. When there's a conflict, re-run `all`: the merge is order-independent.
 
