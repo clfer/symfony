@@ -71,7 +71,8 @@ jobs:
           php composer.phar update --no-progress --ansi
           php phpunit install
           php -r "echo 'SQLite ', SQLite3::version()['versionString'], PHP_EOL;"
-          php composer.phar show fabpot/amphp-sqlite3 amphp/parallel | Select-String -Pattern '^(name|versions)'
+          foreach ($pkg in 'fabpot/amphp-sqlite3', 'amphp/parallel') { php composer.phar show $pkg | Select-String -Pattern '^(name|versions)' }
+          exit 0
 
       - name: Phase A - tests alone
         continue-on-error: true
