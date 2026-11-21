@@ -9,6 +9,12 @@ git fetch origin flaky-kb && git worktree add ../flaky-kb origin/flaky-kb
 ```
 Then read this file and `flaky-scan/BACKLOG.md`.
 
+## 0. Sessions and in-progress work (update when it changes)
+- **Coordinator:** session `<session>`. It owns fix #2 and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
+- **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
+- **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
+- **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
+
 ## 1. Workflow (one fix at a time)
 1. **Pick** the top `flaky` row in `flaky-scan/BACKLOG.md` with status `new` or `triaged`.
 2. **Check for duplicates.** Run both searches, because the search API requires `is:issue` or `is:pull-request`:
@@ -48,6 +54,17 @@ Then read this file and `flaky-scan/BACKLOG.md`.
   - PHPUnit 13 `--repeat` does not repeat; loop in the shell instead.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
+
+## 2b. Reproducing Windows-only flakes (fork GitHub Actions)
+- The fork `clfer/symfony` is public, so Windows runners are free. Actions is enabled.
+- Branch `ci-windows-repro` (based on 8.2) has `.github/workflows/windows-repro.yml`. It copies the upstream `x86 / minimal-exts / lowest-php` setup (windows-2022, PHP 8.4.1 x86, minimal extensions) and loops `php phpunit $TEST_PATH --filter $FILTER` in two phases:
+  - Phase A runs the tests alone.
+  - Phase B runs them with every core busy.
+  - Each failure is printed in a `::group::`, and each phase ends with a `PHASE A RESULT` or `PHASE B RESULT` line.
+- **Reuse:** `workflow_dispatch` takes inputs `filter`, `path` and `iterations`. To trigger a run, either have the user dispatch it, or push a commit that changes the defaults.
+- **Reading results:** use `mcp__github__actions_list list_workflow_runs resource_id=windows-repro.yml` and `get_job_logs`, both on clfer/symfony.
+- Upstream push workflows only run on branches named `*.*`, so repro and fix branches don't trigger the full Symfony CI.
+- A Windows VM or Windows containers are impossible here (no /dev/kvm, Linux kernel).
 
 ## 3. Symfony conventions for flaky tests
 - **Windows group:** `#[Group('transient-on-windows')]` (PHPUnit attribute, 7.4+; `@group` docblock on 6.4) is excluded by `.github/workflows/windows.yml` (all 3 phpunit invocations).
