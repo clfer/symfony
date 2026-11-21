@@ -1,5 +1,6 @@
 <?php
-// Simulates Windows: time() enters the next second a few ms before new file mtimes do.
+// Simulates time() being one second ahead of the meta mtime when write() backdates it
+// (second boundary between dumpFile() setting the mtime and the time() call, or a tiny clock lag).
 // Usage: copy into <8.2 worktree>/var/, then: WD=$PWD ../flaky-kb/php84.sh php var/config-cache-clock-skew.php
 // Expected: skew=0 -> fresh=true after 2nd build; skew=1 -> fresh=false (the CI failure of fix #3).
 namespace Symfony\Component\Config { function time(): int { return \time() + $GLOBALS['clockSkew']; } }
