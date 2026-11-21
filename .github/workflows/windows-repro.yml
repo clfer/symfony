@@ -1,12 +1,12 @@
-name: Windows flaky repro
+name: Windows flaky repro (AmpHttpClient)
 
 # Reproduce Windows-only flaky tests in a loop. Never meant for an upstream PR.
 on:
-  push: { branches: [ 'ci-windows-repro' ] }
+  push: { branches: [ 'ci-repro-amphttp' ] }
   workflow_dispatch:
     inputs:
-      filter: { description: 'phpunit --filter', default: 'testSetupIsIdempotent|testTheTransportCanBeUsedAgainAfterBeingClosed' }
-      path: { description: 'test path', default: 'src\Symfony\Component\Messenger\Bridge\AmpSql' }
+      filter: { description: 'phpunit --filter', default: 'AmpHttpClientTest::(testPauseDuringBodyLongerThanTimeout|testBackpressureWhileOtherFibersRun|testHandleIsRemovedOnException)' }
+      path: { description: 'test path', default: 'src\Symfony\Component\HttpClient' }
       iterations: { description: 'iterations per phase', default: '100' }
 
 permissions:
@@ -14,7 +14,12 @@ permissions:
 
 jobs:
   repro:
-    name: x86 / minimal-exts / lowest-php (repro)
+    name: x86 / minimal-exts / lowest-php (repro, ${{ matrix.variant }})
+    strategy:
+      fail-fast: false
+      matrix:
+        # current = 8.2 as is; pre-leakfix = 8.2 with #68198 reverted (AmpResponse leak on cancel)
+        variant: [ current, pre-leakfix ]
     runs-on: windows-2022
     timeout-minutes: 120
     defaults:
@@ -23,8 +28,8 @@ jobs:
     env:
       COMPOSER_NO_INTERACTION: '1'
       SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
-      FILTER: ${{ inputs.filter || 'testSetupIsIdempotent|testTheTransportCanBeUsedAgainAfterBeingClosed' }}
-      TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\Messenger\Bridge\AmpSql' }}
+      FILTER: ${{ inputs.filter || 'AmpHttpClientTest::(testPauseDuringBodyLongerThanTimeout|testBackpressureWhileOtherFibersRun|testHandleIsRemovedOnException)' }}
+      TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\HttpClient' }}
       ITERATIONS: ${{ inputs.iterations || '100' }}
 
     steps:
@@ -39,6 +44,10 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 2
+
+      - name: Revert #68198
+        if: matrix.variant == 'pre-leakfix'
+        run: git apply -R .github/repro/leakfix.patch; git diff --stat
 
       - name: Setup PHP (same as windows.yml minimal-exts)
         run: |
@@ -71,7 +80,7 @@ jobs:
           php composer.phar update --no-progress --ansi
           php phpunit install
           php -r "echo 'SQLite ', SQLite3::version()['versionString'], PHP_EOL;"
-          foreach ($pkg in 'fabpot/amphp-sqlite3', 'amphp/parallel') { php composer.phar show $pkg | Select-String -Pattern '^(name|versions)' }
+          foreach ($pkg in 'amphp/http-client', 'amphp/amp') { php composer.phar show $pkg | Select-String -Pattern '^(name|versions)' }
           exit 0
 
       - name: Phase A - tests alone
