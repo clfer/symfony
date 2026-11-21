@@ -2,11 +2,11 @@ name: Windows flaky repro
 
 # Reproduce Windows-only flaky tests in a loop. Never meant for an upstream PR.
 on:
-  push: { branches: [ 'ci-windows-repro' ] }
+  push: { branches: [ 'ci-windows-repro', 'ci-repro-config' ] }
   workflow_dispatch:
     inputs:
-      filter: { description: 'phpunit --filter', default: 'testSetupIsIdempotent|testTheTransportCanBeUsedAgainAfterBeingClosed' }
-      path: { description: 'test path', default: 'src\Symfony\Component\Messenger\Bridge\AmpSql' }
+      filter: { description: 'phpunit --filter', default: 'testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild' }
+      path: { description: 'test path', default: 'src\Symfony\Component\Config' }
       iterations: { description: 'iterations per phase', default: '100' }
 
 permissions:
@@ -23,9 +23,9 @@ jobs:
     env:
       COMPOSER_NO_INTERACTION: '1'
       SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
-      FILTER: ${{ inputs.filter || 'testSetupIsIdempotent|testTheTransportCanBeUsedAgainAfterBeingClosed' }}
-      TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\Messenger\Bridge\AmpSql' }}
-      ITERATIONS: ${{ inputs.iterations || '100' }}
+      FILTER: ${{ inputs.filter || 'testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild' }}
+      TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\Config' }}
+      ITERATIONS: ${{ inputs.iterations || '200' }}
 
     steps:
       - name: Setup Git
@@ -73,6 +73,11 @@ jobs:
           php -r "echo 'SQLite ', SQLite3::version()['versionString'], PHP_EOL;"
           foreach ($pkg in 'fabpot/amphp-sqlite3', 'amphp/parallel') { php composer.phar show $pkg | Select-String -Pattern '^(name|versions)' }
           exit 0
+
+      - name: Clock probe - time() vs file mtime
+        run: |
+          $env:Path = 'c:\php;' + $env:Path
+          php .github/clock-probe.php
 
       - name: Phase A - tests alone
         continue-on-error: true
