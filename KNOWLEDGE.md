@@ -84,10 +84,14 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 | `Remaining direct deprecation notices (N)` in high-deps | a new dependency release | REAL, not flaky |
 | `cannot extend final class` in lowest-php | a dependency release | REAL |
 
+## 6b. Investigation lessons
+- Always get the **full exception chain** ("Caused by") from the CI log before guessing. The outer Symfony message hides the cause.
+- Repro scripts for SQLite races are in the session scratchpad; the pattern is 3 background `php` processes on the same fresh file, ×300.
+
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|
-| 2 | `Messenger\Bridge\AmpSql\…\AmpSqlTransportTest::testSetupIsIdempotent` and `AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed` | 8.2 | - | investigating | Windows only, 1 occurrence each. No repro on Linux (150 loops at 0.5 CPU). The amp-sqlite driver (fabpot/amphp-sqlite3) spawns one PHP worker process per connection (amphp/parallel ProcessContext), which is slow on Windows. Waiting for the exception chain from the CI logs. |
+| 2 | `Messenger\Bridge\AmpSql\…\AmpSqlTransportTest::testSetupIsIdempotent` and `AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed` | 8.2 | - | awaiting user decision | CI causes (PHP 8.4.1, Windows, fabpot/amphp-sqlite3 v1.1.0): (a) `Could not start the SQLite child process: Unable to prepare statement: database is locked` (2 concurrent connections opening a fresh file); (b) `…: Starting the process failed` (Windows process spawn). Plain SQLite reproduces a lock race on Linux: 3 concurrent opens of a fresh file, `PRAGMA journal_mode=WAL` gives SQLITE_BUSY (code 5) without the busy handler, ~1-5% of opens. The driver already retries this in `enableWal()`, and the real driver on PHP 8.4.28 Linux showed 0 failures in 400 opens. The Windows failure is at *prepare* time, which is likely an earlier startup statement that is not retried. Can't reproduce on Linux. |
 | 1 | `HttpClient\Tests\CurlHttpClientTest::testTimeoutOnDestruct` | 7.4 | `fix-curl-timeout-on-destruct-windows` | fix-proposed | Adds `transient-on-windows`, like the AmpHttpClientTest override (d6e861ab6). CI runs 43843829136 and 43872663191. Full class run not done locally (IPv6 hang). |
 
 ## 8. Prior contributions
