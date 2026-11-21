@@ -65,7 +65,7 @@
     "title": "[Config] Compare resource freshness with cache build start"
    }
   ],
-  "notes": "",
+  "notes": "test-only ClockMock fix on fix-config-cache-one-corrective-build (8.2); test from #67960 (b2ef39a44a6); cause: time() read after dumpFile() mtime, 1 s over-backdate",
   "occurrences": [
    {
     "branch": "8.2",
@@ -79,9 +79,9 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "",
+  "owner": "<session>",
   "reason": "filesystem timing",
-  "status": "new"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption": {
   "classification": "flaky",

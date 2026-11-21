@@ -15,6 +15,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
 - **Review/PR orchestrator:** `<session>`. It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
   - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
+- **Fix #3 (Config ResourceCheckerConfigCacheTest):** `<session>`, branch `fix-config-cache-one-corrective-build` (8.2). Repro branch `ci-repro-config`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
 ### Live status board (single place for fix status)
@@ -64,6 +65,9 @@ Then read this file and `flaky-scan/BACKLOG.md`.
   - Don't run `composer install` on the host with `--ignore-platform-reqs`: it leaves a `composer.lock` and `.phpunit` that break the container.
   - Simulate a slow runner with `DOCKER_OPTS="--cpus=0.5"`.
   - PHPUnit 13 `--repeat` does not repeat; loop in the shell instead.
+  - **Docker Hub 429:** `docker build` can fail with `429 Too Many Requests` on `php:8.4-cli` (rate limit, not a proxy block). Retry with backoff (30 s, 60 s, ...); it succeeded on the 3rd try (2026-11-21).
+  - The first `./phpunit` call installs PHPUnit into `.phpunit/` and takes ~15 min: GitHub dist downloads time out ("Could not authenticate against github.com") and Composer falls back to git clones. Later calls are instant.
+  - Pre-existing local failure on 8.2 in Docker: `XmlUtilsTest::testLoadFile` ("is not readable" expected), because the container runs as root and `chmod 0` doesn't stop root. Ignore it.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
 
@@ -77,6 +81,9 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Reading results:** use `mcp__github__actions_list list_workflow_runs resource_id=windows-repro.yml` and `get_job_logs`, both on clfer/symfony.
 - Upstream push workflows only run on branches named `*.*`, so repro and fix branches don't trigger the full Symfony CI.
 - A Windows VM or Windows containers are impossible here (no /dev/kvm, Linux kernel).
+- **Own copy per fix:** branch `ci-repro-<slug>` from `origin/ci-windows-repro`. Add your branch name to `on.push.branches`, or a push won't trigger the run. Push the fix on top as a second commit for the "after" run; both runs go in parallel.
+- **Timing:** install ~1 min, Phase A ~5 min for 200 iterations of a 1 s test, Phase B ~25 min (CPU contention slows phpunit start-up a lot). `get_job_logs` returns 404 until the job has finished. The log is one long line: grep the saved file for `PHASE . RESULT`.
+- **A 0/N result does not clear a race**: the upstream job runs the whole `src\Symfony` suite in parallel, so its timing differs. Back a fix with a deterministic simulation of the mechanism.
 
 ## 3. Symfony conventions for flaky tests
 - **Windows group:** `#[Group('transient-on-windows')]` (PHPUnit attribute, 7.4+; `@group` docblock on 6.4) is excluded by `.github/workflows/windows.yml` (all 3 phpunit invocations).
@@ -103,10 +110,14 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 | `Idle timeout reached for "http://localhost:80x7/timeout-header"` and `TransportExceptionInterface expected`, Windows only | 50 ms margin (server sleeps 300 ms, client timeout 250 ms) on a 2-core Windows runner | `transient-on-windows` |
 | `Remaining direct deprecation notices (N)` in high-deps | a new dependency release | REAL, not flaky |
 | `cannot extend final class` in lowest-php | a dependency release | REAL |
+| `Failed asserting that false is true.` on `$cache->isFresh()` after a rebuild (Config, test with real `sleep()`) | test mixes the real `time()` and filesystem mtimes. `ResourceCheckerConfigCache::write()` backdates the meta by `time() - buildTime`, read *after* `dumpFile()` set the mtime. A second boundary in between over-backdates by 1 s | test-only: `#[Group('time-sensitive')]` + ClockMock (product behaviour is the safe direction) |
 
 ## 6b. Investigation lessons
 - Always get the **full exception chain** ("Caused by") from the CI log before guessing. The outer Symfony message hides the cause.
 - Repro scripts for SQLite races are in the session scratchpad; the pattern is 3 background `php` processes on the same fresh file, ×300.
+- **Check the clock hypothesis before building on it.** For fix #3 the obvious guess ("NTFS mtimes lag PHP `time()`") was wrong: a probe on windows-2022 showed 0 skew in 20000 samples. The real window is between two operations, not between two clocks. `repro/config-cache-clock-skew.php` simulates it by shifting `time()` in the class namespace.
+- **ClockMock is registered per namespace for the whole process.** Once any `time-sensitive` test in `Tests\Resource` has run, `time()` in `Symfony\Component\Config\Resource` is mocked too. A test can then pass alone and fail in the component run (FileResource's same-second hash decision uses `time()`). Always run the whole component, not just the class, after adding ClockMock. Moving the mocked clock *forward* broke it; starting it in the past (`ClockMock::withClockMock(time() - 10)` then `sleep(10)`) keeps it aligned with the real clock.
+- **Push the commit message right the first time, or use a new branch name.** Force-push is forbidden. Fix #3's first branch (`fix-config-cache-corrective-build-clock`) had a wrong explanation and a `Claude-Session` trailer, so it was superseded by a new branch instead of amended.
 
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
