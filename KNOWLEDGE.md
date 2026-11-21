@@ -23,6 +23,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Update only your own record**, with the ArtifactData tool: `action: "update"`, `url: <artifact>`, `collection: "data/flaky/fixes"`, `doc_id: "fix-NN"`, `data: {stage, note, fix_branch?, pr_url?, updated_at (ISO UTC), updated_by (your session id)}`.
   - **Version check:** `get` the record first and pass its `version` as `if_version`. On a version conflict, re-read and redo the write.
   - **New fix:** create the next `fix-NN` with `set` and fields `num`, `test`, `base`, `session`.
+- **Draft PR links:** sessions can't create upstream PRs (see CONTRIBUTING-CHECKLIST.md). Put the prefilled compare URL in `draft_link`. `pr_url` is only for a real PR.
 - **Stages:** `investigating`, `on-hold`, `fix-proposed`, `in-review`, `changes-needed`, `green`, `draft-pr`, `ready` (the user only), `merged`, `rejected`.
 - **Fallback:** if your session has no ArtifactData tool, put the same fields in your `send_message` to the coordinator, which writes them for you.
 - **Status vs. knowledge:** status lives on the board only. This file keeps durable knowledge, and the fix log here is updated when a fix reaches a final state (draft-pr, rejected, merged).
