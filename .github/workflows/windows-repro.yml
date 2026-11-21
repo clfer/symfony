@@ -5,7 +5,7 @@ on:
   push: { branches: [ 'ci-repro-amphttp' ] }
   workflow_dispatch:
     inputs:
-      filter: { description: 'phpunit --filter', default: 'AmpHttpClientTest::(testPauseDuringBodyLongerThanTimeout|testBackpressureWhileOtherFibersRun|testHandleIsRemovedOnException)' }
+      filter: { description: 'phpunit --filter', default: 'AmpHttpClientTest' }
       path: { description: 'test path', default: 'src\Symfony\Component\HttpClient' }
       iterations: { description: 'iterations per phase', default: '100' }
 
@@ -28,9 +28,9 @@ jobs:
     env:
       COMPOSER_NO_INTERACTION: '1'
       SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
-      FILTER: ${{ inputs.filter || 'AmpHttpClientTest::(testPauseDuringBodyLongerThanTimeout|testBackpressureWhileOtherFibersRun|testHandleIsRemovedOnException)' }}
+      FILTER: ${{ inputs.filter || 'AmpHttpClientTest' }}
       TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\HttpClient' }}
-      ITERATIONS: ${{ inputs.iterations || '100' }}
+      ITERATIONS: ${{ inputs.iterations || '25' }}
 
     steps:
       - name: Setup Git
@@ -95,7 +95,7 @@ jobs:
               Write-Host "::group::Phase A failure #$fail (iteration $i)"
               Write-Host $out
               Write-Host "::endgroup::"
-            }
+            } else { Write-Host "iteration $i ok: $(($out -split "`n" | Select-String -Pattern '^(OK|Tests:)' | Select-Object -Last 1))" }
           }
           Write-Host "PHASE A RESULT: $fail failures / $env:ITERATIONS"
 
@@ -115,7 +115,7 @@ jobs:
               Write-Host "::group::Phase B failure #$fail (iteration $i)"
               Write-Host $out
               Write-Host "::endgroup::"
-            }
+            } else { Write-Host "iteration $i ok: $(($out -split "`n" | Select-String -Pattern '^(OK|Tests:)' | Select-Object -Last 1))" }
           }
           $burners | Stop-Job; Get-Process php -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like '*random_bytes*' } | Stop-Process -Force
           Write-Host "PHASE B RESULT: $fail failures / $env:ITERATIONS"
