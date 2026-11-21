@@ -13,6 +13,8 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Coordinator:** session `<session>`. It owns fix #2 and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
 - **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
 - **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
+- **Review/PR orchestrator:** `<session>`. It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
+  - Review of fix #1: `<session>`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
 ## 1. Workflow (one fix at a time)
