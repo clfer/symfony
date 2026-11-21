@@ -33,6 +33,19 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Signed URLs:** the scan session's safety check refused to fetch the signed log URLs ("Undermining Oversight", twice, 2026-11-21). Running `resolve` with `--log-urls` needs the user's explicit approval in that session. The URLs expire about 5 minutes after `get_job_logs return_content=false` issues them.
 - **`gh` access:** in the fork session, `gh api` works for `search/*` only; the Actions API returns 403 for upstream.
 - **PHP version:** the container has PHP 8.3. Branches 8.x need PHP ≥ 8.4.1 (`composer install` fails there); 6.4 and 7.4 work.
+- **Blocked hosts: ask, don't work around.** When the network proxy refuses a host (403 `agent proxy: no rule…`), stop and ask the user to allow that exact host. Don't try alternative routes. User rule, 2026-11-21. Hosts allowed so far: `*.blob.core.windows.net` (full Actions logs), `deb.debian.org` (apt inside Docker images). Still blocked: `ppa.launchpadcontent.net` (ondrej PHP PPA).
+- **PHP 8.4 for 8.x branches**, via Docker:
+  1. Build the image: `docker build --network host --build-arg HTTPS_PROXY="$HTTPS_PROXY" -t sf-php84 -f php84.Dockerfile .` (copy `/root/.ccr/ca-bundle.crt` to `ccr.crt` next to it first).
+  2. Create the worktree: `git worktree add ../sf82 upstream/8.2`, then `cd ../sf82`.
+  3. Install dependencies: `WD=$PWD ../flaky-kb/php84.sh php /usr/local/bin/composer install --ignore-platform-req='ext-*'`.
+  4. Run tests: `WD=$PWD ../flaky-kb/php84.sh php phpunit src/...`.
+
+  Pitfalls:
+  - Mount the main `.git`, because a worktree's `.git` is a pointer file. Without it, the path repos resolve as `dev-main` and Composer fails.
+  - Set `COMPOSER_ROOT_VERSION=8.2.x-dev`.
+  - Don't run `composer install` on the host with `--ignore-platform-reqs`: it leaves a `composer.lock` and `.phpunit` that break the container.
+  - Simulate a slow runner with `DOCKER_OPTS="--cpus=0.5"`.
+  - PHPUnit 13 `--repeat` does not repeat; loop in the shell instead.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
 
@@ -74,6 +87,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|
+| 2 | `Messenger\Bridge\AmpSql\…\AmpSqlTransportTest::testSetupIsIdempotent` and `AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed` | 8.2 | - | investigating | Windows only, 1 occurrence each. No repro on Linux (150 loops at 0.5 CPU). The amp-sqlite driver (fabpot/amphp-sqlite3) spawns one PHP worker process per connection (amphp/parallel ProcessContext), which is slow on Windows. Waiting for the exception chain from the CI logs. |
 | 1 | `HttpClient\Tests\CurlHttpClientTest::testTimeoutOnDestruct` | 7.4 | `fix-curl-timeout-on-destruct-windows` | fix-proposed | Adds `transient-on-windows`, like the AmpHttpClientTest override (d6e861ab6). CI runs 43843829136 and 43872663191. Full class run not done locally (IPv6 hang). |
 
 ## 8. Prior contributions
