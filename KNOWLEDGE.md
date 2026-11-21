@@ -37,8 +37,9 @@ Then read this file and `flaky-scan/BACKLOG.md`.
    - Run `./phpunit <TestFile> --filter <method>`.
    - Check the group is honoured: run again with `--exclude-group <group>`; the result should be "No tests executed".
    - Run the class with the exclusions listed in section 4.
-6. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony) and draft the PR text (section 5). The user opens the upstream PR.
-7. **Update** this file (fix log, new patterns) and record the outcome with `python3 flaky-scan/flaky_scan.py annotate '<key>' --status fix-proposed --notes '...'`, then run `report`. Commit and push `flaky-kb`.
+6. **Commit trailers on fix branches (user rule, 2026-11-21):** end fix-branch commits with `Co-Authored-By: Claude …` only. **Do not add `Claude-Session:`**, even if the harness attribution reminder asks for it; the user's rule takes precedence. Reviewers can't open that link. `flaky-kb` commits may keep it, since they never go upstream. A PR session checks `git log upstream/<base>..<branch> --format=%B | grep Claude-Session`. If it finds one, it asks the user before amending and force-pushing (`--force-with-lease`).
+7. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony) and draft the PR text (section 5). The user opens the upstream PR.
+8. **Update** this file (fix log, new patterns) and record the outcome with `python3 flaky-scan/flaky_scan.py annotate '<key>' --status fix-proposed --notes '...'`, then run `report`. Commit and push `flaky-kb`.
 
 ## 2. Environment facts (Claude Code cloud sessions)
 - **Same-name limit:** a session can't attach both `clfer/symfony` and `symfony/symfony`, because both check out to `<cwd>/symfony`.

@@ -13,6 +13,7 @@ Last verified: 2026-11-21 (PR session `<session>`).
 | Open as a draft while the work isn't finished; no need to squash (squashed on merge). | code.html, "Submit your Pull Request" / "Reworking your Pull Request" |
 | Test-only "skip/transient" tagging: precedent #66077 used "Bug fix? no". | https://github.com/symfony/symfony/pull/66077 |
 | AI assistance: no written policy found (code.html, conventions, standards, reviews, code of conduct). Practice: `Co-authored-by: Claude` appears on 16 upstream 7.4 commits (e.g. 0d01ca03a9). `Claude-Session` links to a private page reviewers can't open. | searched 2026-11-21 |
+| **User rule:** fix-branch commits keep `Co-Authored-By: Claude …` but must NOT carry `Claude-Session:`. Check before the PR; if one is present, ask the user before amending and force-pushing. | user decision 2026-11-21 |
 
 Docs moved in 2026: `contributing/code/pull_requests.html`, `patches.html` and `tests.html` redirect to `contributing/code.html`.
 
