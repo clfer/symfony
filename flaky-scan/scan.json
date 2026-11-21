@@ -1,0 +1,1 @@
+{"since":"2026-11-07","until":"2026-11-19","workflows":["integration-tests.yml","unit-tests.yml","windows.yml"],"events":["push"],"source":"mcp"}

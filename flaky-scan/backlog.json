@@ -1,0 +1,840 @@
+{
+ "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php": {
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "key": "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php",
+  "kind": "fatal",
+  "links": [],
+  "notes": "low-deps Twig: parent class final; not flaky",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Class Symfony\\Bridge\\Twig\\Extension\\CsrfExtension cannot extend final class  on line 21",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 134247420633,
+    "run_id": 44142124601,
+    "sha": "d730128dab",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "dependency made a parent class final",
+  "status": "triaged"
+ },
+ "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php",
+  "kind": "fatal",
+  "links": [],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Out of memory (allocated 20971520 bytes) (tried to allocate 1564461312 bytes) on line 24",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 133284566971,
+    "run_id": 43863071988,
+    "sha": "ee58092627",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "single occurrence, no flaky signature",
+  "status": "new"
+ },
+ "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-07",
+    "matched": "testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild",
+    "number": 67960,
+    "pr": true,
+    "state": "closed",
+    "title": "[Config] Compare resource freshness with cache build start"
+   }
+  ],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-19",
+    "event": "push",
+    "excerpt": "Failed asserting that false is true.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 135732704486,
+    "run_id": 44572953963,
+    "sha": "2894e4eeea",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "filesystem timing",
+  "status": "new"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-15",
+    "matched": "testBackpressureAllowsOutOfOrderResponseConsumption",
+    "number": 68183,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Give the socket servers of the tests more time to start, and mark the out-of-order backpressure test of Amp"
+   },
+   {
+    "date": "2026-10-19",
+    "matched": "testBackpressureAllowsOutOfOrderResponseConsumption",
+    "number": 67206,
+    "pr": true,
+    "state": "open",
+    "title": "[Messenger] Discard the messages whose expiration deadline has passed"
+   }
+  ],
+  "notes": "marked transient on Windows by #68183 (merged 2026-11-15); confirm no new failure after that date",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TimeoutException: Idle timeout reached for \"http://localhost:8067/\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131932539966,
+    "run_id": 43439332522,
+    "sha": "8edd1145d8",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TimeoutException: Idle timeout reached for \"http://localhost:8067/\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 133198737043,
+    "run_id": 43837816249,
+    "sha": "4a2f0dc261",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "timeout",
+  "status": "fix-proposed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-15",
+    "matched": "testBackpressureWhileOtherFibersRun",
+    "number": 68198,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Fix memory leak in AmpHttpClient when responses are canceled"
+   },
+   {
+    "date": "2026-11-15",
+    "matched": "testBackpressureWhileOtherFibersRun",
+    "number": 68183,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Give the socket servers of the tests more time to start, and mark the out-of-order backpressure test of Amp"
+   }
+  ],
+  "notes": "not covered by #68183; check #68198",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Failed asserting that two arrays are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 133301380274,
+    "run_id": 43867985253,
+    "sha": "ee61eda818",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "ordering / leftover state",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-15",
+    "matched": "testHandleIsRemovedOnException",
+    "number": 68184,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Mark the max-connect-duration test of AmpHttpClient as transient on Windows"
+   }
+  ],
+  "notes": "possibly fixed by #68198 (AmpHttpClient leak on cancel)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-14",
+    "event": "push",
+    "excerpt": "Failed asserting that actual size 1 matches expected size 0.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 132376822896,
+    "run_id": 43571547340,
+    "sha": "51d218e1cf",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "ordering / leftover state",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout",
+  "kind": "test",
+  "links": [],
+  "notes": "no issue/PR found",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TimeoutException: Idle timeout reached for \"http://localhost:8057/timeout-body\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131932539966,
+    "run_id": 43439332522,
+    "sha": "8edd1145d8",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "timeout",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-09-03",
+    "matched": "testTimeoutOnDestruct",
+    "number": 65830,
+    "pr": true,
+    "state": "closed",
+    "title": "[Security] Let an authenticator tell why it did not support the request"
+   },
+   {
+    "date": "2022-09-12",
+    "matched": "testTimeoutOnDestruct",
+    "number": 47551,
+    "pr": false,
+    "state": "closed",
+    "title": "Add phpdoc return type to v6 codebase to prepare v7 typehint"
+   }
+  ],
+  "notes": "transient-on-windows on branch fix-curl-timeout-on-destruct-windows (7.4), precedent d6e861ab6",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Symfony\\Contracts\\HttpClient\\Exception\\TransportExceptionInterface expected",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 133218890343,
+    "run_id": 43843829136,
+    "sha": "661b301fea",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TimeoutException: Idle timeout reached for \"http://localhost:8077/timeout-header\".",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 133317571713,
+    "run_id": 43872663191,
+    "sha": "e4baaff1f3",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "timeout",
+  "status": "fix-proposed"
+ },
+ "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2021-08-20",
+    "matched": "testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest",
+    "number": 42666,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpKernel] Make test more robust"
+   }
+  ],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Expectation failed for method name is \"handle\" when invoked 1 time(s)",
+    "job": "unit (8.6)",
+    "job_id": 131173746648,
+    "run_id": 43215552206,
+    "sha": "cbef7e1c6a",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "single occurrence, no flaky signature",
+  "status": "new"
+ },
+ "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed",
+  "kind": "test",
+  "links": [],
+  "notes": "test added by #67168 (reconnect after close)",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Messenger\\Exception\\TransportException: Could not count messages in AMPHP SQL.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131932539966,
+    "run_id": 43439332522,
+    "sha": "8edd1145d8",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "external service / transport race",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent",
+  "kind": "test",
+  "links": [],
+  "notes": "AmpSql on Windows; same family as next row; related #67168",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-18",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Messenger\\Exception\\TransportException: Could not set up the AMPHP SQL transport.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 134701655450,
+    "run_id": 44275263719,
+    "sha": "bd43e3ac2d",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "external service / transport race",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName": {
+  "classification": "real",
+  "classification_override": "real",
+  "component": null,
+  "key": "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName",
+  "kind": "test",
+  "links": [],
+  "notes": "fixed by #68252 (test depended on script path)",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
+    "job": "unit (8.4)",
+    "job_id": 134247498352,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
+    "job": "unit (8.7)",
+    "job_id": 134247498735,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
+    "job": "unit (8.6)",
+    "job_id": 134247498756,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
+    "job": "unit (8.5)",
+    "job_id": 134247499020,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 134247497120,
+    "run_id": 44142147902,
+    "sha": "adb7cf86c1",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "fails in 5 jobs of the same commit",
+  "status": "fixed"
+ },
+ "TIMEOUT src/Symfony/Bridge/Doctrine": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": "src/Symfony/Bridge/Doctrine",
+  "key": "TIMEOUT src/Symfony/Bridge/Doctrine",
+  "kind": "timeout",
+  "links": [
+   {
+    "date": "2026-09-14",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 66059,
+    "pr": true,
+    "state": "closed",
+    "title": "[Messenger] Keep the worker running when a keepalive fails"
+   },
+   {
+    "date": "2026-07-29",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 65021,
+    "pr": true,
+    "state": "closed",
+    "title": "[Lock] Allow advisory locks when reusing a PDO/DBAL connection in StoreFactory"
+   },
+   {
+    "date": "2026-04-27",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 64052,
+    "pr": true,
+    "state": "closed",
+    "title": "[KeyManagement] Add a new component for Key Management Systems"
+   },
+   {
+    "date": "2025-10-22",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 62128,
+    "pr": true,
+    "state": "closed",
+    "title": "[Messenger] Add MongoDB bridge"
+   },
+   {
+    "date": "2023-01-08",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 48911,
+    "pr": false,
+    "state": "closed",
+    "title": "Web developer toolbar fails to load with security-bundle"
+   },
+   {
+    "date": "2021-03-10",
+    "matched": "\"Doctrine\" timeout windows",
+    "number": 40433,
+    "pr": false,
+    "state": "closed",
+    "title": "Doctrine migrations : the \"amqp\" extension is not installed."
+   }
+  ],
+  "notes": "5.4 Windows process timeout; slow runner",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Timeout src\\Symfony/Bridge/Doctrine",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 134196685556,
+    "run_id": 44127923320,
+    "sha": "a2276ec6ad",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "timeout",
+  "status": "triaged"
+ },
+ "TIMEOUT src/Symfony/Component/Workflow": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": "src/Symfony/Component/Workflow",
+  "key": "TIMEOUT src/Symfony/Component/Workflow",
+  "kind": "timeout",
+  "links": [
+   {
+    "date": "2026-11-05",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 67873,
+    "pr": true,
+    "state": "closed",
+    "title": "[CI] Retry the downloads of the Windows workflow"
+   },
+   {
+    "date": "2026-10-03",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 66588,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Fix flaky CachingHttpClientTest and testPause() tests"
+   },
+   {
+    "date": "2026-09-15",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 66077,
+    "pr": true,
+    "state": "closed",
+    "title": "[HttpClient] Skip the timing-sensitive timeout tests on Windows"
+   },
+   {
+    "date": "2026-05-06",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 64149,
+    "pr": true,
+    "state": "closed",
+    "title": " Release v8.1.0-BETA1"
+   },
+   {
+    "date": "2026-04-27",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 64052,
+    "pr": true,
+    "state": "closed",
+    "title": "[KeyManagement] Add a new component for Key Management Systems"
+   },
+   {
+    "date": "2025-10-22",
+    "matched": "\"Workflow\" timeout windows",
+    "number": 62128,
+    "pr": true,
+    "state": "closed",
+    "title": "[Messenger] Add MongoDB bridge"
+   }
+  ],
+  "notes": "5.4 Windows process timeout; slow runner",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Timeout src\\Symfony/Component/Workflow",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 134197572221,
+    "run_id": 44128165548,
+    "sha": "4a4695401f",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "timeout",
+  "status": "triaged"
+ },
+ "UNATTRIBUTED unit (8.2, low-deps)": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "UNATTRIBUTED unit (8.2, low-deps)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "Remaining indirect deprecation notices (163)",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 129298037764,
+    "run_id": 42656997827,
+    "sha": "a37af4368c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "Remaining indirect deprecation notices (180)",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 131902960444,
+    "run_id": 43430643488,
+    "sha": "734134aff1",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "status": "new"
+ },
+ "UNATTRIBUTED unit (8.4, high-deps)": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "UNATTRIBUTED unit (8.4, high-deps)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "Time: 00:00.023, Memory: 24.00 MB | OK (38 tests, 83 assertions) | OK src/Symfony/Component/Mailer/Bridge/Mailjet^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129246421192,
+    "run_id": 42642337890,
+    "sha": "330e58838f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Remaining direct deprecation notices (1)",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129531939092,
+    "run_id": 42726081461,
+    "sha": "f72e124e55",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, PHPUnit Deprecations: 1, Skipped: 47. | OK src/Symfony/Component/HttpClient^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129532744931,
+    "run_id": 42726321600,
+    "sha": "923a931162",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Remaining direct deprecation notices (16)",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129547748213,
+    "run_id": 42730734761,
+    "sha": "41ec0b2699",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, PHPUnit Deprecations: 1, Skipped: 47. | OK src/Symfony/Component/HttpClient^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129548099856,
+    "run_id": 42730839249,
+    "sha": "7e4e2caf4c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 1442, Assertions: 4173, Skipped: 7. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 131903216525,
+    "run_id": 43430720450,
+    "sha": "ae0a0c11d2",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "status": "new"
+ },
+ "UNATTRIBUTED unit (8.4, low-deps)": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "UNATTRIBUTED unit (8.4, low-deps)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "8.1",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, Deprecations: 38, PHPUnit Deprecations: 1, Skipped: 52. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 129140142945,
+    "run_id": 42611308853,
+    "sha": "4a64e0097e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1725, Assertions: 17333, Deprecations: 30, PHPUnit Deprecations: 1, Skipped: 75. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 134247499082,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "status": "new"
+ },
+ "UNATTRIBUTED x86 / all extensions / lowest-php": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "key": "UNATTRIBUTED x86 / all extensions / lowest-php",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 100, Assertions: 237, Skipped: 26. | OK src\\Symfony/Component/Lock",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 133299848527,
+    "run_id": 43867535108,
+    "sha": "6c7023a986",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-18",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 104, Assertions: 241, Skipped: 28. | OK src\\Symfony/Component/Lock",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 134701594794,
+    "run_id": 44275246106,
+    "sha": "4d4a0dece1",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "status": "new"
+ },
+ "vendor/doctrine/orm/src/Tools/SchemaTool.php:96": {
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "key": "vendor/doctrine/orm/src/Tools/SchemaTool.php:96",
+  "kind": "deprecation",
+  "links": [],
+  "notes": "doctrine/orm deprecation in KeyManagement DoctrineOrm bridge; no PR found",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Not using the schema editor API is deprecated and will be impossible in Doctrine ORM 4.0. Call Doctrine\\ORM\\Configuration::setUseSchemaEditorApi(true) to enable it. (SchemaTool.php:96 called by Automa",
+    "job": "unit (8.4)",
+    "job_id": 131130664231,
+    "run_id": 43202918315,
+    "sha": "134fa19ccd",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Not using the schema editor API is deprecated and will be impossible in Doctrine ORM 4.0. Call Doctrine\\ORM\\Configuration::setUseSchemaEditorApi(true) to enable it. (SchemaTool.php:96 called by Automa",
+    "job": "unit (8.5)",
+    "job_id": 131130664397,
+    "run_id": 43202918315,
+    "sha": "134fa19ccd",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Not using the schema editor API is deprecated and will be impossible in Doctrine ORM 4.0. Call Doctrine\\ORM\\Configuration::setUseSchemaEditorApi(true) to enable it. (SchemaTool.php:96 called by Automa",
+    "job": "unit (8.6)",
+    "job_id": 131130664474,
+    "run_id": 43202918315,
+    "sha": "134fa19ccd",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Not using the schema editor API is deprecated and will be impossible in Doctrine ORM 4.0. Call Doctrine\\ORM\\Configuration::setUseSchemaEditorApi(true) to enable it. (SchemaTool.php:96 called by Automa",
+    "job": "unit (8.7)",
+    "job_id": 131130664555,
+    "run_id": 43202918315,
+    "sha": "134fa19ccd",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "deprecation",
+  "status": "triaged"
+ }
+}
