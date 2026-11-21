@@ -14,7 +14,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
 - **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
 - **Review/PR orchestrator:** `<session>`. It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
-  - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>`.
+  - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
 ### Live status board (single place for fix status)
@@ -93,19 +93,8 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **6.4 vs 7.4 Windows:** 6.4 runs HttpClient sequentially (windows.yml:119-121, 133-135); 7.4 runs it concurrently, which explains why timing flakes there are 7.4+ only.
 - **Timeouts:** always wrap long runs in `timeout <secs>` and use `--debug` to find the test that hangs.
 
-## 5. PR text template (upstream `.github/PULL_REQUEST_TEMPLATE.md`)
-```
-| Q             | A
-| ------------- | ---
-| Branch?       | 7.4
-| Bug fix?      | yes
-| New feature?  | no
-| Deprecations? | no
-| Issues        | -
-| License       | MIT
-
-<why the test is flaky, CI run links, precedent commit>
-```
+## 5. PR rules and text
+See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re-check each one before every PR). Body files and compare URLs are produced by the PR session.
 
 ## 6. Classification patterns learned
 | Signature | Cause | Usual fix |
@@ -122,7 +111,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|
 | 2 | `Messenger\Bridge\AmpSql\…\AmpSqlTransportTest::testSetupIsIdempotent` and `AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed` | 8.2 | - | waiting for driver session | CI causes (PHP 8.4.1, Windows, fabpot/amphp-sqlite3 v1.1.0): (a) `Could not start the SQLite child process: Unable to prepare statement: database is locked` (2 concurrent connections opening a fresh file); (b) `…: Starting the process failed` (Windows process spawn). Plain SQLite reproduces a lock race on Linux: 3 concurrent opens of a fresh file, `PRAGMA journal_mode=WAL` gives SQLITE_BUSY (code 5) without the busy handler, ~1-5% of opens. The driver already retries this in `enableWal()`, and the real driver on PHP 8.4.28 Linux showed 0 failures in 400 opens. The Windows failure is at *prepare* time, which is likely an earlier startup statement that is not retried. Can't reproduce on Linux. | Windows fork repro (run 44952026059, same setup as upstream): **0/100 alone, 0/100 under CPU load**. The tests only fail inside the full parallel suite.
-| 1 | `HttpClient\Tests\CurlHttpClientTest::testTimeoutOnDestruct` | 7.4 | `fix-curl-timeout-on-destruct-windows` | review GREEN, draft PR in progress | Adds `transient-on-windows`, like the AmpHttpClientTest override (#66077). CI runs 43843829136 and 43872663191. Review: timing contention (50 ms margin), base 7.4 (not seen on 6.4), no duplicates. Full class run: 174 tests, only `testProxy*` fail (proxy variables). |
+| 1 | `HttpClient\Tests\CurlHttpClientTest::testTimeoutOnDestruct` | 7.4 | `fix-curl-timeout-on-destruct-windows` | green; compare URL handed to user (2026-11-21) | Adds `transient-on-windows`, like the AmpHttpClientTest override (#66077). CI runs 43843829136 and 43872663191. Review: timing contention (50 ms margin), base 7.4 (not seen on 6.4), no duplicates. Full class run: 174 tests, only `testProxy*` fail (proxy variables). |
 
 ## 8. Prior contributions
 - symfony/symfony#67636, #67637 (user's earlier flaky-test fixes).
