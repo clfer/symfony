@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Mime\Tests;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Exception\InvalidArgumentException;
@@ -71,6 +73,12 @@ class AddressTest extends TestCase
 
     public function testConstructorWithACommentAfterADomainLiteral()
     {
+        // the address must be accepted unless the validator itself rejects it, as
+        // egulias/email-validator 4.x-dev does with any data after a domain literal
+        if (!(new EmailValidator())->isValid('user@[em@il] (comment)', new RFCValidation())) {
+            $this->expectException(RfcComplianceException::class);
+        }
+
         $a = new Address('user@[em@il] (comment)');
         $this->assertSame('user@[em@il] (comment)', $a->getAddress());
     }
