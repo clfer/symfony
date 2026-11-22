@@ -56,6 +56,7 @@ The old coordinator (`<session>`, ~590k context) hit the usage limit before writ
 
 ### Live status board (single place for fix status)
 - Artifact: <board URL> ("Symfony flaky fixes"). One record per fix: `data/flaky/fixes/fix-NN`.
+- **One record per pull request** (user rule, 2026-11-22). A fix that needs a PR in another repository gets a second record with the same `num` (e.g. `fix-02-sqlcommon`). Fields: `repo` (target repository, default `symfony/symfony`; the fix branch link uses the `clfer/<name>` fork), `base` (target branch), `summary` (one sentence, at most 20 words: where it stands and who acts next; shown in the table), `note` (full description, collapsed under the summary), `issue_link` (prefilled new-issue URL when an issue must be opened first), `draft_link` (prefilled compare URL). **Update `summary` together with `note` on every write.**
 - **Update only your own record**, with the ArtifactData tool: `action: "update"`, `url: <artifact>`, `collection: "data/flaky/fixes"`, `doc_id: "fix-NN"`, `data: {stage, note, fix_branch?, pr_url?, updated_at (ISO UTC), updated_by (your session id)}`.
   - **Version check:** `get` the record first and pass its `version` as `if_version`. On a version conflict, re-read and redo the write.
   - **New fix:** create the next `fix-NN` with `set` and fields `num`, `test`, `base`, `session`.
