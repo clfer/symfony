@@ -153,6 +153,7 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
   - Works: `gh api user` → `clfer`. It can't tell whether the token or the proxy's own GitHub credential answered.
   - Blocked: the proxy's per-session repo gate runs before the token. `gh api repos/symfony/symfony/pulls/68320` and `repos/amphp/sql-common/pulls/10` both return HTTP 403 "GitHub access to this repository is not enabled for this session. Use add_repo to request access…". The token does NOT bypass it, so only repos attached with `add_repo` can be reached.
   - `gh pr checks` (GraphQL) is always 403: "GitHub GraphQL is not available from Claude Code sessions; use the REST API". Use `gh api repos/{o}/{r}/commits/{sha}/check-runs` instead.
+  - **REST retest (2026-11-22):** `repos/{o}/{r}/commits/{sha}/check-runs`, `/status`, `/issues/{n}` on amphp/sql-common and symfony/symfony → same 403 repo gate. **Working method for reads:** `gh api -X GET search/issues -f q='repo:symfony/symfony is:pr 68320'` returns title, state, author and full `body` of PRs/issues in any public repo. Head SHA: `git ls-remote https://github.com/<o>/<r> refs/pull/<n>/head`. CI checks and writes on non-attached repos: no working method.
   - `docs.github.com` is now allowed.
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
 
