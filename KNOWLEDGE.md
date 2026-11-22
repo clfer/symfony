@@ -23,8 +23,30 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 
 ### Current sessions (since 2026-11-22 12:00 UTC)
 - **Coordinator v2:** `<session>`. The user talks to it. It owns the backlog, the fixers and the "waiting on the user" list.
-- **Review/PR orchestrator v2:** `<session>`. It reports to coordinator v2.
+- **Review/PR orchestrator v2 (handed over ~20:15 UTC):** `<session>`. It reports to coordinator v2.
+- **Review/PR orchestrator v3:** `<session>`. It reports to coordinator v2.
 - **Archived:** old coordinator `<session>`, old orchestrator `<session>`, and their finished children. Any earlier section 0 line that names them is history.
+
+### Orchestrator v2 → v3 handover (2026-11-22 ~20:15 UTC)
+Orchestrator v2 `<session>` handed over on the user's request (clean context). v3: see "Current sessions" above. Board = status source; every record now has `repo` and `summary` (≤20 words, who acts next); one record per PR (see the board protocol below).
+
+**Pending for the orchestrator:**
+1. **Fix #2 sql-common** (`fix-02-sqlcommon`): issue amphp/sql-common#9 and PR amphp/sql-common#10 opened by the user (PR head = 1b65721a54, the reviewed commits, verified via `git fetch https://github.com/amphp/sql-common refs/pull/10/head`). Stage `created`. Move to `ready-for-review` once its checks are green (nothing here can read amphp checks; ask the user, or the gh setup session if it works).
+2. **Fix #2 Symfony PR (a)**: symfony/symfony#68320, stage `created`. The user must paste an updated description (sql-common links); text: replace "A fix will be proposed to `amphp/sql-common` (link to follow), with a companion change in this bridge that waits for the closed pool before reconnecting." with "A fix is proposed upstream in amphp/sql-common#10 (issue amphp/sql-common#9), with a companion change in this bridge that waits for the closed pool before reconnecting (follow-up PR, link to follow)." The gh setup session may do it if the user allows. Ask the CI scan session `<session>` for #68320 checks → `ready-for-review`.
+3. **Fix #8** (`fix-ampsql-await-pool-close` @ c672bbb0b2, 8.2): GREEN, `draft_link` ready (text links #9, #10, #68320). Waiting for the user to open it. Then give the user one line for #68320 replacing "follow-up PR, link to follow" with the fix #8 PR number.
+4. **Fix #5**: green, `draft_link` ready, waiting for the user.
+5. **#68316 (fix #1)**: slow-endpoint alternative VIABLE on 7.4 (`investigate-timeout-on-destruct-slow-endpoint` @ 67d69cb10b) and 8.2/amphp-http-client v5 (`…-82` @ 1cd8470a82); details in board fix-01 note. User decides whether to apply it to #68316 (push to `fix-curl-timeout-on-destruct-windows`; force-push only with the user's OK).
+
+**Live child sessions (report to v2's ID; told the new ID at handover):**
+- gh/token setup: `<session>` (user adds a GitHub token as a Network secret for api.github.com; read-only tests first; no writes until the user lists allowed actions; writes the outcome in §2).
+
+**Finished children of v2 (can be archived):** #68316 investigation `<session>`; sql-common review `<session>`; fix #8 review `<session>`.
+
+**Lessons (2026-11-22):**
+- Every github.com / api.github.com request goes through the session proxy; for a repo not attached to the session it answers 403 "GitHub access to this repository is not enabled for this session". `add_repo` read access on a public repo attaches nothing: anonymous git fetch works (including `refs/pull/N/head`), the API doesn't. `add_repo` push for amphp/sql-common was refused by the permission classifier; don't route around a refusal from another session.
+- request_credential does not cover GitHub; a token goes in the environment's Network secrets, entered by the user.
+- Board page: a field holding two values breaks its link (fix_branch); one record per PR instead.
+- Text claims: keep a root cause "likely" when only an injected repro exists (user decision for #68320, fix #8, sql-common issue).
 
 ### Coordinator handover (2026-11-22 11:58 UTC)
 The old coordinator (`<session>`, ~590k context) hit the usage limit before writing this block, so the orchestrator wrote it from `list_sessions` and the coordinator's last replies.
