@@ -22,6 +22,77 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
+### User handoff for desktop resume (written 2026-11-22 ~22:05 UTC by orchestrator v3)
+Read this block first. Status details: board <board URL>. Lines 13-23 above are partly history (older session IDs); this block and "Current sessions" are current.
+
+**1. PR description edit to paste (symfony/symfony#68320)**
+Replace:
+> A fix will be proposed to `amphp/sql-common` (link to follow), with a companion change in this bridge that waits for the closed pool before reconnecting.
+
+with:
+> A fix is proposed upstream in amphp/sql-common#10 (issue amphp/sql-common#9), with a companion change in this bridge that waits for the closed pool before reconnecting (#68322).
+
+No other PR description needs a change (fix #8 PR #68322 already links #9, #10, #68320; fix #5's prefilled text already cites `DateTimeValueResolverTest::provideInvalidDates`).
+
+**2. Open points (who acts)**
+| # | Item | Who | Where |
+|---|---|---|---|
+| a | Paste the #68320 edit above | user | GitHub |
+| b | Open fix #5 PR (6.4, branch `fix-inline-fragment-renderer-ignore-request-time`, title "[HttpKernel] Fix transient failure of InlineFragmentRendererTest") from board fix-05 `draft_link`; send the URL to the orchestrator | user | board |
+| c | #68316 (fix #1): apply the skip-free "slow endpoint" alternative or keep the `transient-on-windows` tag. Viable on 7.4 (`investigate-timeout-on-destruct-slow-endpoint` @ 67d69cb10b) and 8.2 (`…-82` @ 1cd8470a82); evidence in board fix-01 note. Applying it needs a force-push to `fix-curl-timeout-on-destruct-windows` (user OK) or a new PR | user | board fix-01 |
+| d | Fix #9 (Mime `AddressTest::testConstructorWithACommentAfterADomainLiteral`, real break, likely egulias/email-validator 4.x-dev, suspected egulias PR #428): fixer `<session>` recommends a test-only skip on 6.4; coordinator is waiting for your choice | user | coordinator |
+| e | #68320: 6/14 checks red, all on the fix #9 Mime test (unrelated to the PR; CI scan, runs 45063448185, 45063448086). Stays `created` until #9 lands upstream and checks are re-run | upstream / fix #9 | board fix-02 |
+| f | #68322 (fix #8): opened 2026-11-22 ~20:55Z, `created`; CI scan session asked to report its checks (expect the same Mime red) | CI scan → orchestrator | board fix-08 |
+| g | amphp/sql-common#10: checks not readable from cloud sessions; tell the orchestrator when green → `ready-for-review` | user | board fix-02-sqlcommon |
+| h | Branch deletions listed in "Coordinator handover" below (clfer/symfony ×6, clfer/amp-sqlite3-fork ×1): not confirmed done; cloud proxy refuses ref deletion | user | GitHub |
+| i | Leftover idle sessions to archive once their items close: fix #8 fixer `<session>`, sql-common fixer `<session>`, repro `<session>`, gh setup `<session>`, orchestrator v2 `<session>` | any | - |
+
+Ready for review, waiting on maintainers: #68316 (fix #1), #68317 (fix #3), #68318 (fix #4).
+
+**3. Current organization of sessions (cloud, all `auto` mode)**
+```
+user ── coordinator v2 <session>  (backlog, fixers, "waiting on user" list)
+          ├─ fixer per fix (now: fix #9 <session>)
+          ├─ CI scan <session>  (only session attached to symfony/symfony: reads Actions/PR checks)
+          └─ review/PR orchestrator v3 <session>
+                ├─ independent review session per fix (GREEN / CHANGES-NEEDED / REJECT)
+                └─ prepares PR text + prefilled compare URL → board `draft_link` → user opens PR
+State: KB = this orphan branch `flaky-kb` (durable knowledge); board artifact = status (one record per PR).
+```
+Constraints that shaped it (cloud only): one repo name per session (clfer/symfony vs symfony/symfony), no PR creation/edit on symfony/symfony or amphp (GitHub App not installed; proxy gates `gh` per attached repo even with the user's token, KB §2), PHP 8.4 only via Docker, Windows only via fork Actions.
+
+**4. Keep / improve / drop / start (for organizing local work)**
+Written by orchestrator v3 from this session's history, not by an independent agent; challenge it.
+- **Keep**
+  - Independent review before any PR. It caught real problems: fix #3's first explanation was wrong, the fix #8 and sql-common PR texts over-claimed, and the fix #5 description needed the real trigger.
+  - Deterministic injection repros (stall or clock shift at the suspected point) over long loops. A 0/N loop never proved anything (fix #2, #4).
+  - The orphan `flaky-kb` branch for durable knowledge, plus CONTRIBUTING-CHECKLIST.md with sources and dates.
+  - The user rules: author/committer = you, no `Claude-Session` trailer, root cause stays "likely", no GitHub comments by agents.
+  - Dating failures against the upmerge (`merge-base --is-ancestor`) and checking upstream CI-config PRs first. This rejected #6 cheaply.
+- **Improve**
+  - Too many layers: coordinator → orchestrator → reviewer/PR session → relays. Each message re-reads a large context.
+    - The day had 2 coordinators and 3 orchestrators, so a lot of tokens went to handovers.
+    - Locally, one lead session with subagents or worktrees is likely enough.
+  - KB §0 grows into a session diary; old session lines pile up and contradict each other (lines 13-23).
+    - Keep §0 to the current sessions only, and move history to the git log.
+  - Status is kept twice: the board, plus the KB fix log, which lags (#1, #2 rows are stale).
+    - Pick one: the board, or GitHub PRs/labels once you have direct `gh` access.
+  - Some hand-offs to the user were mobile-hostile (long compare URLs, sentences to copy).
+    - Locally, agents can edit PR bodies with `gh pr edit` if you allow it (assumption: your desktop `gh` is authenticated; verify).
+- **Drop**
+  - Separate "PR sessions" and the prefilled compare-URL dance, if `gh pr create` works from your desktop. Keep your manual "open PR" click as the approval gate if you want it.
+  - Cloud workarounds: the gh token in Network secrets, add_repo attempts, and full-log blob downloads. Your local `gh` should read checks and logs directly (verify).
+  - A dedicated long-lived CI-scan session; run `gh run list/view --log-failed` on demand instead.
+  - Long Windows loop repros without an injection hypothesis (25-30 min per run, usually 0/N).
+- **Start**
+  - One local repo with `git worktree` per fix, a local PHP 8.4 (or the `php84.Dockerfile` image), and the KB checked out next to it.
+  - A small pre-push check script: author/committer, no `Claude-Session`, base branch, and only test files touched for test-only fixes. It replaces the reviewer's mechanical checks.
+  - Before each fix, check whether upstream already fixed it or a dependency moved:
+    - `gh pr list -R symfony/symfony --search <test>`;
+    - check the CI composer log for changed dev-dependency hashes. This found fix #9.
+  - Scheduled check of your open PRs' checks (`gh pr checks`), so the board updates itself instead of you asking.
+  - A budget per fix (time and tokens), with a stop rule. Fix #2 spawned 6+ sessions across 3 repositories.
+
 ### Current sessions (since 2026-11-22 12:00 UTC)
 - **Coordinator v2:** `<session>`. The user talks to it. It owns the backlog, the fixers and the "waiting on the user" list.
 - **Review/PR orchestrator v2 (handed over ~20:15 UTC):** `<session>`. It reports to coordinator v2.
