@@ -7,7 +7,7 @@ on:
     inputs:
       filter: { description: 'phpunit --filter', default: 'testTimeoutOnDestruct' }
       path: { description: 'test path', default: 'src\Symfony\Component\HttpClient\Tests' }
-      iterations: { description: 'iterations per phase', default: '150' }
+      iterations: { description: 'iterations per phase', default: '40' }
 
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
       SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
       FILTER: ${{ inputs.filter || 'testTimeoutOnDestruct' }}
       TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\HttpClient\Tests' }}
-      ITERATIONS: ${{ inputs.iterations || '150' }}
+      ITERATIONS: ${{ inputs.iterations || '40' }}
 
     steps:
       - name: Setup Git
@@ -106,19 +106,31 @@ jobs:
         run: |
           $env:Path = 'c:\php;' + $env:Path
           # Busy loops on every core, like the real job running src\Symfony in parallel
+          Set-Content -Path burn.php -Value '<?php while (true) { hash("sha256", random_bytes(4096)); }'
           $burners = 1..([Environment]::ProcessorCount) | ForEach-Object {
-            Start-Job -ScriptBlock { & c:\php\php.exe -r 'while (true) { hash("sha256", random_bytes(4096)); }' }
+            Start-Process -FilePath c:\php\php.exe -ArgumentList 'burn.php' -PassThru -NoNewWindow
           }
-          $fail = 0
+          Write-Host "burners: $($burners.Count)"
+          $fail = 0; $hang = 0
           for ($i = 1; $i -le [int]$env:ITERATIONS; $i++) {
-            $out = & php phpunit $env:TEST_PATH --filter $env:FILTER 2>&1 | Out-String
+            $p = Start-Process -FilePath c:\php\php.exe -ArgumentList 'phpunit', $env:TEST_PATH, '--debug', '--filter', $env:FILTER -RedirectStandardOutput out.txt -RedirectStandardError err.txt -PassThru -NoNewWindow
+            $null = $p.Handle
+            $done = $p.WaitForExit(180000)
+            $out = (Get-Content -Raw out.txt) + (Get-Content -Raw err.txt)
             if ($i -eq 1) { Write-Host (($out -replace "`e\[[0-9;]*m", '') -split "`n" | Select-String -Pattern '(OK \(|Tests:|Time:)') }
-            if ($LASTEXITCODE -ne 0) {
+            if (-not $done) {
+              $hang++
+              & taskkill /T /F /PID $p.Id | Out-Null
+              Write-Host "::group::Phase B HANG #$hang (iteration $i)"
+              Write-Host $out
+              Write-Host "::endgroup::"
+            } elseif ($p.ExitCode -ne 0 -and $out -notmatch 'OK, but there were issues') {
               $fail++
               Write-Host "::group::Phase B failure #$fail (iteration $i)"
               Write-Host $out
               Write-Host "::endgroup::"
             }
           }
-          $burners | Stop-Job; Get-Process php -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -like '*random_bytes*' } | Stop-Process -Force
+          $burners | ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }
+          Write-Host "PHASE B HANGS: $hang"
           Write-Host "PHASE B RESULT: $fail failures / $env:ITERATIONS"
