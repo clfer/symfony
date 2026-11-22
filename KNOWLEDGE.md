@@ -19,6 +19,11 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
+### Current sessions (since 2026-11-22 12:00 UTC)
+- **Coordinator v2:** `<session>`. The user talks to it. It owns the backlog, the fixers and the "waiting on the user" list.
+- **Review/PR orchestrator v2:** `<session>`. It reports to coordinator v2.
+- **Archived:** old coordinator `<session>`, old orchestrator `<session>`, and their finished children. Any earlier section 0 line that names them is history.
+
 ### Coordinator handover (2026-11-22 11:58 UTC)
 The old coordinator (`<session>`, ~590k context) hit the usage limit before writing this block, so the orchestrator wrote it from `list_sessions` and the coordinator's last replies.
 
