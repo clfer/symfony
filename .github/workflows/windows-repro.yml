@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   repro:
-    name: x86 / all extensions / lowest-php (repro)
+    name: x86 / all extensions / lowest-php (repro, opcache.enable_cli=1 as before #68270)
     runs-on: windows-2022
     timeout-minutes: 120
     defaults:
@@ -65,6 +65,7 @@ jobs:
           "extension=php_xsl.dll" >> php.ini
           "extension=php_mbstring.dll" >> php.ini
           "zend_extension=php_opcache.dll" >> php.ini
+          "opcache.enable_cli=1" >> php.ini
           "extension=php_openssl.dll" >> php.ini
           "extension=php_apcu.dll" >> php.ini
           "extension=php_igbinary.dll" >> php.ini
