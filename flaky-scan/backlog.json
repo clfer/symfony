@@ -485,7 +485,7 @@
  },
  "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest": {
   "classification": "unknown",
-  "classification_override": "",
+  "classification_override": "flaky",
   "component": null,
   "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest",
   "kind": "test",
@@ -499,7 +499,7 @@
     "title": "[HttpKernel] Make test more robust"
    }
   ],
-  "notes": "",
+  "notes": "REQUEST_TIME second boundary: ClockMock ineffective for Request::create() in component runs (PHPUnit 9 data providers bind time() before listener registers mock); fix on fix-inline-fragment-renderer-ignore-request-time (6.4)",
   "occurrences": [
    {
     "branch": "6.4",
@@ -515,7 +515,7 @@
   ],
   "owner": "",
   "reason": "single occurrence, no flaky signature",
-  "status": "new"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted": {
   "classification": "unknown",
