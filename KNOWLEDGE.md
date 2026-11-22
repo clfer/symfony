@@ -29,6 +29,9 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fallback:** if your session has no ArtifactData tool, put the same fields in your `send_message` to the coordinator, which writes them for you.
 - **Status vs. knowledge:** status lives on the board only. This file keeps durable knowledge, and the fix log here is updated when a fix reaches a final state (draft-pr, rejected, merged).
 
+### Starting sessions
+- **USER RULE:** every new session (create_session) starts with `permission_mode: "auto"`, unless the user explicitly asks for another mode.
+
 ## 1. Workflow (one fix at a time)
 1. **Pick** the top `flaky` row in `flaky-scan/BACKLOG.md` with status `new` or `triaged`.
 2. **Check for duplicates.** Run both searches, because the search API requires `is:issue` or `is:pull-request`:
