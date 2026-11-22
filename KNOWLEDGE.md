@@ -10,10 +10,10 @@ git fetch origin flaky-kb && git worktree add ../flaky-kb origin/flaky-kb
 Then read this file and `flaky-scan/BACKLOG.md`.
 
 ## 0. Sessions and in-progress work (update when it changes)
-- **Coordinator:** session `<session>`. It owns fix #2 and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
+- **Coordinator:** session `<session>` (since 2026-11-22 12:00 UTC; replaced `<session>`). It owns the backlog, fixer sessions, fix #2 and the user's waiting list, and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
 - **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
 - **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
-- **Review/PR orchestrator:** `<session>`. It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
+- **Review/PR orchestrator:** `<session>` (v2, since 2026-11-22 11:57 UTC; replaced `<session>`). It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
   - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
 - **Fix #3 (Config ResourceCheckerConfigCacheTest):** `<session>`, branch `fix-config-cache-one-corrective-build` (8.2). Repro branch `ci-repro-config`.
 - **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
@@ -74,7 +74,7 @@ The old coordinator (`<session>`, ~590k context) hit the usage limit before writ
 Each `send_message` wakes the receiver for a full turn, which re-reads its whole context: hundreds of thousands of tokens on a long session. A repeated sentence costs almost nothing; an extra wake-up costs a lot.
 1. **The board is the only status channel.** Write status to your own board record. Never send a message only to say "board updated" or to repeat a status.
 2. **Message only when the receiver must act or decide:** a verdict, a blocker, a request, or a new rule. No acknowledgements, no FYI.
-3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in the board note `dash/notes/waiting-on-user`, or in its own replies if the board has no such note. Other sessions mention a pending user item once, when it is new, then never repeat it.
+3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in its own replies (the board has no notes collection; `dash/notes/...` is not a valid path). Other sessions mention a pending user item once, when it is new, then never repeat it.
 4. **No double relays.** A child reports to its parent only. The parent forwards to the coordinator only what changes its plans. A fact or rule is sent to a given session by exactly one sender.
 5. **Short user replies.** List only new items. For everything else, point to the board.
 6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in section 0 before you hand over.
