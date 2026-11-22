@@ -29,6 +29,12 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fallback:** if your session has no ArtifactData tool, put the same fields in your `send_message` to the coordinator, which writes them for you.
 - **Status vs. knowledge:** status lives on the board only. This file keeps durable knowledge, and the fix log here is updated when a fix reaches a final state (draft-pr, rejected, merged).
 
+- **PR stages (USER RULE, 2026-11-22):**
+  - `created`: the PR exists and is ready for review by Symfony's rules (Symfony refuses draft PRs), but its CI checks are still running.
+  - `ready-for-review`: all PR checks are green.
+  - `draft-pr`: kept only for repositories that accept drafts.
+  - `ready` is retired; use `ready-for-review`.
+
 ### Starting sessions
 - **USER RULE:** every new session (create_session) starts with `permission_mode: "auto"`, unless the user explicitly asks for another mode.
 
