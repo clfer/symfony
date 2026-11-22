@@ -19,6 +19,33 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
+### Coordinator handover (2026-11-22 11:58 UTC)
+The old coordinator (`<session>`, ~590k context) hit the usage limit before writing this block, so the orchestrator wrote it from `list_sessions` and the coordinator's last replies.
+
+**Live sessions (may still be needed):**
+- `<session>`: CI scan, source symfony/symfony. Read-only. Reads upstream Actions and PR checks (used to move PRs to `ready-for-review`).
+- `<session>`: amp-sqlite3 author, source clfer/amp-sqlite3-fork. Owns branch `fix-startup-busy-retry-pr` @ 23edff9 (authored by the user), with the draft issue/PR text for fabpot/amp-sqlite3. Needed for fix #2 (b) PR prep.
+
+**Finished (archived at handover):**
+- Fix #3 fixer `<session>`
+- Fix #4 fixer `<session>`
+- Fix #5 fixer `<session>`
+- Fix #6 `<session>`: rejected, fixed upstream by #68270.
+- Fix #7 `<session>`: rejected, no new candidates.
+- CI log reader `<session>`
+- All review/PR children of the old orchestrator
+
+**Waiting on the user (owned by the new coordinator):**
+1. Fix #5: open the PR from the board (`draft_link`), then set the stage to `created`.
+2. Fix #2: choose between a PR to fabpot/amp-sqlite3 directly or an issue first. The old coordinator suggested the issue first (no contribution guide, no merged outside PRs).
+3. Delete branches by hand on GitHub (the session git proxy refuses ref deletion, HTTP 403):
+   - clfer/symfony: `fix-inline-fragment-renderer-request-time`, `fix-config-cache-corrective-build-clock`, `ci-repro-config`, `fix-amp-pause-during-body-windows`, `ci-repro-amphttp`, `ci-repro-attr-route-oom`
+   - clfer/amp-sqlite3-fork: `review-busy-test-on-v1.1.0`
+
+**Open work:** the #68316 investigation (slow endpoint for `testTimeoutOnDestruct` only), started by the new orchestrator.
+
+**Scheduled tasks:** none for this project.
+
 ### Live status board (single place for fix status)
 - Artifact: <board URL> ("Symfony flaky fixes"). One record per fix: `data/flaky/fixes/fix-NN`.
 - **Update only your own record**, with the ArtifactData tool: `action: "update"`, `url: <artifact>`, `collection: "data/flaky/fixes"`, `doc_id: "fix-NN"`, `data: {stage, note, fix_branch?, pr_url?, updated_at (ISO UTC), updated_by (your session id)}`.
