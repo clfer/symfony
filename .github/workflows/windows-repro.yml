@@ -1,0 +1,136 @@
+name: Windows flaky repro
+
+# Reproduce Windows-only flaky tests in a loop. Never meant for an upstream PR.
+on:
+  push: { branches: [ 'ci-windows-repro', 'ci-repro-timeout-destruct-82' ] }
+  workflow_dispatch:
+    inputs:
+      filter: { description: 'phpunit --filter', default: 'testTimeoutOnDestruct' }
+      path: { description: 'test path', default: 'src\Symfony\Component\HttpClient\Tests' }
+      iterations: { description: 'iterations per phase', default: '40' }
+
+permissions:
+  contents: read
+
+jobs:
+  repro:
+    name: x86 / php 8.4.1 (repro, ${{ matrix.variant }})
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [ before, after ]
+    runs-on: windows-2022
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      COMPOSER_NO_INTERACTION: '1'
+      SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
+      FILTER: ${{ inputs.filter || 'testTimeoutOnDestruct' }}
+      TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\HttpClient\Tests' }}
+      ITERATIONS: ${{ inputs.iterations || '40' }}
+
+    steps:
+      - name: Setup Git
+        run: |
+          git config --global core.autocrlf false
+          git config --global user.email ""
+          git config --global user.name "Symfony"
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+
+      - name: Setup PHP (same as windows.yml minimal-exts)
+        run: |
+          $env:Path = 'c:\php;' + $env:Path
+          mkdir c:\php && cd c:\php
+          iwr -MaximumRetryCount 5 -RetryIntervalSec 10 -outf php.zip https://github.com/symfony-tools/binary-utils/releases/download/v0.1/php-8.4.1-Win32-vs17-x86.zip
+          7z x php.zip -y >nul
+          Copy php.ini-development php.ini
+          "memory_limit=-1" >> php.ini
+          "serialize_precision=-1" >> php.ini
+          "max_execution_time=1200" >> php.ini
+          "date.timezone=`"America/Los_Angeles`"" >> php.ini
+          "extension_dir=ext" >> php.ini
+          "extension=php_xsl.dll" >> php.ini
+          "extension=php_mbstring.dll" >> php.ini
+          "extension=php_openssl.dll" >> php.ini
+          "extension=php_curl.dll" >> php.ini
+          "extension=php_sqlite3.dll" >> php.ini
+          "extension=php_fileinfo.dll" >> php.ini
+          cd ${{ github.workspace }}
+          iwr -MaximumRetryCount 5 -RetryIntervalSec 10 -outf composer.phar https://getcomposer.org/download/latest-stable/composer.phar
+
+      - name: Install dependencies
+        run: |
+          $env:Path = 'c:\php;' + $env:Path
+          mkdir $env:APPDATA\Composer && Copy .github\composer-config.json $env:APPDATA\Composer\config.json
+          $env:SYMFONY_VERSION=(Select-String -CaseSensitive -Pattern " VERSION =" -SimpleMatch -Path src/Symfony/Component/HttpKernel/Kernel.php | Select Line | Select-String -Pattern "([0-9][0-9]*\.[0-9])").Matches.Value
+          $env:COMPOSER_ROOT_VERSION=$env:SYMFONY_VERSION + ".x-dev"
+          php .github/build-packages.php HEAD^ $env:SYMFONY_VERSION src\Symfony\Bridge\PhpUnit
+          php composer.phar update --no-progress --ansi
+          php phpunit install
+          rm src\Symfony\Component\HttpClient\phpunit.xml.dist
+          php composer.phar show amphp/http-client | Select-String -Pattern '^(name|versions)'
+          exit 0
+
+      - name: Revert the fix (before variant)
+        if: matrix.variant == 'before'
+        run: |
+          git apply -R .github/repro/fix.patch
+          git diff --stat
+
+      - name: Phase A - tests alone
+        continue-on-error: true
+        run: |
+          $env:Path = 'c:\php;' + $env:Path
+          $fail = 0
+          for ($i = 1; $i -le [int]$env:ITERATIONS; $i++) {
+            $out = & php phpunit $env:TEST_PATH --filter $env:FILTER 2>&1 | Out-String
+            if ($i -eq 1) { Write-Host (($out -replace "`e\[[0-9;]*m", '') -split "`n" | Select-String -Pattern '(OK \(|Tests:|Time:)') }
+            if ($LASTEXITCODE -ne 0) {
+              $fail++
+              Write-Host "::group::Phase A failure #$fail (iteration $i)"
+              Write-Host $out
+              Write-Host "::endgroup::"
+            }
+          }
+          Write-Host "PHASE A RESULT: $fail failures / $env:ITERATIONS"
+
+      - name: Phase B - tests under CPU contention
+        continue-on-error: true
+        run: |
+          $env:Path = 'c:\php;' + $env:Path
+          # Busy loops on every core, like the real job running src\Symfony in parallel
+          Set-Content -Path burn.php -Value '<?php while (true) { hash("sha256", random_bytes(4096)); }'
+          $burners = 1..([Environment]::ProcessorCount) | ForEach-Object {
+            Start-Process -FilePath c:\php\php.exe -ArgumentList 'burn.php' -PassThru -NoNewWindow
+          }
+          Write-Host "burners: $($burners.Count)"
+          $fail = 0; $hang = 0
+          for ($i = 1; $i -le [int]$env:ITERATIONS; $i++) {
+            $p = Start-Process -FilePath c:\php\php.exe -ArgumentList 'phpunit', $env:TEST_PATH, '--debug', '--filter', $env:FILTER -RedirectStandardOutput out.txt -RedirectStandardError err.txt -PassThru -NoNewWindow
+            $null = $p.Handle
+            $done = $p.WaitForExit(180000)
+            $out = (Get-Content -Raw out.txt) + (Get-Content -Raw err.txt)
+            if ($i -eq 1) { Write-Host (($out -replace "`e\[[0-9;]*m", '') -split "`n" | Select-String -Pattern '(OK \(|Tests:|Time:)') }
+            if (-not $done) {
+              $hang++
+              & taskkill /T /F /PID $p.Id | Out-Null
+              Write-Host "::group::Phase B HANG #$hang (iteration $i)"
+              Write-Host $out
+              Write-Host "::endgroup::"
+            } elseif ($p.ExitCode -ne 0 -and $out -notmatch 'OK, but there were issues') {
+              $fail++
+              Write-Host "::group::Phase B failure #$fail (iteration $i)"
+              Write-Host $out
+              Write-Host "::endgroup::"
+            }
+          }
+          $burners | ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }
+          Write-Host "PHASE B HANGS: $hang"
+          Write-Host "PHASE B RESULT: $fail failures / $env:ITERATIONS"
