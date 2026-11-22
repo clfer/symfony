@@ -129,6 +129,10 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 - **Date the failure against the upmerge, not the PR merge.** An upstream fix reaches 7.4/8.x hours later through `Merge branch 'X' into 'Y'`. Fix #4: #68198 merged on 6.4/7.4 at 10:51, reached 8.2 at 13:56 (4107c1eb622); the 8.2 failure was on ee61eda818 (13:35), so it predates the fix. Check with `git merge-base --is-ancestor <fix> <failing-sha>`.
 - **Push the commit message right the first time, or use a new branch name.** Force-push is forbidden. Fix #3's first branch (`fix-config-cache-corrective-build-clock`) had a wrong explanation and a `Claude-Session` trailer, so it was superseded by a new branch instead of amended.
 
+- **Amp version per branch (review of fix #4):** on 7.4 with PHP 8.3, `composer install` resolves amphp/http-client **4.x** (AmpResponseV4), while 8.2 on PHP 8.4 uses 5.x (AmpResponseV5). A Linux 7.4 run therefore doesn't exercise the V5 code that failed upstream on 8.2. Say which Amp major you tested.
+- **Deterministic timing repro (reviews of fix #3 and #4):** inject the delay at the suspected point instead of looping for a natural failure. Fix #3: `usleep` to the next second between `dumpFile()` and `time()` in `write()`, which makes the old test fail 5/5. Fix #4: a Revolt timer that blocks the loop around the pause expiry. It fails with the CI message from 0.32 s stalls upward and never at 0.29 s or less, so the threshold is the 0.3 s idle timeout.
+- **Upmerge conflicts:** a test override placed next to methods that later branches changed conflicts on merge-up (fix #4: 7.4 → 8.2 in AmpHttpClientTest). Placing it after a stable method avoids that. It isn't a blocker, since maintainers resolve these.
+
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|
