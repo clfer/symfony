@@ -1,12 +1,21 @@
 {
  "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php": {
   "classification": "real",
-  "classification_override": "",
+  "classification_override": "flaky",
   "component": null,
   "key": "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php",
   "kind": "fatal",
-  "links": [],
-  "notes": "low-deps Twig: parent class final; not flaky",
+  "links": [
+   {
+    "date": "2026-11-19",
+    "matched": "manual: Cannot instantiate abstract class",
+    "number": 68270,
+    "pr": true,
+    "state": "closed",
+    "title": "[GHA] Disable opcache in the CLI of the Windows all-extensions job"
+   }
+  ],
+  "notes": "reclassified: empty parent name (\"cannot extend final class  on line 21\") = same PHP 8.2.0 opcache class-table corruption as #68270, same job (Windows 7.4 all-extensions); not a dependency change",
   "occurrences": [
    {
     "branch": "7.4",
@@ -22,7 +31,7 @@
   ],
   "owner": "",
   "reason": "dependency made a parent class final",
-  "status": "triaged"
+  "status": "fixed"
  },
  "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php": {
   "classification": "unknown",
@@ -48,6 +57,190 @@
   "owner": "",
   "reason": "single occurrence, no flaky signature",
   "status": "new"
+ },
+ "INFRA composer: corrupted (0-byte) dist download": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": "src/Symfony/Contracts",
+  "key": "INFRA composer: corrupted (0-byte) dist download",
+  "kind": "infra",
+  "links": [],
+  "notes": "CI infra: GitHub zipball returned 0 bytes (psr/event-dispatcher, symfony/property-access, psr/log); composer aborts; not a test, nothing to fix in Symfony",
+  "occurrences": [
+   {
+    "branch": "8.1",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "##[error]'/home/runner/work/symfony/symfony/src/Symfony/Bundle/SecurityBundle/vendor/composer/tmp-cee24ecb2695e9245ffa31331a82ae29.zip' is a corrupted zip archive (0 bytes), try again.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 129140142945,
+    "run_id": 42611308853,
+    "sha": "4a64e0097e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "##[error]'/home/runner/work/symfony/symfony/src/Symfony/Bundle/SecurityBundle/vendor/composer/tmp-7a3881f36e3dbaca09e97a9d33ab4e3b.zip' is a corrupted zip archive (0 bytes), try again.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 129298037764,
+    "run_id": 42656997827,
+    "sha": "a37af4368c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "##[error]'/home/runner/work/symfony/symfony/src/Symfony/Component/HttpKernel/vendor/composer/tmp-54d9a72368df932fba5aea4df357972f.zip' is a corrupted zip archive (0 bytes), try again.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 131902960444,
+    "run_id": 43430643488,
+    "sha": "734134aff1",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "CI infrastructure (composer download), not a test",
+  "status": "wontfix"
+ },
+ "INFRA composer: packagist network timeout": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": "src/Symfony/Component/Cache",
+  "key": "INFRA composer: packagist network timeout",
+  "kind": "infra",
+  "links": [],
+  "notes": "CI infra: repo.packagist.org port 443 timeout (curl 28) during composer update of Notifier/Bridge/JoliNotif; not a test",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-09",
+    "event": "push",
+    "excerpt": "repo.packagist.org could not be fully loaded (curl error 28 while downloading repo.packagist.org Failed to connect to repo.packagist.org port 443 after 10005 ms: Timeout was reached), package informat",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129246421192,
+    "run_id": 42642337890,
+    "sha": "330e58838f",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "CI infrastructure (composer download), not a test",
+  "status": "wontfix"
+ },
+ "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa": {
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "key": "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa",
+  "kind": "phpunit-error",
+  "links": [
+   {
+    "date": "2026-11-19",
+    "matched": "manual: Cannot instantiate abstract class",
+    "number": 68270,
+    "pr": true,
+    "state": "closed",
+    "title": "[GHA] Disable opcache in the CLI of the Windows all-extensions job"
+   }
+  ],
+  "notes": "opcache class-table corruption on PHP 8.2.0 (Windows 7.4 all-extensions job, ~8% of runs): \"Cannot instantiate abstract class \" with empty name; not a Monolog bug. Fixed in CI by #68270 (merged 2026-11-19 10:02Z, opcache off in CLI); 9/9 7.4 Windows push runs green since",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Message:  Cannot instantiate abstract class",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 133299848527,
+    "run_id": 43867535108,
+    "sha": "6c7023a986",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-18",
+    "event": "push",
+    "excerpt": "Message:  Cannot instantiate abstract class",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 134701594794,
+    "run_id": 44275246106,
+    "sha": "4d4a0dece1",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "fails intermittently on 2 unrelated commits",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode": {
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Component/AssetMapper",
+  "key": "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-10",
+    "matched": "manual: git log",
+    "number": 68056,
+    "pr": true,
+    "state": "closed",
+    "title": "[AssetMapper] Backdate the meta file too in `CachedMappedAssetFactoryTest`"
+   }
+  ],
+  "notes": "deterministic in high-deps (test backdated the cache file but not its meta file, since #67960); fixed by #68056 (14a3de636, 2026-11-10 00:40Z); all 4 failing SHAs predate it; no recurrence after",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129531939092,
+    "run_id": 42726081461,
+    "sha": "f72e124e55",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129532744931,
+    "run_id": 42726321600,
+    "sha": "923a931162",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129547748213,
+    "run_id": 42730734761,
+    "sha": "41ec0b2699",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 129548099856,
+    "run_id": 42730839249,
+    "sha": "7e4e2caf4c",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "fails intermittently on 4 unrelated commits",
+  "status": "fixed"
  },
  "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild": {
   "classification": "flaky",
@@ -324,6 +517,40 @@
   "reason": "single occurrence, no flaky signature",
   "status": "new"
  },
+ "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted": {
+  "classification": "unknown",
+  "classification_override": "",
+  "component": "src/Symfony/Component/JsonSchema",
+  "key": "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-11-05",
+    "matched": "manual: Envelope-of JsonSchema",
+    "number": 67853,
+    "pr": true,
+    "state": "closed",
+    "title": "[JsonSchema] Preserve generic class arguments in schema definitions"
+   }
+  ],
+  "notes": "single occurrence, 8.2 high-deps, ae0a0c11d2 (2026-11-13): definition Envelope-of.string missing; JsonSchema generics work landed 11-04..11-13; no recurrence in later 8.2 high-deps runs (all green 11-19..11-20); likely a transient high-deps/dev-dependency mismatch, not timing",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "Failed asserting that null is identical to Array &0 [",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 131903216525,
+    "run_id": 43430720450,
+    "sha": "ae0a0c11d2",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "single occurrence, no flaky signature",
+  "status": "triaged"
+ },
  "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed": {
   "classification": "flaky",
   "classification_override": "",
@@ -377,7 +604,7 @@
  "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName": {
   "classification": "real",
   "classification_override": "real",
-  "component": null,
+  "component": "src/Symfony/Component/Messenger",
   "key": "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName",
   "kind": "test",
   "links": [],
@@ -432,6 +659,17 @@
     "date": "2026-11-17",
     "event": "push",
     "excerpt": "Failed asserting that '\\n",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 134247499082,
+    "run_id": 44142147822,
+    "sha": "adb7cf86c1",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-17",
+    "event": "push",
+    "excerpt": "Failed asserting that '\\n",
     "job": "x86 / minimal-exts / lowest-php",
     "job_id": 134247497120,
     "run_id": 44142147902,
@@ -440,7 +678,7 @@
    }
   ],
   "owner": "",
-  "reason": "fails in 5 jobs of the same commit",
+  "reason": "fails in 6 jobs of the same commit",
   "status": "fixed"
  },
  "TIMEOUT src/Symfony/Bridge/Doctrine": {
@@ -591,111 +829,20 @@
   "reason": "timeout",
   "status": "triaged"
  },
- "UNATTRIBUTED unit (8.2, low-deps)": {
-  "classification": "unknown",
+ "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93": {
+  "classification": "real",
   "classification_override": "",
-  "component": null,
-  "key": "UNATTRIBUTED unit (8.2, low-deps)",
-  "kind": "unattributed",
+  "component": "src/Symfony/Component/JsonSchema",
+  "key": "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93",
+  "kind": "deprecation",
   "links": [],
-  "notes": "",
+  "notes": "duplicate: PHP warnings of the testGenericPropertiesAreExtracted failure (undefined key Envelope-of.string)",
   "occurrences": [
-   {
-    "branch": "6.4",
-    "date": "2026-11-09",
-    "event": "push",
-    "excerpt": "Remaining indirect deprecation notices (163)",
-    "job": "unit (8.2, low-deps)",
-    "job_id": 129298037764,
-    "run_id": 42656997827,
-    "sha": "a37af4368c",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "6.4",
-    "date": "2026-11-13",
-    "event": "push",
-    "excerpt": "Remaining indirect deprecation notices (180)",
-    "job": "unit (8.2, low-deps)",
-    "job_id": 131902960444,
-    "run_id": 43430643488,
-    "sha": "734134aff1",
-    "workflow": "unit-tests.yml"
-   }
-  ],
-  "owner": "",
-  "reason": "failing test not visible in log (re-fetch full log)",
-  "status": "new"
- },
- "UNATTRIBUTED unit (8.4, high-deps)": {
-  "classification": "unknown",
-  "classification_override": "",
-  "component": null,
-  "key": "UNATTRIBUTED unit (8.4, high-deps)",
-  "kind": "unattributed",
-  "links": [],
-  "notes": "",
-  "occurrences": [
-   {
-    "branch": "8.2",
-    "date": "2026-11-09",
-    "event": "push",
-    "excerpt": "Time: 00:00.023, Memory: 24.00 MB | OK (38 tests, 83 assertions) | OK src/Symfony/Component/Mailer/Bridge/Mailjet^",
-    "job": "unit (8.4, high-deps)",
-    "job_id": 129246421192,
-    "run_id": 42642337890,
-    "sha": "330e58838f",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "7.4",
-    "date": "2026-11-10",
-    "event": "push",
-    "excerpt": "Remaining direct deprecation notices (1)",
-    "job": "unit (8.4, high-deps)",
-    "job_id": 129531939092,
-    "run_id": 42726081461,
-    "sha": "f72e124e55",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "8.2",
-    "date": "2026-11-10",
-    "event": "push",
-    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, PHPUnit Deprecations: 1, Skipped: 47. | OK src/Symfony/Component/HttpClient^",
-    "job": "unit (8.4, high-deps)",
-    "job_id": 129532744931,
-    "run_id": 42726321600,
-    "sha": "923a931162",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "7.4",
-    "date": "2026-11-10",
-    "event": "push",
-    "excerpt": "Remaining direct deprecation notices (16)",
-    "job": "unit (8.4, high-deps)",
-    "job_id": 129547748213,
-    "run_id": 42730734761,
-    "sha": "41ec0b2699",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "8.2",
-    "date": "2026-11-10",
-    "event": "push",
-    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, PHPUnit Deprecations: 1, Skipped: 47. | OK src/Symfony/Component/HttpClient^",
-    "job": "unit (8.4, high-deps)",
-    "job_id": 129548099856,
-    "run_id": 42730839249,
-    "sha": "7e4e2caf4c",
-    "workflow": "unit-tests.yml"
-   },
    {
     "branch": "8.2",
     "date": "2026-11-13",
     "event": "push",
-    "excerpt": "OK, but some tests were skipped! | Tests: 1442, Assertions: 4173, Skipped: 7. | OK src/Symfony/Bundle/FrameworkBundle",
+    "excerpt": "Undefined array key \"Envelope-of.string\"",
     "job": "unit (8.4, high-deps)",
     "job_id": 131903216525,
     "run_id": 43430720450,
@@ -704,80 +851,8 @@
    }
   ],
   "owner": "",
-  "reason": "failing test not visible in log (re-fetch full log)",
-  "status": "new"
- },
- "UNATTRIBUTED unit (8.4, low-deps)": {
-  "classification": "unknown",
-  "classification_override": "",
-  "component": null,
-  "key": "UNATTRIBUTED unit (8.4, low-deps)",
-  "kind": "unattributed",
-  "links": [],
-  "notes": "",
-  "occurrences": [
-   {
-    "branch": "8.1",
-    "date": "2026-11-09",
-    "event": "push",
-    "excerpt": "OK, but there were issues! | Tests: 1341, Assertions: 3155, Deprecations: 38, PHPUnit Deprecations: 1, Skipped: 52. | OK src/Symfony/Component/HttpClient",
-    "job": "unit (8.4, low-deps)",
-    "job_id": 129140142945,
-    "run_id": 42611308853,
-    "sha": "4a64e0097e",
-    "workflow": "unit-tests.yml"
-   },
-   {
-    "branch": "8.2",
-    "date": "2026-11-17",
-    "event": "push",
-    "excerpt": "OK, but there were issues! | Tests: 1725, Assertions: 17333, Deprecations: 30, PHPUnit Deprecations: 1, Skipped: 75. | OK src/Symfony/Component/HttpClient",
-    "job": "unit (8.4, low-deps)",
-    "job_id": 134247499082,
-    "run_id": 44142147822,
-    "sha": "adb7cf86c1",
-    "workflow": "unit-tests.yml"
-   }
-  ],
-  "owner": "",
-  "reason": "failing test not visible in log (re-fetch full log)",
-  "status": "new"
- },
- "UNATTRIBUTED x86 / all extensions / lowest-php": {
-  "classification": "unknown",
-  "classification_override": "",
-  "component": null,
-  "key": "UNATTRIBUTED x86 / all extensions / lowest-php",
-  "kind": "unattributed",
-  "links": [],
-  "notes": "",
-  "occurrences": [
-   {
-    "branch": "7.4",
-    "date": "2026-11-16",
-    "event": "push",
-    "excerpt": "OK, but some tests were skipped! | Tests: 100, Assertions: 237, Skipped: 26. | OK src\\Symfony/Component/Lock",
-    "job": "x86 / all extensions / lowest-php",
-    "job_id": 133299848527,
-    "run_id": 43867535108,
-    "sha": "6c7023a986",
-    "workflow": "windows.yml"
-   },
-   {
-    "branch": "7.4",
-    "date": "2026-11-18",
-    "event": "push",
-    "excerpt": "OK, but some tests were skipped! | Tests: 104, Assertions: 241, Skipped: 28. | OK src\\Symfony/Component/Lock",
-    "job": "x86 / all extensions / lowest-php",
-    "job_id": 134701594794,
-    "run_id": 44275246106,
-    "sha": "4d4a0dece1",
-    "workflow": "windows.yml"
-   }
-  ],
-  "owner": "",
-  "reason": "failing test not visible in log (re-fetch full log)",
-  "status": "new"
+  "reason": "deprecation",
+  "status": "not-flaky"
  },
  "vendor/doctrine/orm/src/Tools/SchemaTool.php:96": {
   "classification": "real",

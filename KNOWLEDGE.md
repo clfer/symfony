@@ -133,6 +133,15 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 - **Deterministic timing repro (reviews of fix #3 and #4):** inject the delay at the suspected point instead of looping for a natural failure. Fix #3: `usleep` to the next second between `dumpFile()` and `time()` in `write()`, which makes the old test fail 5/5. Fix #4: a Revolt timer that blocks the loop around the pause expiry. It fails with the CI message from 0.32 s stalls upward and never at 0.29 s or less, so the threshold is the 0.3 s idle timeout.
 - **Upmerge conflicts:** a test override placed next to methods that later branches changed conflicts on merge-up (fix #4: 7.4 → 8.2 in AmpHttpClientTest). Placing it after a stable method avoids that. It isn't a blocker, since maintainers resolve these.
 
+### CI-only failures (not test bugs), from the fix #7 scan on 2026-11-22
+- **Windows 7.4 "x86 / all extensions / lowest-php" job:**
+  - Symptoms: "Cannot instantiate abstract class " (empty name), "cannot extend final class " (empty name), "X must be of type X, X given", single allocations over 1 GB.
+  - Cause: PHP 8.2.0 opcache class-table corruption.
+  - Fixed in CI by upstream #68270 (merged 2026-11-19 10:02Z: opcache off in the CLI).
+  - Treat failures before that date as FLAKY and already fixed, not as REAL or new.
+- **Composer infrastructure failures before phpunit runs:** "is a corrupted zip archive (0 bytes)" or a packagist port 443 timeout. Not a test problem: wontfix. flaky_scan.py classifies these as `INFRA …`.
+- **Scan coverage:** only push events. Since 2026-11-20 16:46Z there were no new push runs.
+
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|

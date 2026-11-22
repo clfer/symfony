@@ -41,6 +41,12 @@ TEST_ID = re.compile(r"^(?P<cls>[A-Za-z_\\][\w\\]+)::(?P<meth>\w+)")
 KO = re.compile(r"KO (src[\\/][\w\\/]+)")
 TIMEOUT_COMPONENT = re.compile(r"^Timeout (src[\\/][\w\\/]+)")
 FATAL = re.compile(r"(?:PHP )?Fatal error: +(.*)")
+# CI infrastructure failures (composer downloads): flaky by nature, not a test problem
+INFRA_KEYS = [
+    (r"is a corrupted zip archive", "INFRA composer: corrupted (0-byte) dist download"),
+    (r"(?:Failed to connect to|Could not resolve host:?) \S*packagist|packagist\S* port 443 after \d+ ms: Timeout", "INFRA composer: packagist network timeout"),
+]
+INFRA = re.compile("|".join(f"(?:{p})" for p, _ in INFRA_KEYS))
 SECTION = re.compile(r"^(?:There (?:was|were) \d+|\d+ tests? triggered \d+(?: PHPUnit)?) (failures?|errors?|deprecations?|notices?|risky tests?|warnings?):")
 
 # Deterministic classification rules (first match wins). Edit/extend here, then re-run `all`.
@@ -233,11 +239,30 @@ def parse_log(text):
             found.append({"key": key, "kind": "fatal", "section": "fatal", "raw": line[:200],
                           "excerpt": msg[:200], "component": component})
             continue
+        m = INFRA.search(line)
+        if m:
+            key = next(k for pat, k in INFRA_KEYS if re.search(pat, line))
+            if not any(f["key"] == key for f in found):
+                found.append({"key": key, "kind": "infra", "section": "infra", "raw": line[:200],
+                              "excerpt": scrub(line.strip())[:200], "component": component})
+            continue
+        if line.strip() == "An error occurred inside PHPUnit.":
+            msg = next((x.strip() for x in lines[i + 1:i + 4] if x.startswith("Message:")), "Message: ?")
+            obj = next((re.search(r"Object\(([\w\\]+Test)\)", x) for x in lines[i + 1:i + 40]
+                        if re.search(r"Object\(([\w\\]+Test)\)", x)), None)
+            meth = next((re.search(r"build(?:DataProviderTestSuite)?\(.*?'(test\w*)", x) for x in lines[i + 1:i + 40]
+                         if re.search(r"build(?:DataProviderTestSuite)?\(.*?'(test\w*)", x)), None)
+            key = "PHPUNIT-ERROR " + (obj.group(1) if obj else "?") + (f"::{meth.group(1)}" if meth else "")
+            found.append({"key": key, "kind": "phpunit-error", "section": "phpunit-error", "raw": line[:200],
+                          "excerpt": msg[:200], "component": component})
+            continue
         m = TIMEOUT_COMPONENT.match(line)
         if m:
             comp = m.group(1).replace("\\", "/")
             found.append({"key": f"TIMEOUT {comp}", "kind": "timeout", "section": "timeout",
                           "raw": line[:200], "excerpt": line[:200], "component": comp})
+    if any(f["kind"] != "infra" for f in found):  # packagist warnings also appear in jobs that fail for other reasons
+        found = [f for f in found if f["kind"] != "infra"]
     return found, lines
 
 
@@ -285,6 +310,8 @@ def classify(key, kind, occ):
         return "unknown", "failing test not visible in log (re-fetch full log)"
     if kind == "deprecation":
         return "real", "deprecation"
+    if kind == "infra":
+        return "flaky", "CI infrastructure (composer download), not a test"
     for pat, why in REAL_PATTERNS:
         if re.search(pat, text, re.I):
             return "real", why
