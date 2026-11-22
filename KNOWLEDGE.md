@@ -12,7 +12,8 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 ## 0. Sessions and in-progress work (update when it changes)
 - **Coordinator:** session `<session>` (since 2026-11-22 12:00 UTC; replaced `<session>`). It owns the backlog, fixer sessions, fix #2 and the user's waiting list, and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
 - **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
-- **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`).
+- **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`). Inactive; its startup-retry patch is dropped (it doesn't address the failure).
+- **Fix #2 root cause (2026-11-22):** amphp/sql-common v2.0.5 `SqlCommonConnectionPool::close()` completes `onClose` before its connections finish closing, so the SQLite child still holds the file. Repro: `<session>`, branch `repro-pool-close-race` on clfer/amp-sqlite3-fork. Upstream fix (issue + PR, user decision): `<session>`, source clfer/sql-common, branch `fix-pool-close-await-connections`.
 - **Review/PR orchestrator:** `<session>` (v2, since 2026-11-22 11:57 UTC; replaced `<session>`). It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
   - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
 - **Fix #3 (Config ResourceCheckerConfigCacheTest):** `<session>`, branch `fix-config-cache-one-corrective-build` (8.2). Repro branch `ci-repro-config`.
