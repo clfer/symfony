@@ -38,6 +38,15 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 ### Starting sessions
 - **USER RULE:** every new session (create_session) starts with `permission_mode: "auto"`, unless the user explicitly asks for another mode.
 
+### Communication budget (user rule, 2026-11-22)
+Each `send_message` wakes the receiver for a full turn, which re-reads its whole context: hundreds of thousands of tokens on a long session. A repeated sentence costs almost nothing; an extra wake-up costs a lot.
+1. **The board is the only status channel.** Write status to your own board record. Never send a message only to say "board updated" or to repeat a status.
+2. **Message only when the receiver must act or decide:** a verdict, a blocker, a request, or a new rule. No acknowledgements, no FYI.
+3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in the board note `dash/notes/waiting-on-user`, or in its own replies if the board has no such note. Other sessions mention a pending user item once, when it is new, then never repeat it.
+4. **No double relays.** A child reports to its parent only. The parent forwards to the coordinator only what changes its plans. A fact or rule is sent to a given session by exactly one sender.
+5. **Short user replies.** List only new items. For everything else, point to the board.
+6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in section 0 before you hand over.
+
 ## 1. Workflow (one fix at a time)
 1. **Pick** the top `flaky` row in `flaky-scan/BACKLOG.md` with status `new` or `triaged`.
 2. **Check for duplicates.** Run both searches, because the search API requires `is:issue` or `is:pull-request`:
