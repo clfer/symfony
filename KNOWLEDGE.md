@@ -16,6 +16,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Review/PR orchestrator:** `<session>`. It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
   - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
 - **Fix #3 (Config ResourceCheckerConfigCacheTest):** `<session>`, branch `fix-config-cache-one-corrective-build` (8.2). Repro branch `ci-repro-config`.
+- **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
 - **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
 ### Live status board (single place for fix status)
@@ -68,6 +69,7 @@ Then read this file and `flaky-scan/BACKLOG.md`.
   - PHPUnit 13 `--repeat` does not repeat; loop in the shell instead.
   - **Docker Hub 429:** `docker build` can fail with `429 Too Many Requests` on `php:8.4-cli` (rate limit, not a proxy block). Retry with backoff (30 s, 60 s, ...); it succeeded on the 3rd try (2026-11-21).
   - The first `./phpunit` call installs PHPUnit into `.phpunit/` and takes ~15 min: GitHub dist downloads time out ("Could not authenticate against github.com") and Composer falls back to git clones. Later calls are instant.
+  - **HttpClient tests in Docker:** `php84.sh` passes the proxy variables, and an empty `HTTP_PROXY`/`http_proxy` makes every HttpClient test error with `Invalid HTTP proxy: host is missing`. Run tests as `php84.sh env -u HTTP_PROXY -u http_proxy -u HTTPS_PROXY -u https_proxy -u NO_PROXY php phpunit …` (keep them for `composer`).
   - Pre-existing local failure on 8.2 in Docker: `XmlUtilsTest::testLoadFile` ("is not readable" expected), because the container runs as root and `chmod 0` doesn't stop root. Ignore it.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
@@ -84,6 +86,8 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - A Windows VM or Windows containers are impossible here (no /dev/kvm, Linux kernel).
 - **Own copy per fix:** branch `ci-repro-<slug>` from `origin/ci-windows-repro`. Add your branch name to `on.push.branches`, or a push won't trigger the run. Push the fix on top as a second commit for the "after" run; both runs go in parallel.
 - **Timing:** install ~1 min, Phase A ~5 min for 200 iterations of a 1 s test, Phase B ~25 min (CPU contention slows phpunit start-up a lot). `get_job_logs` returns 404 until the job has finished. The log is one long line: grep the saved file for `PHASE . RESULT`.
+- **Before/after an upstream fix in one run:** add a matrix `variant: [current, pre-fix]` and a step `if: matrix.variant == 'pre-fix'` that runs `git apply -R .github/repro/<fix>.patch` (the patch is `git diff <upmerge>^1 <upmerge> -- <files>` on the repro base). The fix's own regression tests failing in every pre-fix iteration proves the revert took effect (fix #4, run 44956288177).
+- **Prove the tests ran:** a filter that matches nothing exits 0. Print the `Tests:`/`OK (` line on success too (strip ANSI first: lines start with escape codes, so `^OK` misses).
 - **A 0/N result does not clear a race**: the upstream job runs the whole `src\Symfony` suite in parallel, so its timing differs. Back a fix with a deterministic simulation of the mechanism.
 
 ## 3. Symfony conventions for flaky tests
@@ -96,10 +100,12 @@ Then read this file and `flaky-scan/BACKLOG.md`.
 - **Test servers:** the HttpClient tests use the `TestHttpServer` PHP built-in server on ports 8057/8067/8077 + offset (`self::port()`). This server is single-threaded, so concurrent requests to the same port are serialized.
 
 ## 4. Running tests locally
-- **Pitfall — IPv6:** the container has no IPv6. `CurlHttpClientTest::testIPv6Resolve` and `testBindToPortV6` **hang**. Exclude them:
+- **Pitfall — IPv6:** the container has no IPv6. `CurlHttpClientTest::testIPv6Resolve` and `testBindToPortV6` **hang**, and so does `AmpHttpClientTest` (same inherited tests). Exclude them:
   `./phpunit src/Symfony/Component/HttpClient/Tests/CurlHttpClientTest.php --exclude-group network,tty,benchmark --filter '/^(?!.*(IPv6|V6)).*$/'`
 - **Pitfall — proxy:** the container's `http(s)_proxy`/`no_proxy` variables make `HttpClient` `testProxy*` fail. Unset them, or expect those 2 failures.
 - **6.4 vs 7.4 Windows:** 6.4 runs HttpClient sequentially (windows.yml:119-121, 133-135); 7.4 runs it concurrently, which explains why timing flakes there are 7.4+ only.
+- **Pitfall — `AmpHttpClientTest::testUnixSocket`** errors locally (`Connection to 'docker:80' failed`), also on unmodified 7.4. Ignore it.
+- **Pitfall — shared ports:** never run a second HttpClient test process while a loop runs: both use `TestHttpServer` on 8057/8067 and kill each other's server (`Connection to tcp://localhost:8057 refused`). Discard such a loop.
 - **Timeouts:** always wrap long runs in `timeout <secs>` and use `--debug` to find the test that hangs.
 
 ## 5. PR rules and text
@@ -109,6 +115,8 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 | Signature | Cause | Usual fix |
 |---|---|---|
 | `Idle timeout reached for "http://localhost:80x7/timeout-header"` and `TransportExceptionInterface expected`, Windows only | 50 ms margin (server sleeps 300 ms, client timeout 250 ms) on a 2-core Windows runner | `transient-on-windows` |
+| `Idle timeout reached for "http://localhost:8057/timeout-body"` in `AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout`, Windows only | server sends `<1>`, sleeps 0.5 s, sends `<2>`; client timeout 0.3 s, pause 0.8 s. Idle time counts from pause expiry, so the fiber has 0.3 s after the pause to deliver buffered data/EOF | `transient-on-windows` (same family as #66077) |
+| Amp `handlesActivity`/`openHandles` not empty after cancel/close (`two arrays are identical`, `actual size 1 matches expected size 0`), before 2026-11-16 | response fiber appended `[null, $e]` after the canary removed the handle (leak on cancel) | fixed upstream by #68198; check the failing SHA against the upmerge that brought it |
 | `Remaining direct deprecation notices (N)` in high-deps | a new dependency release | REAL, not flaky |
 | `cannot extend final class` in lowest-php | a dependency release | REAL |
 | `Failed asserting that false is true.` on `$cache->isFresh()` after a rebuild (Config, test with real `sleep()`) | test mixes the real `time()` and filesystem mtimes. `ResourceCheckerConfigCache::write()` backdates the meta by `time() - buildTime`, read *after* `dumpFile()` set the mtime. A second boundary in between over-backdates by 1 s | test-only: `#[Group('time-sensitive')]` + ClockMock (product behaviour is the safe direction) |
@@ -118,11 +126,13 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 - Repro scripts for SQLite races are in the session scratchpad; the pattern is 3 background `php` processes on the same fresh file, ×300.
 - **Check the clock hypothesis before building on it.** For fix #3 the obvious guess ("NTFS mtimes lag PHP `time()`") was only marginally true. A probe on windows-2022 (`.github/clock-probe.php` on `ci-repro-config`) showed 0/20000 on one runner, and 3/20000 with ≤ 0.2 ms lag on another. The main window is between two operations, not between two clocks: `time()` is read after `dumpFile()` (temp file + rename) has set the mtime. Fix #3 Windows repro: before 0/400, after 0/400 (runs 44952497179, 44953962727). `repro/config-cache-clock-skew.php` simulates it by shifting `time()` in the class namespace.
 - **ClockMock is registered per namespace for the whole process.** Once any `time-sensitive` test in `Tests\Resource` has run, `time()` in `Symfony\Component\Config\Resource` is mocked too. A test can then pass alone and fail in the component run (FileResource's same-second hash decision uses `time()`). Always run the whole component, not just the class, after adding ClockMock. Moving the mocked clock *forward* broke it; starting it in the past (`ClockMock::withClockMock(time() - 10)` then `sleep(10)`) keeps it aligned with the real clock.
+- **Date the failure against the upmerge, not the PR merge.** An upstream fix reaches 7.4/8.x hours later through `Merge branch 'X' into 'Y'`. Fix #4: #68198 merged on 6.4/7.4 at 10:51, reached 8.2 at 13:56 (4107c1eb622); the 8.2 failure was on ee61eda818 (13:35), so it predates the fix. Check with `git merge-base --is-ancestor <fix> <failing-sha>`.
 - **Push the commit message right the first time, or use a new branch name.** Force-push is forbidden. Fix #3's first branch (`fix-config-cache-corrective-build-clock`) had a wrong explanation and a `Claude-Session` trailer, so it was superseded by a new branch instead of amended.
 
 ## 7. Fix log
 | # | Test | Branch | Fix branch | Status | Notes |
 |---|---|---|---|---|---|
+| 4 | `HttpClient\Tests\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout` (+ `testBackpressureWhileOtherFibersRun` #2, `testHandleIsRemovedOnException`) | 7.4 | `fix-amp-pause-during-body-transient-windows` (98006dc0a77) | fix-proposed (pause test); other two: no change, likely fixed by #68198 | Pause: timing margin, tagged like #66077. Backpressure (8.2, ee61eda818) and HandleIsRemoved (7.4, 51d218e1cf) both failed before #68198 reached their branch. Repro, all 0 failures: Windows filtered 400 runs (run 44952763217, current + #68198 reverted, A+B), Windows whole class 100 runs (run 44956288177, 161 tests each); Linux 7.4 taskset+3 burners 300 runs; Linux 8.2 Docker `--cpus=0.5` 300 runs. Not reproducible anywhere, so the tag rests on the mechanism and precedent, not on a repro. |
 | 2 | `Messenger\Bridge\AmpSql\…\AmpSqlTransportTest::testSetupIsIdempotent` and `AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed` | 8.2 | - | waiting for driver session | CI causes (PHP 8.4.1, Windows, fabpot/amphp-sqlite3 v1.1.0): (a) `Could not start the SQLite child process: Unable to prepare statement: database is locked` (2 concurrent connections opening a fresh file); (b) `…: Starting the process failed` (Windows process spawn). Plain SQLite reproduces a lock race on Linux: 3 concurrent opens of a fresh file, `PRAGMA journal_mode=WAL` gives SQLITE_BUSY (code 5) without the busy handler, ~1-5% of opens. The driver already retries this in `enableWal()`, and the real driver on PHP 8.4.28 Linux showed 0 failures in 400 opens. The Windows failure is at *prepare* time, which is likely an earlier startup statement that is not retried. Can't reproduce on Linux. | Windows fork repro (run 44952026059, same setup as upstream): **0/100 alone, 0/100 under CPU load**. The tests only fail inside the full parallel suite.
 | 1 | `HttpClient\Tests\CurlHttpClientTest::testTimeoutOnDestruct` | 7.4 | `fix-curl-timeout-on-destruct-windows` | green; compare URL handed to user (2026-11-21) | Adds `transient-on-windows`, like the AmpHttpClientTest override (#66077). CI runs 43843829136 and 43872663191. Review: timing contention (50 ms margin), base 7.4 (not seen on 6.4), no duplicates. Full class run: 174 tests, only `testProxy*` fail (proxy variables). |
 

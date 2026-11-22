@@ -160,7 +160,7 @@
     "title": "[HttpClient] Give the socket servers of the tests more time to start, and mark the out-of-order backpressure test of Amp"
    }
   ],
-  "notes": "not covered by #68183; check #68198",
+  "notes": "likely fixed by #68198: failing SHA ee61eda818 predates its 8.2 upmerge 4107c1eb622; 0 failures in 800 runs (8.2 only) incl. #68198 reverted; no change proposed",
   "occurrences": [
    {
     "branch": "8.2",
@@ -176,7 +176,7 @@
   ],
   "owner": "",
   "reason": "ordering / leftover state",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException": {
   "classification": "flaky",
@@ -194,7 +194,7 @@
     "title": "[HttpClient] Mark the max-connect-duration test of AmpHttpClient as transient on Windows"
    }
   ],
-  "notes": "possibly fixed by #68198 (AmpHttpClient leak on cancel)",
+  "notes": "likely fixed by #68198 (failure 2026-11-14 predates it on 7.4); not reproduced even with #68198 reverted (0/1100); no change proposed, re-open if it recurs",
   "occurrences": [
    {
     "branch": "7.4",
@@ -210,7 +210,7 @@
   ],
   "owner": "",
   "reason": "ordering / leftover state",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout": {
   "classification": "flaky",
@@ -219,7 +219,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout",
   "kind": "test",
   "links": [],
-  "notes": "no issue/PR found",
+  "notes": "timing margin (0.3 s after a 0.8 s pause); transient-on-windows on fix-amp-pause-during-body-transient-windows (7.4, 98006dc0a77), precedent #66077; not reproduced (0/1100 runs Win+Linux)",
   "occurrences": [
    {
     "branch": "8.2",
@@ -235,7 +235,7 @@
   ],
   "owner": "",
   "reason": "timeout",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct": {
   "classification": "flaky",
