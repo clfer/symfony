@@ -149,6 +149,11 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
   - **HttpClient tests in Docker:** `php84.sh` passes the proxy variables, and an empty `HTTP_PROXY`/`http_proxy` makes every HttpClient test error with `Invalid HTTP proxy: host is missing`. Run tests as `php84.sh env -u HTTP_PROXY -u http_proxy -u HTTPS_PROXY -u https_proxy -u NO_PROXY php phpunit …` (keep them for `composer`).
   - Pre-existing local failure on 8.2 in Docker: `XmlUtilsTest::testLoadFile` ("is not readable" expected), because the container runs as root and `chmod 0` doesn't stop root. Ignore it.
 - **Docker:** the daemon isn't running at start. Start it with `dockerd &`. Pulling images from Docker Hub works (tested with `redis:6.2.8`).
+- **`gh` with the user's token (tested 2026-11-22):** the user saved a GitHub token as a Network secret for `api.github.com`. Run `gh` with a dummy `GH_TOKEN=ghp_0000…`; the proxy injects the real token.
+  - Works: `gh api user` → `clfer`. It can't tell whether the token or the proxy's own GitHub credential answered.
+  - Blocked: the proxy's per-session repo gate runs before the token. `gh api repos/symfony/symfony/pulls/68320` and `repos/amphp/sql-common/pulls/10` both return HTTP 403 "GitHub access to this repository is not enabled for this session. Use add_repo to request access…". The token does NOT bypass it, so only repos attached with `add_repo` can be reached.
+  - `gh pr checks` (GraphQL) is always 403: "GitHub GraphQL is not available from Claude Code sessions; use the REST API". Use `gh api repos/{o}/{r}/commits/{sha}/check-runs` instead.
+  - `docs.github.com` is now allowed.
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
 
 ## 2b. Reproducing Windows-only flakes (fork GitHub Actions)
