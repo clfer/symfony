@@ -48,6 +48,7 @@ The old coordinator (`<session>`, ~590k context) hit the usage limit before writ
    - clfer/amp-sqlite3-fork: `review-busy-test-on-v1.1.0`
 
 **Open work:** the #68316 investigation (slow endpoint for `testTimeoutOnDestruct` only), started by the new orchestrator.
+  - Investigation session: `<session>` (branch `investigate-timeout-on-destruct-slow-endpoint`, 7.4), child of orchestrator v2.
 
 **Scheduled tasks:** none for this project.
 
