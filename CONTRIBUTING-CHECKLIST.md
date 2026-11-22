@@ -1,7 +1,7 @@
 # Symfony PR checklist (for flaky-test fixes)
 
 Each rule links to its source. **Re-verify before each PR**, and edit this file only when something changed (update the date).
-Last verified: 2026-11-21 (PR session `<session>`).
+Last verified: 2026-11-21 (PR session for fix #1).
 
 | Rule | Source |
 |---|---|

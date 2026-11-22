@@ -7,149 +7,23 @@ To load it in a new session:
 ```bash
 git fetch origin flaky-kb && git worktree add ../flaky-kb origin/flaky-kb
 ```
-Then read this file and `flaky-scan/BACKLOG.md`.
+Then read this file, `flaky-scan/BACKLOG.md` and the status board (section 0).
 
-## 0. Sessions and in-progress work (update when it changes)
-- **Coordinator:** session `<session>` (since 2026-11-22 12:00 UTC; replaced `<session>`). It owns the backlog, fixer sessions, fix #2 and the user's waiting list, and keeps this file consistent. Child sessions report to it with `mcp__claude-code-remote__send_message`.
-- **Upstream CI scan:** `<session>` (source symfony/symfony, read-only).
-- **Fix #2 driver patch:** `<session>` (source clfer/amp-sqlite3-fork, branch `fix-startup-busy-retry`). Inactive; its startup-retry patch is dropped (it doesn't address the failure).
-- **Fix #2 root cause (2026-11-22):** amphp/sql-common v2.0.5 `SqlCommonConnectionPool::close()` completes `onClose` before its connections finish closing, so the SQLite child still holds the file. Repro: `<session>`, branch `repro-pool-close-race` on clfer/amp-sqlite3-fork. Upstream fix (issue + PR, user decision): `<session>`, source clfer/sql-common, branch `fix-pool-close-await-connections`.
-- **Fix #9 (Mime AddressTest broken by egulias/email-validator 4.x-dev, real break):** `<session>` (source clfer/symfony). Suspect egulias PR #428.
-- **Fix #8 (AmpSql bridge awaits pool onClose, companion of #2):** `<session>`, branch `fix-ampsql-await-pool-close` (8.2). PR (a) `fix-ampsql-transient-on-windows` goes through the orchestrator (user approved 2026-11-22). Independent review: `<session>` (child of orchestrator v2). Fix #8 (bridge awaits pool onClose, `fix-ampsql-await-pool-close`) review: `<session>`.
-- **Review/PR orchestrator:** `<session>` (v3, since 2026-11-22 20:40 UTC; replaced v2 `<session>`). It gets each ready fix from the coordinator, starts an independent review session and, on a GREEN verdict, a PR session that opens a draft PR (or produces a compare URL). Children report to it.
-  - Review of fix #1: `<session>` (GREEN). PR session for fix #1: `<session>` (compare URL; create_pull_request not possible, see CONTRIBUTING-CHECKLIST.md).
-- **Fix #3 (Config ResourceCheckerConfigCacheTest):** `<session>`, branch `fix-config-cache-one-corrective-build` (8.2). Repro branch `ci-repro-config`.
-- **Fix #4 (AmpHttpClientTest cluster: PauseDuringBody, BackpressureWhileOtherFibersRun, HandleIsRemovedOnException):** `<session>`, branch `fix-amp-pause-during-body-transient-windows` (7.4; supersedes `fix-amp-pause-during-body-windows`, which has a `Claude-Session` trailer). Repro branch `ci-repro-amphttp`.
-- **Other sessions:** one fix per session. When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
+## 0. Sessions, status and handovers (private board)
+This branch is public, so session IDs, handovers and the user's waiting list are **not** kept here. They live on the private status board, an artifact titled "Flaky-test fixes": find its URL with the Artifact tool (`action: "list"`), or ask the user.
+- **Read first:** `data/flaky/sessions/current` (live sessions, who reports to whom, in-progress work), then the latest `data/flaky/sessions/user-handoff-*` and `handover-*` documents, then `data/flaky/fixes`.
+- **Write:** ArtifactData on collection `data/flaky/sessions`. Update `current` when a session starts, hands over or ends (`get`, then `update` with `if_version`). A handover is a new document `handover-<YYYY-MM-DD>-<role>` with fields `title`, `text` (markdown), `updated_at`, `updated_by`. Move superseded lines out of `current` instead of piling them up.
+- **Never** write session IDs, scheduled-task IDs or the board URL in this repository (files or commit messages). Refer to sessions by role (`fix-03 fixer`, `orchestrator`).
+- When you push `flaky-kb` and the push is rejected, run `git pull --rebase origin flaky-kb` and push again. Never force-push.
 
-### User handoff for desktop resume (written 2026-11-22 ~22:05 UTC by orchestrator v3)
-Read this block first. Status details: board <board URL>. Lines 13-23 above are partly history (older session IDs); this block and "Current sessions" are current.
-
-**1. PR description edit to paste (symfony/symfony#68320)**
-Replace:
-> A fix will be proposed to `amphp/sql-common` (link to follow), with a companion change in this bridge that waits for the closed pool before reconnecting.
-
-with:
-> A fix is proposed upstream in amphp/sql-common#10 (issue amphp/sql-common#9), with a companion change in this bridge that waits for the closed pool before reconnecting (#68322).
-
-No other PR description needs a change (fix #8 PR #68322 already links #9, #10, #68320; fix #5's prefilled text already cites `DateTimeValueResolverTest::provideInvalidDates`).
-
-**2. Open points (who acts)**
-| # | Item | Who | Where |
-|---|---|---|---|
-| a | Paste the #68320 edit above | user | GitHub |
-| b | Open fix #5 PR (6.4, branch `fix-inline-fragment-renderer-ignore-request-time`, title "[HttpKernel] Fix transient failure of InlineFragmentRendererTest") from board fix-05 `draft_link`; send the URL to the orchestrator | user | board |
-| c | #68316 (fix #1): apply the skip-free "slow endpoint" alternative or keep the `transient-on-windows` tag. Viable on 7.4 (`investigate-timeout-on-destruct-slow-endpoint` @ 67d69cb10b) and 8.2 (`…-82` @ 1cd8470a82); evidence in board fix-01 note. Applying it needs a force-push to `fix-curl-timeout-on-destruct-windows` (user OK) or a new PR | user | board fix-01 |
-| d | Fix #9 (Mime `AddressTest::testConstructorWithACommentAfterADomainLiteral`, real break from egulias/email-validator 4.x-dev 9bef884, #428): test-only fix on 6.4 `fix-mime-comment-after-domain-literal` @ ed3f3a43ed, review GREEN (`<session>`). Open the PR from board fix-09 `draft_link`; it unblocks (e) and (f) once merged up | user | board fix-09 |
-| e | #68320: 6/14 checks red, all on the fix #9 Mime test (unrelated to the PR; CI scan, runs 45063448185, 45063448086). Stays `created` until #9 lands upstream and checks are re-run | upstream / fix #9 | board fix-02 |
-| f | #68322 (fix #8): `created`; checks read 22:24Z: AmpSql/Messenger OK on Linux 8.4-8.7 and Windows; 6/14 red only on the fix #9 Mime test. Same as (e) | upstream / fix #9 | board fix-08 |
-| g | amphp/sql-common#10: checks not readable from cloud sessions; tell the orchestrator when green → `ready-for-review` | user | board fix-02-sqlcommon |
-| h | Branch deletions listed in "Coordinator handover" below (clfer/symfony ×6, clfer/amp-sqlite3-fork ×1): not confirmed done; cloud proxy refuses ref deletion | user | GitHub |
-| i | Leftover idle sessions to archive once their items close: fix #8 fixer `<session>`, sql-common fixer `<session>`, repro `<session>`, gh setup `<session>`, orchestrator v2 `<session>` | any | - |
-
-Ready for review, waiting on maintainers: #68316 (fix #1), #68317 (fix #3), #68318 (fix #4).
-
-**3. Current organization of sessions (cloud, all `auto` mode)**
-```
-user ── coordinator v2 <session>  (backlog, fixers, "waiting on user" list)
-          ├─ fixer per fix (now: fix #9 <session>)
-          ├─ CI scan <session>  (only session attached to symfony/symfony: reads Actions/PR checks)
-          └─ review/PR orchestrator v3 <session>
-                ├─ independent review session per fix (GREEN / CHANGES-NEEDED / REJECT)
-                └─ prepares PR text + prefilled compare URL → board `draft_link` → user opens PR
-State: KB = this orphan branch `flaky-kb` (durable knowledge); board artifact = status (one record per PR).
-```
-Constraints that shaped it (cloud only): one repo name per session (clfer/symfony vs symfony/symfony), no PR creation/edit on symfony/symfony or amphp (GitHub App not installed; proxy gates `gh` per attached repo even with the user's token, KB §2), PHP 8.4 only via Docker, Windows only via fork Actions.
-
-**4. Keep / improve / drop / start (for organizing local work)**
-Written by orchestrator v3 from this session's history, not by an independent agent; challenge it.
-- **Keep**
-  - Independent review before any PR. It caught real problems: fix #3's first explanation was wrong, the fix #8 and sql-common PR texts over-claimed, and the fix #5 description needed the real trigger.
-  - Deterministic injection repros (stall or clock shift at the suspected point) over long loops. A 0/N loop never proved anything (fix #2, #4).
-  - The orphan `flaky-kb` branch for durable knowledge, plus CONTRIBUTING-CHECKLIST.md with sources and dates.
-  - The user rules: author/committer = you, no `Claude-Session` trailer, root cause stays "likely", no GitHub comments by agents.
-  - Dating failures against the upmerge (`merge-base --is-ancestor`) and checking upstream CI-config PRs first. This rejected #6 cheaply.
-- **Improve**
-  - Too many layers: coordinator → orchestrator → reviewer/PR session → relays. Each message re-reads a large context.
-    - The day had 2 coordinators and 3 orchestrators, so a lot of tokens went to handovers.
-    - Locally, one lead session with subagents or worktrees is likely enough.
-  - KB §0 grows into a session diary; old session lines pile up and contradict each other (lines 13-23).
-    - Keep §0 to the current sessions only, and move history to the git log.
-  - Status is kept twice: the board, plus the KB fix log, which lags (#1, #2 rows are stale).
-    - Pick one: the board, or GitHub PRs/labels once you have direct `gh` access.
-  - Some hand-offs to the user were mobile-hostile (long compare URLs, sentences to copy).
-    - Locally, agents can edit PR bodies with `gh pr edit` if you allow it (assumption: your desktop `gh` is authenticated; verify).
-- **Drop**
-  - Separate "PR sessions" and the prefilled compare-URL dance, if `gh pr create` works from your desktop. Keep your manual "open PR" click as the approval gate if you want it.
-  - Cloud workarounds: the gh token in Network secrets, add_repo attempts, and full-log blob downloads. Your local `gh` should read checks and logs directly (verify).
-  - A dedicated long-lived CI-scan session; run `gh run list/view --log-failed` on demand instead.
-  - Long Windows loop repros without an injection hypothesis (25-30 min per run, usually 0/N).
-- **Start**
-  - One local repo with `git worktree` per fix, a local PHP 8.4 (or the `php84.Dockerfile` image), and the KB checked out next to it.
-  - A small pre-push check script: author/committer, no `Claude-Session`, base branch, and only test files touched for test-only fixes. It replaces the reviewer's mechanical checks.
-  - Before each fix, check whether upstream already fixed it or a dependency moved:
-    - `gh pr list -R symfony/symfony --search <test>`;
-    - check the CI composer log for changed dev-dependency hashes. This found fix #9.
-  - Scheduled check of your open PRs' checks (`gh pr checks`), so the board updates itself instead of you asking.
-  - A budget per fix (time and tokens), with a stop rule. Fix #2 spawned 6+ sessions across 3 repositories.
-
-### Current sessions (since 2026-11-22 12:00 UTC)
-- **Coordinator v2:** `<session>`. The user talks to it. It owns the backlog, the fixers and the "waiting on the user" list.
-- **Review/PR orchestrator v2 (handed over ~20:15 UTC):** `<session>`. It reports to coordinator v2.
-- **Review/PR orchestrator v3:** `<session>`. It reports to coordinator v2.
-- **Archived:** old coordinator `<session>`, old orchestrator `<session>`, and their finished children. Any earlier section 0 line that names them is history.
-
-### Orchestrator v2 → v3 handover (2026-11-22 ~20:15 UTC)
-Orchestrator v2 `<session>` handed over on the user's request (clean context). v3: see "Current sessions" above. Board = status source; every record now has `repo` and `summary` (≤20 words, who acts next); one record per PR (see the board protocol below).
-
-**Pending for the orchestrator:**
-1. **Fix #2 sql-common** (`fix-02-sqlcommon`): issue amphp/sql-common#9 and PR amphp/sql-common#10 opened by the user (PR head = 1b65721a54, the reviewed commits, verified via `git fetch https://github.com/amphp/sql-common refs/pull/10/head`). Stage `created`. Move to `ready-for-review` once its checks are green (nothing here can read amphp checks; ask the user, or the gh setup session if it works).
-2. **Fix #2 Symfony PR (a)**: symfony/symfony#68320, stage `created`. The user must paste an updated description (sql-common links); text: replace "A fix will be proposed to `amphp/sql-common` (link to follow), with a companion change in this bridge that waits for the closed pool before reconnecting." with "A fix is proposed upstream in amphp/sql-common#10 (issue amphp/sql-common#9), with a companion change in this bridge that waits for the closed pool before reconnecting (follow-up PR, link to follow)." The gh setup session may do it if the user allows. Ask the CI scan session `<session>` for #68320 checks → `ready-for-review`.
-3. **Fix #8** (`fix-ampsql-await-pool-close` @ c672bbb0b2, 8.2): GREEN, `draft_link` ready (text links #9, #10, #68320). Waiting for the user to open it. Then give the user one line for #68320 replacing "follow-up PR, link to follow" with the fix #8 PR number.
-4. **Fix #5**: green, `draft_link` ready, waiting for the user.
-5. **#68316 (fix #1)**: slow-endpoint alternative VIABLE on 7.4 (`investigate-timeout-on-destruct-slow-endpoint` @ 67d69cb10b) and 8.2/amphp-http-client v5 (`…-82` @ 1cd8470a82); details in board fix-01 note. User decides whether to apply it to #68316 (push to `fix-curl-timeout-on-destruct-windows`; force-push only with the user's OK).
-
-**Live child sessions (report to v2's ID; told the new ID at handover):**
-- gh/token setup: `<session>` (user adds a GitHub token as a Network secret for api.github.com; read-only tests first; no writes until the user lists allowed actions; writes the outcome in §2).
-
-**Finished children of v2 (can be archived):** #68316 investigation `<session>`; sql-common review `<session>`; fix #8 review `<session>`.
-
-**Lessons (2026-11-22):**
+### Lessons from the 2026-11-22 handovers
 - Every github.com / api.github.com request goes through the session proxy; for a repo not attached to the session it answers 403 "GitHub access to this repository is not enabled for this session". `add_repo` read access on a public repo attaches nothing: anonymous git fetch works (including `refs/pull/N/head`), the API doesn't. `add_repo` push for amphp/sql-common was refused by the permission classifier; don't route around a refusal from another session.
 - request_credential does not cover GitHub; a token goes in the environment's Network secrets, entered by the user.
 - Board page: a field holding two values breaks its link (fix_branch); one record per PR instead.
 - Text claims: keep a root cause "likely" when only an injected repro exists (user decision for #68320, fix #8, sql-common issue).
 
-### Coordinator handover (2026-11-22 11:58 UTC)
-The old coordinator (`<session>`, ~590k context) hit the usage limit before writing this block, so the orchestrator wrote it from `list_sessions` and the coordinator's last replies.
-
-**Live sessions (may still be needed):**
-- `<session>`: CI scan, source symfony/symfony. Read-only. Reads upstream Actions and PR checks (used to move PRs to `ready-for-review`).
-- `<session>`: amp-sqlite3 author, source clfer/amp-sqlite3-fork. Owns branch `fix-startup-busy-retry-pr` @ 23edff9 (authored by the user), with the draft issue/PR text for fabpot/amp-sqlite3. Needed for fix #2 (b) PR prep.
-
-**Finished (archived at handover):**
-- Fix #3 fixer `<session>`
-- Fix #4 fixer `<session>`
-- Fix #5 fixer `<session>`
-- Fix #6 `<session>`: rejected, fixed upstream by #68270.
-- Fix #7 `<session>`: rejected, no new candidates.
-- CI log reader `<session>`
-- All review/PR children of the old orchestrator
-
-**Waiting on the user (owned by the new coordinator):**
-1. Fix #5: open the PR from the board (`draft_link`), then set the stage to `created`.
-2. Fix #2: choose between a PR to fabpot/amp-sqlite3 directly or an issue first. The old coordinator suggested the issue first (no contribution guide, no merged outside PRs).
-3. Delete branches by hand on GitHub (the session git proxy refuses ref deletion, HTTP 403):
-   - clfer/symfony: `fix-inline-fragment-renderer-request-time`, `fix-config-cache-corrective-build-clock`, `ci-repro-config`, `fix-amp-pause-during-body-windows`, `ci-repro-amphttp`, `ci-repro-attr-route-oom`
-   - clfer/amp-sqlite3-fork: `review-busy-test-on-v1.1.0`
-
-**Open work:** the #68316 investigation (slow endpoint for `testTimeoutOnDestruct` only), started by the new orchestrator.
-  - Investigation session: `<session>` (branch `investigate-timeout-on-destruct-slow-endpoint`, 7.4), child of orchestrator v2.
-
-**Scheduled tasks:** `<task>` (one-shot, 2026-11-22 16:55Z, into the coordinator): resume sessions stopped by the usage limit.
-
 ### Live status board (single place for fix status)
-- Artifact: <board URL> ("Symfony flaky fixes"). One record per fix: `data/flaky/fixes/fix-NN`.
+- Artifact "Flaky-test fixes" (see section 0 for how to find it). One record per fix: `data/flaky/fixes/fix-NN`.
 - **One record per pull request** (user rule, 2026-11-22). A fix that needs a PR in another repository gets a second record with the same `num` (e.g. `fix-02-sqlcommon`). Fields: `repo` (target repository, default `symfony/symfony`; the fix branch link uses the `clfer/<name>` fork), `base` (target branch), `summary` (one sentence, at most 20 words: where it stands and who acts next; shown in the table), `note` (full description, collapsed under the summary), `issue_link` (prefilled new-issue URL when an issue must be opened first), `draft_link` (prefilled compare URL). **Update `summary` together with `note` on every write.**
 - **Update only your own record**, with the ArtifactData tool: `action: "update"`, `url: <artifact>`, `collection: "data/flaky/fixes"`, `doc_id: "fix-NN"`, `data: {stage, note, fix_branch?, pr_url?, updated_at (ISO UTC), updated_by (your session id)}`.
   - **Version check:** `get` the record first and pass its `version` as `if_version`. On a version conflict, re-read and redo the write.
@@ -172,10 +46,10 @@ The old coordinator (`<session>`, ~590k context) hit the usage limit before writ
 Each `send_message` wakes the receiver for a full turn, which re-reads its whole context: hundreds of thousands of tokens on a long session. A repeated sentence costs almost nothing; an extra wake-up costs a lot.
 1. **The board is the only status channel.** Write status to your own board record. Never send a message only to say "board updated" or to repeat a status.
 2. **Message only when the receiver must act or decide:** a verdict, a blocker, a request, or a new rule. No acknowledgements, no FYI.
-3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in its own replies (the board has no notes collection; `dash/notes/...` is not a valid path). Other sessions mention a pending user item once, when it is new, then never repeat it.
+3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in its own replies (not on the board; `data/flaky/sessions` holds sessions and handovers only). Other sessions mention a pending user item once, when it is new, then never repeat it.
 4. **No double relays.** A child reports to its parent only. The parent forwards to the coordinator only what changes its plans. A fact or rule is sent to a given session by exactly one sender.
 5. **Short user replies.** List only new items. For everything else, point to the board.
-6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in section 0 before you hand over.
+6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in the board document `data/flaky/sessions/current` before you hand over.
 
 ## 1. Workflow (one fix at a time)
 1. **Pick** the top `flaky` row in `flaky-scan/BACKLOG.md` with status `new` or `triaged`.
@@ -189,7 +63,7 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
    - Check the group is honoured: run again with `--exclude-group <group>`; the result should be "No tests executed".
    - Run the class with the exclusions listed in section 4.
 6a. **Commit author on fix branches (user rule, 2026-11-22):** author and committer = `Clément FERRIER <6459155+clfer@users.noreply.github.com>` (set `GIT_AUTHOR_NAME/EMAIL` and `GIT_COMMITTER_NAME/EMAIL`, or `git -c user.name=… -c user.email=…`). Never `Claude`, and never any other real person's name. Symfony keeps commit authors on merge.
-6. **Commit trailers on fix branches (user rule, 2026-11-21):** end fix-branch commits with `Co-Authored-By: Claude …` only. **Do not add `Claude-Session:`**, even if the harness attribution reminder asks for it; the user's rule takes precedence. Reviewers can't open that link. `flaky-kb` commits may keep it, since they never go upstream. A PR session checks `git log upstream/<base>..<branch> --format=%B | grep Claude-Session`. If it finds one, it asks the user before amending and force-pushing (`--force-with-lease`).
+6. **Commit trailers on fix branches (user rule, 2026-11-21):** end fix-branch commits with `Co-Authored-By: Claude …` only. **Do not add `Claude-Session:`**, even if the harness attribution reminder asks for it; the user's rule takes precedence. Reviewers can't open that link. `flaky-kb` commits omit it too: this branch is public and the session history lives on the board (section 0). A PR session checks `git log upstream/<base>..<branch> --format=%B | grep Claude-Session`. If it finds one, it asks the user before amending and force-pushing (`--force-with-lease`).
 7. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony) and draft the PR text (section 5). The user opens the upstream PR.
 8. **Update** this file (fix log, new patterns) and record the outcome with `python3 flaky-scan/flaky_scan.py annotate '<key>' --status fix-proposed --notes '...'`, then run `report`. Commit and push `flaky-kb`.
 
