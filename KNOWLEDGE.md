@@ -51,6 +51,16 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 5. **Short user replies, own scope only** (user rule, restated 2026-11-23). Say only what is new and inside your own scope. Don't end replies with a recap of pending user items owned by others; e.g. only the coordinator lists "PRs waiting for you to open" (each board record's `summary` already says who acts next). For everything else, point to the board.
 6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in the board document `data/flaky/sessions/current` before you hand over.
 
+### Handover: retarget scheduled tasks (user rule, 2026-11-23)
+- **Expected:** when a session hands over, moving its scheduled tasks to the successor is part of the handover. It needs no separate approval.
+- **Mechanics:** `update_trigger` can't change `persistent_session_id`, so recreate each task: `get_trigger` → `create_trigger` (same name, cron, prompt; `persistent_session_id` = successor) → check the new task exists → `delete_trigger` the old one. Losing the old run history is accepted. Fix stale session IDs in the prompt while you're at it.
+- **Order:** start the successor (its brief lists the tasks it inherits) → retarget → tell the coordinator the new session ID → archive the old session.
+- **Who retargets — weigh it each time:**
+  - *Predecessor (default):* already knows the task IDs, prompts and reasons; each call is expensive on a large context, but there are few calls.
+  - *Successor:* cheap calls, but it must rediscover the tasks (`list_triggers`) from a brief and starts with less context, so it may garble or miss a prompt.
+  - *Dedicated agent whose only job is the retarget:* small, clean context, but one more session to brief. Worth it when the predecessor is past the ~400k handover threshold and has many tasks.
+- **If blocked** (e.g. the safety check denies `create_trigger`): message the successor with each task's ID, name, cron and full prompt, so it can recreate it or ask the user. Never archive while a task still points at the old session without the successor knowing.
+
 ## 1. Workflow (one fix at a time)
 1. **Pick** the top `flaky` row in `flaky-scan/BACKLOG.md` with status `new` or `triaged`.
 2. **Check for duplicates.** Run both searches, because the search API requires `is:issue` or `is:pull-request`:
