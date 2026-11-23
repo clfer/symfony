@@ -48,7 +48,7 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 2. **Message only when the receiver must act or decide:** a verdict, a blocker, a request, or a new rule. No acknowledgements, no FYI.
 3. **The "waiting on the user" list has one owner: the coordinator.** It keeps it in its own replies (not on the board; `data/flaky/sessions` holds sessions and handovers only). Other sessions mention a pending user item once, when it is new, then never repeat it.
 4. **No double relays.** A child reports to its parent only. The parent forwards to the coordinator only what changes its plans. A fact or rule is sent to a given session by exactly one sender.
-5. **Short user replies.** List only new items. For everything else, point to the board.
+5. **Short user replies, own scope only** (user rule, restated 2026-11-23). Say only what is new and inside your own scope. Don't end replies with a recap of pending user items owned by others; e.g. only the coordinator lists "PRs waiting for you to open" (each board record's `summary` already says who acts next). For everything else, point to the board.
 6. **Long sessions:** past roughly 400k context tokens, prefer handing over to a fresh session. KNOWLEDGE.md and the board hold the state, so pending scheduled tasks and child-session IDs go in the board document `data/flaky/sessions/current` before you hand over.
 
 ## 1. Workflow (one fix at a time)
