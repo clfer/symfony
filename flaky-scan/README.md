@@ -34,6 +34,9 @@ all [--repo] = parse + classify + report + candidates
 - `classify`/`all` with `--repo <upstream clone>` (branches fetched as `origin/X.Y`, history back to the fixes) checks every occurrence on a branch at or above a fix branch with `git merge-base --is-ancestor <fix> <occurrence sha>`. An occurrence that contains the fix sets status **`regressed`** (`fix_check.regressed_runs`). Without `--repo` the previous result is kept, so output stays deterministic.
 - An occurrence on a branch *below* every fix branch is not covered by the fix (`fix_check.open_branches`): the entry gets its own candidate file `…--open-<branches>.md`, even when its status is `fixed`.
 
+### Out-of-scope branches
+`scan.json` `out_of_scope_branches` (now `["5.4"]`: maintainers may still backport there, but this KB doesn't work on it) lists branches whose occurrences never make a candidate. `candidates` ignores them when deciding eligibility and the `--open-<branches>` files; they stay in `backlog.json` and `BACKLOG.md` as history, and `collect`/`ingest-mcp` still record them.
+
 ### Lookups (`seen`)
 ```bash
 python3 flaky_scan.py seen --run 45144322785      # in runs.jsonl? which entries did it produce?
