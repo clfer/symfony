@@ -1539,7 +1539,12 @@
   "classification": "unknown",
   "classification_override": "flaky",
   "component": "src/Symfony/Component/Console",
-  "fix_check": {},
+  "fix_check": {
+   "open_branches": [
+    "5.4"
+   ],
+   "regressed_runs": []
+  },
   "fixed_by": {
    "commits": {
     "6.4": "36a715307f7"
@@ -1549,7 +1554,7 @@
   "key": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns",
   "kind": "test",
   "links": [],
-  "notes": "ON HOLD, 5.4 only. Already fixed on 6.4+ by 36a715307f ('fix transient Console output related test', 2025-09-25): the test compares sorted ERR/OUT lines, so their order no longer matters (analyst note 'same data set on 6.4/7.4' was wrong). 5.4 still compares the full output string. Repro (7.4 sources, PHP 8.3 Linux): usleep(0.7 s) injected in Process::start() before the first updateStatus(): the pre-fix test fails data sets #6 (50 ms) and #9 (500 ms) with 'Failed asserting that two strings are equal.'; current 7.4 test passes (17 tests). Fix for 5.4 = backport that commit, not a stdin handshake; held per checklist (5.4-only test fixes wait for a maintainer answer).",
+  "notes": "fixed on 6.4+ by upstream 36a715307f; 5.4-only, out of scope (user rule 2026-11-27); fix-14 rejected",
   "occurrences": [
    {
     "branch": "5.4",
@@ -1566,7 +1571,7 @@
   "owner": "fix-14",
   "reason": "single occurrence, no flaky signature",
   "sig": "972074b4",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse#3afb6ddc": {
   "board": "",
@@ -4858,7 +4863,7 @@
     "title": "Doctrine migrations : the \"amqp\" extension is not installed."
    }
   ],
-  "notes": "REJECT (analyst 2026-11-27): 5.4 Windows wrapper watchdog (simple-phpunit: last suite silent 60 s); a2276ec6ad predates c3857b64b2 (SYMFONY_PHPUNIT_MAX_PARALLEL=12 on 5.4, 2 h later), run was uncapped; no unbounded wait in Doctrine bridge tests; no repeat since",
+  "notes": "5.4 out of scope (user rule 2026-11-27); see analyst note",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4875,7 +4880,7 @@
   "owner": "",
   "reason": "timeout",
   "sig": "56d3c949",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "TIMEOUT src/Symfony/Bridge/Monolog#56d3c949": {
   "board": "",
@@ -4888,7 +4893,7 @@
   "key": "TIMEOUT src/Symfony/Bridge/Monolog",
   "kind": "timeout",
   "links": [],
-  "notes": "WATCH (analyst 2026-11-27, was scan reject): post-cap run (fff709d765). Candidate hang: ServerLogHandlerTest::testWritingAndFormatting stream_select(..., null) waits forever if the async/persistent client drops the record (ServerLogHandler.php:101-106, createSocket :128); test-only change: finite select timeout so it fails by name. Unproven: no log naming the test",
+  "notes": "5.4 out of scope (user rule 2026-11-27); see analyst note",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4967,7 +4972,7 @@
     "title": "[Messenger] Add MongoDB bridge"
    }
   ],
-  "notes": "REJECT (analyst 2026-11-27): same as Doctrine: 4a4695401f predates c3857b64b2 (MAX_PARALLEL=12), uncapped run; Workflow tests do no I/O; no repeat since",
+  "notes": "5.4 out of scope (user rule 2026-11-27); see analyst note",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4984,7 +4989,7 @@
   "owner": "",
   "reason": "timeout",
   "sig": "56d3c949",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "UNATTRIBUTED Integration (8.4)#40b9188f": {
   "board": "",

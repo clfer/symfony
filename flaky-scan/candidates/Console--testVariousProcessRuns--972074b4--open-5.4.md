@@ -7,7 +7,7 @@
 | test | `Symfony\Component\Console\Tests\Helper\ProcessHelperTest::testVariousProcessRuns` |
 | signature | `972074b4` (entry id `Symfony\Component\Console\Tests\Helper\ProcessHelperTest::testVariousProcessRuns#972074b4`) |
 | class | flaky (single occurrence, no flaky signature) |
-| status | triaged |
+| status | wontfix (scope: branches 5.4 not reached by the fix) |
 | owner | fix-14 |
 | board record | fix-14 |
 | branches | 5.4 |
@@ -21,10 +21,11 @@
 
 ## Notes, links and fix status
 
-- Notes: ON HOLD, 5.4 only. Already fixed on 6.4+ by 36a715307f ('fix transient Console output related test', 2025-09-25): the test compares sorted ERR/OUT lines, so their order no longer matters (analyst note 'same data set on 6.4/7.4' was wrong). 5.4 still compares the full output string. Repro (7.4 sources, PHP 8.3 Linux): usleep(0.7 s) injected in Process::start() before the first updateStatus(): the pre-fix test fails data sets #6 (50 ms) and #9 (500 ms) with 'Failed asserting that two strings are equal.'; current 7.4 test passes (17 tests). Fix for 5.4 = backport that commit, not a stdin handshake; held per checklist (5.4-only test fixes wait for a maintainer answer).
+- Notes: fixed on 6.4+ by upstream 36a715307f; 5.4-only, out of scope (user rule 2026-11-27); fix-14 rejected
 - Related issues/PRs (full-text search, may be noise): —
+- The fix does not reach: 5.4 (lower than every fix commit).
 - No upstream fix recorded.
-- KNOWLEDGE.md section 6 pattern: none matched
+- KNOWLEDGE.md section 6 pattern: `Failed asserting that two strings are equal.` in `Console\…\ProcessHelperTest::testVariousProcessRuns` (ERR/OUT data se → already fixed on 6.4+ by 36a715307f (2025-09-25, compares sorted lines); 5.4 needs a backport of it (on hold, 5.4-only)
 
 ## Worker brief
 
