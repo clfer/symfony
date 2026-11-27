@@ -1,0 +1,99 @@
+name: Couchbase repro
+
+on:
+  push: { branches: [ 'ci-repro-couchbase' ] }
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+jobs:
+  repro:
+    name: Couchbase ${{ matrix.variant }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [before, after]
+    env:
+      ITER: 40
+      TEST_FILE: src/Symfony/Component/Cache/Tests/Adapter/CouchbaseCollectionAdapterTest.php
+      BASE_SHA: 7645aabbdc2
+    services:
+      couchbase:
+        image: couchbase:6.5.1
+        ports:
+          - 8091:8091
+          - 8092:8092
+          - 8093:8093
+          - 8094:8094
+          - 11210:11210
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+
+      - name: Revert the fix (before)
+        if: matrix.variant == 'before'
+        run: |
+          git show $BASE_SHA:$TEST_FILE > $TEST_FILE
+          git diff --stat
+
+      - name: Install system dependencies
+        run: |
+          sudo wget -O - https://packages.couchbase.com/clients/c/repos/deb/couchbase.key | sudo apt-key add -
+          echo "deb https://packages.couchbase.com/clients/c/repos/deb/ubuntu2404 noble noble/main" | sudo tee /etc/apt/sources.list.d/couchbase.list
+          sudo apt-get update
+          sudo apt-get install libcouchbase-dev
+
+      - name: Configure Couchbase
+        run: |
+          curl -s -u 'username=Administrator&password=111111@' -X POST http://localhost:8091/node/controller/setupServices -d 'services=kv%2Cn1ql%2Cindex%2Cfts'
+          curl -s -X POST http://localhost:8091/settings/web -d 'username=Administrator&password=111111%40&port=SAME'
+          curl -s -u Administrator:111111@ -X POST http://localhost:8091/pools/default/buckets -d 'ramQuotaMB=100&bucketType=ephemeral&name=cache'
+          curl -s -u Administrator:111111@ -X POST http://localhost:8091/pools/default -d 'memoryQuota=256'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          coverage: "none"
+          extensions: "json,couchbase-3.2.2"
+          ini-values: date.timezone=UTC,memory_limit=-1,default_socket_timeout=10,zend.assertions=1
+          php-version: "8.2"
+          tools: pecl
+
+      - name: Install dependencies
+        run: |
+          php -r 'echo "couchbase ", phpversion("couchbase"), PHP_EOL;'
+          COMPOSER_HOME="$(composer config home)"
+          ([ -d "$COMPOSER_HOME" ] || mkdir "$COMPOSER_HOME") && cp .github/composer-config.json "$COMPOSER_HOME/config.json"
+          export COMPOSER_ROOT_VERSION=$(grep ' VERSION = ' src/Symfony/Component/HttpKernel/Kernel.php | grep -P -o '[0-9]+\.[0-9]+').x-dev
+          echo COMPOSER_ROOT_VERSION=$COMPOSER_ROOT_VERSION >> $GITHUB_ENV
+          composer update --no-progress --ansi
+          ./phpunit install
+          sleep 10
+
+      - name: Whole class once
+        run: |
+          ./phpunit $TEST_FILE 2>&1 | tail -30 | sed 's/\x1b\[[0-9;]*m//g'
+
+      - name: Loop (A idle, B couchbase limited to 0.3 CPU)
+        run: |
+          CB=$(docker ps --filter ancestor=couchbase:6.5.1 -q)
+          for phase in A B; do
+            if [ $phase = B ]; then docker update --cpus 0.3 $CB; fi
+            fail=0; ok=0
+            for i in $(seq 1 $ITER); do
+              out=$(./phpunit $TEST_FILE --filter '/testDefaultLifeTime|testExpiration$/' 2>&1 | sed 's/\x1b\[[0-9;]*m//g')
+              if ! grep -qE '^(OK|OK, but)' <<<"$out"; then
+                fail=$((fail+1)); echo "::group::phase $phase iteration $i FAILED"; echo "$out" | tail -40; echo "::endgroup::"
+              else
+                ok=$((ok+1)); [ $i = 1 ] && echo "$out" | grep -E '^(OK|Tests:)'
+              fi
+            done
+            echo "PHASE $phase RESULT variant=${{ matrix.variant }} ok=$ok fail=$fail"
+          done
