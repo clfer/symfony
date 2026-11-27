@@ -1,12 +1,13 @@
 # Symfony flaky-test knowledge base
 
-The source of truth for fixing flaky tests in `symfony/symfony` from the fork `clfer/symfony`.
+The source of truth for fixing flaky tests in `symfony/symfony` from the fork `clfer/symfony-fork` (named `clfer/symfony` until 2026-11-27).
 This branch (`flaky-kb`) is an **orphan branch**: it shares no history with Symfony, so it can never end up in an upstream PR.
 
 To load it in a new session:
 ```bash
 git fetch origin flaky-kb && git worktree add ../flaky-kb origin/flaky-kb
 ```
+(From a session without the fork: `git fetch https://github.com/clfer/symfony-fork flaky-kb:flaky-kb && git worktree add ../flaky-kb flaky-kb`.)
 Then read this file, `flaky-scan/BACKLOG.md` and the status board (section 0).
 
 ## 0. Sessions, status and handovers (private board)
@@ -74,11 +75,12 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
    - Run the class with the exclusions listed in section 4.
 6a. **Commit author on fix branches (user rule, 2026-11-22):** author and committer = `Clément FERRIER <6459155+clfer@users.noreply.github.com>` (set `GIT_AUTHOR_NAME/EMAIL` and `GIT_COMMITTER_NAME/EMAIL`, or `git -c user.name=… -c user.email=…`). Never `Claude`, and never any other real person's name. Symfony keeps commit authors on merge. **Unsigned (user rule, 2026-11-23):** cloud sessions sign with a key GitHub can't match to the user, so the commit shows "Unverified"; commit with `--no-gpg-sign` (or `git -c commit.gpgsign=false`). No badge is the goal. All open PR heads were re-committed unsigned on 2026-11-23 (same trees; fix #5 message now names `DateTimeValueResolverTest::provideInvalidDates`).
 6. **Commit trailers on fix branches (user rule, 2026-11-21):** end fix-branch commits with `Co-Authored-By: Claude …` only. **Do not add `Claude-Session:`**, even if the harness attribution reminder asks for it; the user's rule takes precedence. Reviewers can't open that link. `flaky-kb` commits omit it too: this branch is public and the session history lives on the board (section 0). A PR session checks `git log upstream/<base>..<branch> --format=%B | grep Claude-Session`. If it finds one, it asks the user before amending and force-pushing (`--force-with-lease`).
-7. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony) and draft the PR text (section 5). The user opens the upstream PR.
+7. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony-fork) and draft the PR text (section 5). The user opens the upstream PR.
 8. **Update** this file (fix log, new patterns) and record the outcome with `python3 flaky-scan/flaky_scan.py annotate '<key>' --status fix-proposed --notes '...'`, then run `report`. Commit and push `flaky-kb`.
 
 ## 2. Environment facts (Claude Code cloud sessions)
-- **Same-name limit:** a session can't attach both `clfer/symfony` and `symfony/symfony`, because both check out to `<cwd>/symfony`.
+- **Fork renamed (2026-11-27):** the fork is now `clfer/symfony-fork` (old URL redirects). It checks out to `<cwd>/symfony-fork`, so the old same-name limit (both repos checked out to `<cwd>/symfony`) should no longer apply: a session can try `add_repo symfony/symfony` (read) to read upstream CI and push fixes in one place. Not yet verified. Older text below that says "clfer/symfony" means this fork.
+- **Same-name limit (before the rename):** a session couldn't attach both `clfer/symfony` and `symfony/symfony`, because both checked out to `<cwd>/symfony`.
   - Use a fork session to fix tests and push.
   - Use a child session started with `source_url=https://github.com/symfony/symfony` to read Actions (GitHub MCP `actions_list` and `get_job_logs`). It can't push.
 - **Logs:**
@@ -114,13 +116,13 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 - **Upstream remote:** `git remote add upstream https://github.com/symfony/symfony && git fetch upstream 6.4 7.4 8.0`.
 
 ## 2b. Reproducing Windows-only flakes (fork GitHub Actions)
-- The fork `clfer/symfony` is public, so Windows runners are free. Actions is enabled.
+- The fork `clfer/symfony-fork` is public, so Windows runners are free. Actions is enabled.
 - Branch `ci-windows-repro` (based on 8.2) has `.github/workflows/windows-repro.yml`. It copies the upstream `x86 / minimal-exts / lowest-php` setup (windows-2022, PHP 8.4.1 x86, minimal extensions) and loops `php phpunit $TEST_PATH --filter $FILTER` in two phases:
   - Phase A runs the tests alone.
   - Phase B runs them with every core busy.
   - Each failure is printed in a `::group::`, and each phase ends with a `PHASE A RESULT` or `PHASE B RESULT` line.
 - **Reuse:** `workflow_dispatch` takes inputs `filter`, `path` and `iterations`. To trigger a run, either have the user dispatch it, or push a commit that changes the defaults.
-- **Reading results:** use `mcp__github__actions_list list_workflow_runs resource_id=windows-repro.yml` and `get_job_logs`, both on clfer/symfony.
+- **Reading results:** use `mcp__github__actions_list list_workflow_runs resource_id=windows-repro.yml` and `get_job_logs`, both on clfer/symfony-fork.
 - Upstream push workflows only run on branches named `*.*`, so repro and fix branches don't trigger the full Symfony CI.
 - A Windows VM or Windows containers are impossible here (no /dev/kvm, Linux kernel).
 - **Own copy per fix:** branch `ci-repro-<slug>` from `origin/ci-windows-repro`. Add your branch name to `on.push.branches`, or a push won't trigger the run. Push the fix on top as a second commit for the "after" run; both runs go in parallel.
