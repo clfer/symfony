@@ -5,12 +5,15 @@ Pipeline (each step reads/writes files under --dir, so any agent can resume):
 
   collect      gh API  -> cache/runs, cache/jobs, cache/logs   (needs `gh` with repo read access)
   ingest-mcp   GitHub MCP JSON dumps -> same cache             (for agents that only have MCP tools)
-  parse        cache/logs -> failures.jsonl                    (pure, offline)
-  classify     failures.jsonl -> backlog.json                  (pure, offline; keeps manual fields)
+  parse        cache/logs -> failures.jsonl + runs.jsonl       (pure, offline; keeps records of jobs not in cache)
+  classify     failures.jsonl -> backlog.json                  (offline; keeps manual fields; --repo checks fixes)
   link         backlog.json + `gh api search/issues` -> backlog.json links (cached in cache/search)
   report       backlog.json -> BACKLOG.md                      (pure, offline)
   resolve      UNATTRIBUTED jobs: tail -> annotations -> full log -> none (RESOLVE.md)
-  all          parse + classify + report
+  candidates   backlog.json -> candidates/*.md + candidates/README.md (one brief per open flaky candidate)
+  seen         "run already classified? / error already seen? / already fixed?" lookups
+  backfill     fixed_by from "fixed by #NNNN" notes (needs --repo, an upstream clone)
+  all          parse + classify + report + candidates
 
 Determinism: no wall-clock in outputs, every list is sorted, the time window is
 an explicit --since/--until, and network results are cached on disk, so the same
@@ -31,8 +34,12 @@ import time
 REPO = "symfony/symfony"
 WORKFLOWS = ["unit-tests.yml", "integration-tests.yml", "windows.yml"]
 # Manual fields an agent may edit in backlog.json; never overwritten by `classify`.
-MANUAL_FIELDS = ("status", "owner", "notes", "classification_override")
-STATUSES = ("new", "triaged", "reported", "fix-proposed", "fixed", "wontfix", "not-flaky")
+MANUAL_FIELDS = ("status", "owner", "notes", "classification_override", "fixed_by", "board")
+MANUAL_DEFAULTS = {"status": "new", "fixed_by": {}}
+STATUSES = ("new", "triaged", "reported", "fix-proposed", "fixed", "regressed", "wontfix", "not-flaky")
+OPEN_STATUSES = ("new", "triaged", "regressed")
+# kinds whose excerpt is noise (log tails, timings): one signature per key
+CONSTANT_SIG_KINDS = ("unattributed", "timeout", "infra")
 
 ANSI = re.compile(r"\x1b\[[0-9;]*m|\[[0-9;]*m")
 TS = re.compile(r"^\ufeff?\d{4}-\d\d-\d\dT[\d:.]+Z ")
@@ -103,6 +110,48 @@ def clean(line):
     return ANSI.sub("", TS.sub("", line.rstrip("\r\n")))
 
 
+SIG_RULES = [
+    (re.compile(r"https?://[^\s\"']+"), "<url>"),
+    (re.compile(r"\b[A-Za-z]:\\[^\s\"'():]*|(?<![\w\\.])/(?:[\w.\-]+/)+[\w.\-]*"), "<path>"),
+    (re.compile(r"\b(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b"), "<hex>"),
+    (re.compile(r"\b0x[0-9a-fA-F]+\b"), "<hex>"),
+    (re.compile(r"\b\d+(?:\.\d+)?\s?(?:ms|s|sec|seconds?|minutes?)\b"), "<dur>"),
+    (re.compile(r":\d{2,5}\b"), ":<port>"),
+    (re.compile(r"#\d+"), "#<n>"),
+    (re.compile(r"\d+(?:\.\d+)?"), "<n>"),
+    (re.compile(r"\s+"), " "),
+]
+
+
+def normalise(text):
+    for rx, sub_ in SIG_RULES:
+        text = rx.sub(sub_, text)
+    return text.strip()
+
+
+def sig_of(kind, excerpt):
+    """Error signature: sha1 of the normalised excerpt (constant for noisy kinds)."""
+    import hashlib
+    basis = kind if kind in CONSTANT_SIG_KINDS else normalise(excerpt or "")
+    return hashlib.sha1(basis.encode("utf-8")).hexdigest()[:8]
+
+
+def branch_version(b):
+    m = re.match(r"^(\d+)\.(\d+)$", b or "")
+    return (int(m.group(1)), int(m.group(2))) if m else (99, 99)  # 8.x / main: newest
+
+
+def job_url(run_id, job_id):
+    return f"https://github.com/{REPO}/actions/runs/{run_id}/job/{job_id}"
+
+
+def load_ledger(args):
+    path = p(args, "runs.jsonl")
+    if not os.path.exists(path):
+        return {}
+    return {r["run_id"]: r for r in (json.loads(l) for l in open(path, encoding="utf-8") if l.strip())}
+
+
 def short_job(name):
     return name.replace("Unit Tests ", "unit ").strip()
 
@@ -146,6 +195,7 @@ def save_job(args, run_id, job_id, name, content, original_lines=None):
 # ---------------------------------------------------------------- collect (gh)
 def cmd_collect(args):
     window = f"{args.since}..{args.until}"
+    ledger = load_ledger(args)
     for wf in args.workflows:
         for event in args.events:
             out = gh("-X", "GET", f"repos/{REPO}/actions/workflows/{wf}/runs",
@@ -156,6 +206,8 @@ def cmd_collect(args):
                 runs = [r for r in runs if r["head_branch"] in args.branches]
             print(f"{wf} {event}: {len(runs)} failed runs in {window}", file=sys.stderr)
             for r in sorted(runs, key=lambda r: r["id"]):
+                if r["id"] in ledger and not args.force:  # already processed (runs.jsonl)
+                    continue
                 save_run(args, r)
                 jobs_out = gh(f"repos/{REPO}/actions/runs/{r['id']}/jobs?filter=latest&per_page=100",
                               "--paginate", "--jq", ".jobs[] | tojson")
@@ -176,9 +228,11 @@ def cmd_collect(args):
 # ---------------------------------------------------------------- ingest (MCP dumps)
 def cmd_ingest_mcp(args):
     """Accept raw JSON returned by GitHub MCP `actions_list list_workflow_runs`
-    and `get_job_logs failed_only=true return_content=true` (as saved to files)."""
+    and `get_job_logs failed_only=true return_content=true` (as saved to files).
+    Runs already in runs.jsonl are skipped unless --force."""
     files = sorted({f for pat in args.files for f in glob.glob(pat)})
-    nruns = njobs = 0
+    ledger = load_ledger(args)
+    listed, new_runs, njobs, skipped = set(), set(), 0, set()
     for f in files:
         try:
             d = jload(f)
@@ -188,19 +242,31 @@ def cmd_ingest_mcp(args):
         if isinstance(d, dict) and "workflow_runs" in d:
             for r in d["workflow_runs"]:
                 if r.get("conclusion") == "failure":
+                    if r["id"] in ledger and not args.force:
+                        skipped.add(r["id"])
+                        continue
                     save_run(args, r)
-                    nruns += 1
+                    listed.add(r["id"])
         elif isinstance(d, dict) and "logs" in d and "run_id" in d:
+            if int(d["run_id"]) in ledger and not args.force:
+                skipped.add(int(d["run_id"]))
+                continue
             for j in d["logs"]:
                 c = j.get("logs_content") or ""
                 if c:
                     save_job(args, d["run_id"], j["job_id"], j["job_name"], c, j.get("original_length"))
+                    new_runs.add(int(d["run_id"]))
                     njobs += 1
         elif isinstance(d, dict) and "job_id" in d and "logs_content" in d:  # single-job call
+            if (args.run_id or 0) in ledger and not args.force:
+                skipped.add(args.run_id)
+                continue
             save_job(args, args.run_id or 0, d["job_id"], d.get("job_name", ""), d["logs_content"],
                      d.get("original_length"))
+            new_runs.add(args.run_id or 0)
             njobs += 1
-    print(f"ingested {nruns} failed runs, {njobs} job logs from {len(files)} files", file=sys.stderr)
+    print(f"ingested {len(new_runs)} new runs ({njobs} job logs), {len(listed)} failed runs listed; "
+          f"skipped {len(skipped)} runs already in runs.jsonl; {len(files)} files", file=sys.stderr)
 
 
 # ---------------------------------------------------------------- parse
@@ -267,9 +333,10 @@ def parse_log(text):
 
 
 def cmd_parse(args):
-    out = []
+    out, cached_jobs = [], set()
     for meta_path in sorted(glob.glob(p(args, "cache", "jobs", "*.json"))):
         job = jload(meta_path)
+        cached_jobs.add(job["id"])
         run = jload(p(args, "cache", "runs", f"{job['run_id']}.json"), {}) or {}
         with open(p(args, "cache", "logs", f"{job['id']}.log"), encoding="utf-8", errors="replace") as f:
             failures, lines = parse_log(f.read())
@@ -291,11 +358,62 @@ def cmd_parse(args):
                 continue
             seen.add(ident)
             out.append({**base, **f_})
-    out.sort(key=lambda r: (r["key"], r["run_id"], r["job_id"]))
-    with open(p(args, "failures.jsonl"), "w", encoding="utf-8") as f:
+    # records of jobs whose log is not in this cache (older scans, other agents) are kept
+    old_path = p(args, "failures.jsonl")
+    if os.path.exists(old_path):
+        # ...unless backlog.json already attributes that job to another key (a later `resolve`)
+        known = {}
+        for e in (jload(p(args, "backlog.json"), {}) or {}).values():
+            for o in e.get("occurrences", []):
+                known.setdefault(o["job_id"], set()).add(e["key"])
+        out += [r for r in (json.loads(l) for l in open(old_path, encoding="utf-8") if l.strip())
+                if r["job_id"] not in cached_jobs and r["key"] in known.get(r["job_id"], {r["key"]})]
+    for r in out:
+        r["sig"] = sig_of(r["kind"], r.get("excerpt", ""))
+    out.sort(key=lambda r: (r["key"], r["sig"], r["run_id"], r["job_id"]))
+    with open(old_path, "w", encoding="utf-8") as f:
         for r in out:
             f.write(json.dumps(r, sort_keys=True, ensure_ascii=False) + "\n")
-    print(f"{len(out)} failure records from {len(glob.glob(p(args, 'cache', 'jobs', '*.json')))} jobs", file=sys.stderr)
+    write_ledger(args, out)
+    print(f"{len(out)} failure records ({len(cached_jobs)} jobs in cache)", file=sys.stderr)
+
+
+def write_ledger(args, recs):
+    """runs.jsonl: one line per processed run (a run with at least one parsed job log)."""
+    ledger = load_ledger(args)
+    runs = {}
+    for meta_path in sorted(glob.glob(p(args, "cache", "jobs", "*.json"))):
+        job = jload(meta_path)
+        runs.setdefault(job["run_id"], {"failed": set(), "parsed": set(), "unattributed": set()})["failed"].add(job["id"])
+    for r in recs:
+        e = runs.setdefault(r["run_id"], {"failed": set(), "parsed": set(), "unattributed": set()})
+        e["failed"].add(r["job_id"])
+        e["unattributed" if r["kind"] == "unattributed" else "parsed"].add(r["job_id"])
+    first = {}
+    for r in recs:
+        first.setdefault(r["run_id"], r)
+    rows = []
+    for rid in sorted(set(runs) | set(ledger)):
+        old = ledger.get(rid, {})
+        cached = jload(p(args, "cache", "runs", f"{rid}.json"), {}) or {}
+        rec = first.get(rid, {})
+        e = runs.get(rid, {"failed": set(), "parsed": set(), "unattributed": set()})
+        rows.append({
+            "run_id": rid,
+            "workflow": cached.get("workflow") or old.get("workflow") or rec.get("workflow", "?"),
+            "event": cached.get("event") or old.get("event") or rec.get("event", "?"),
+            "branch": cached.get("branch") or old.get("branch") or rec.get("branch", "?"),
+            "sha": cached.get("sha") or old.get("sha") or rec.get("sha", "?"),
+            "date": (cached.get("created_at") or "")[:10] or old.get("date") or rec.get("date", "?"),
+            "conclusion": cached.get("conclusion") or old.get("conclusion") or "failure",
+            "failed_job_ids": sorted(e["failed"] | set(old.get("failed_job_ids", []))),
+            "parsed_job_ids": sorted(e["parsed"] | set(old.get("parsed_job_ids", []))),
+            "unattributed_job_ids": sorted((e["unattributed"] | set(old.get("unattributed_job_ids", [])))
+                                           - (e["parsed"] - e["unattributed"])),
+        })
+    with open(p(args, "runs.jsonl"), "w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, sort_keys=True, ensure_ascii=False) + "\n")
 
 
 # ---------------------------------------------------------------- classify
@@ -325,23 +443,79 @@ def classify(key, kind, occ):
     return "unknown", "single occurrence, no flaky signature"
 
 
+def migrate_legacy(old):
+    """Old backlogs were keyed by test key only; split them into `key#sig` entries.
+    Every signature split from a legacy entry inherits its manual fields."""
+    out = {}
+    for oid in sorted(old):
+        e = old[oid]
+        if e.get("id") == oid and "#" in oid:
+            out[oid] = e
+            continue
+        bysig = {}
+        for o in e.get("occurrences", []):
+            bysig.setdefault(sig_of(e["kind"], o.get("excerpt", "")), []).append(o)
+        if not bysig:
+            bysig[sig_of(e["kind"], "")] = []
+        for sg in sorted(bysig):
+            nid = f"{e['key']}#{sg}"
+            prev = out.get(nid)
+            occ = bysig[sg] + (prev["occurrences"] if prev else [])
+            out[nid] = {**e, "id": nid, "sig": sg, "occurrences": occ}
+    return out
+
+
+class Git:
+    """`git merge-base --is-ancestor` with a cache; None when a commit is unknown to the clone."""
+    def __init__(self, repo):
+        self.repo, self.cache = repo, {}
+
+    def is_ancestor(self, a, b):
+        if (a, b) not in self.cache:
+            r = subprocess.run(["git", "-C", self.repo, "merge-base", "--is-ancestor", a, b], capture_output=True)
+            self.cache[(a, b)] = {0: True, 1: False}.get(r.returncode)
+        return self.cache[(a, b)]
+
+
+def fix_check(entry, git, prev_check):
+    """Compare each occurrence with fixed_by.commits {branch: sha}.
+    open_branches: occurrences on a branch below every fix branch (the fix never reaches it).
+    regressed: occurrences whose commit already contains the fix (needs --repo; kept from the
+    previous run otherwise, so `all` without --repo stays deterministic)."""
+    commits = (entry.get("fixed_by") or {}).get("commits") or {}
+    if not commits:
+        return {}
+    open_b, regressed = set(), set()
+    for o in entry["occurrences"]:
+        relevant = [c for b, c in sorted(commits.items()) if branch_version(b) <= branch_version(o["branch"])]
+        if not relevant:
+            open_b.add(o["branch"])
+        elif git and any(git.is_ancestor(c, o["sha"]) for c in relevant):
+            regressed.add(o["run_id"])
+    check = {"open_branches": sorted(open_b)}
+    check["regressed_runs"] = sorted(regressed) if git else list(prev_check.get("regressed_runs", []))
+    return check
+
+
 def cmd_classify(args):
     recs = [json.loads(l) for l in open(p(args, "failures.jsonl"), encoding="utf-8") if l.strip()]
-    old = jload(p(args, "backlog.json"), {}) or {}
+    old = migrate_legacy(jload(p(args, "backlog.json"), {}) or {})
+    git = Git(args.repo) if getattr(args, "repo", None) else None
     groups = {}
     for r in recs:
-        groups.setdefault(r["key"], []).append(r)
+        sg = r.get("sig") or sig_of(r["kind"], r.get("excerpt", ""))
+        groups.setdefault(f"{r['key']}#{sg}", []).append(r)
     parsed_jobs = {r["job_id"] for r in recs}  # current parse is authoritative for these jobs
     backlog = {}
-    for key in sorted(set(groups) | set(old)):
-        prev = old.get(key, {})
+    for eid in sorted(set(groups) | set(old)):
+        prev = old.get(eid, {})
         kept = [o for o in prev.get("occurrences", []) if o["job_id"] not in parsed_jobs]
-        occ = groups.get(key)
+        occ = groups.get(eid)
         if not occ:
             # history from older windows / other caches is append-only; drop entries that a
             # re-parse made obsolete unless a human/agent already annotated them
-            if kept or any(prev.get(f) not in (None, "", "new") for f in MANUAL_FIELDS):
-                backlog[key] = {**prev, "occurrences": kept}
+            if kept or any(prev.get(f) not in (None, "", "new", {}) for f in MANUAL_FIELDS):
+                backlog[eid] = {**prev, "occurrences": kept}
             continue
         # merge occurrences with those already known (older scans / other agents)
         merged = {(o["run_id"], o["job_id"]): o for o in kept}
@@ -350,17 +524,25 @@ def cmd_classify(args):
                 ("run_id", "job_id", "job", "branch", "workflow", "event", "sha", "date", "excerpt")}
         occurrences = [merged[k] for k in sorted(merged)]
         kind = occ[0]["kind"]
+        key, sg = eid.rsplit("#", 1)
         cls, why = classify(key, kind, occurrences)
         entry = {
-            "key": key, "kind": kind,
+            "id": eid, "key": key, "sig": sg, "kind": kind,
             "component": next((o["component"] for o in occ if o.get("component")), prev.get("component")),
             "classification": cls, "reason": why,
             "occurrences": occurrences,
             "links": prev.get("links", []),
+            "fix_check": prev.get("fix_check", {}),
         }
         for f in MANUAL_FIELDS:
-            entry[f] = prev.get(f, "new" if f == "status" else "")
-        backlog[key] = entry
+            entry[f] = prev.get(f, MANUAL_DEFAULTS.get(f, ""))
+        backlog[eid] = entry
+    for e in backlog.values():
+        e.setdefault("fixed_by", {})
+        e.setdefault("board", "")
+        e["fix_check"] = fix_check(e, git, e.get("fix_check") or {})
+        if e["fix_check"].get("regressed_runs"):
+            e["status"] = "regressed"
     jdump(p(args, "backlog.json"), backlog)
     c = {}
     for e in backlog.values():
@@ -425,26 +607,30 @@ def cmd_report(args):
     order = {"flaky": 0, "unknown": 1, "real": 2}
     rows = sorted(backlog.values(), key=lambda e: (
         order.get(e.get("classification_override") or e["classification"], 9),
-        -len(e["occurrences"]), e["key"]))
+        -len(e["occurrences"]), e["id"]))
     meta = jload(p(args, "scan.json"), {}) or {}
     out = ["# Flaky test backlog — symfony/symfony", "",
            f"Window: {meta.get('since', '?')} → {meta.get('until', '?')} · workflows: "
            f"{', '.join(meta.get('workflows', WORKFLOWS))} · events: {', '.join(meta.get('events', ['push']))}",
            "", "Generated by `flaky_scan.py report` from `backlog.json` (do not edit this file; edit backlog.json manual fields).",
-           "", "| # | test / signature | class | why | occ | branches | jobs | first excerpt | runs | links | status |",
-           "|---|---|---|---|---|---|---|---|---|---|---|"]
+           "", "| # | test / signature | sig | class | why | occ | branches | jobs | first excerpt | runs | links | status |",
+           "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for i, e in enumerate(rows, 1):
         occ = e["occurrences"]
         cls = e.get("classification_override") or e["classification"]
         runs = sorted({o["run_id"] for o in occ})
-        out.append("| {} | `{}` | **{}** | {} | {} | {} | {} | {} | {} | {} | {} |".format(
-            i, md(e["key"]), cls, md(e["reason"]), len(occ),
+        fb = e.get("fixed_by") or {}
+        fixed = f" (fixed by #{fb['pr']})" if fb.get("pr") else ""
+        if (e.get("fix_check") or {}).get("open_branches"):
+            fixed += f" — open on {', '.join(e['fix_check']['open_branches'])}"
+        out.append("| {} | `{}` | {} | **{}** | {} | {} | {} | {} | {} | {} | {} | {} |".format(
+            i, md(e["key"]), e.get("sig", ""), cls, md(e["reason"]), len(occ),
             ", ".join(sorted({o["branch"] for o in occ})),
             md("; ".join(sorted({o["job"] for o in occ}))[:120]),
             md(occ[0]["excerpt"][:110]),
             " ".join(f"[{r}]({run_url(r)})" for r in runs[:4]) + (" …" if len(runs) > 4 else ""),
             " ".join(f"#{l['number']}{'(PR)' if l['pr'] else ''}" for l in e.get("links", [])[:4]) or "—",
-            md(e.get("status", "new")) + (f" — {md(e['notes'])}" if e.get("notes") else ""),
+            md(e.get("status", "new")) + md(fixed) + (f" — {md(e['notes'])}" if e.get("notes") else ""),
         ))
     with open(p(args, "BACKLOG.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(out) + "\n")
@@ -556,6 +742,11 @@ def cmd_resolve(args):
 def cmd_annotate(args):
     backlog = jload(p(args, "backlog.json"), {})
     hits = [k for k in sorted(backlog) if re.search(args.match, k)]
+    if len(hits) > 1 and args.all_sigs:
+        for h in hits:
+            sub_args = argparse.Namespace(**{**vars(args), "match": "^" + re.escape(h) + "$", "all_sigs": False})
+            cmd_annotate(sub_args)
+        return
     if len(hits) != 1:
         sys.exit(f"--match must select exactly one entry, got {len(hits)}: {hits[:5]}")
     e = backlog[hits[0]]
@@ -567,14 +758,236 @@ def cmd_annotate(args):
         e["classification_override"] = args.override
     if args.notes is not None:
         e["notes"] = args.notes
+    if args.board is not None:
+        e["board"] = args.board
+    if args.fixed_by is not None or args.fix_commit:
+        fb = dict(e.get("fixed_by") or {})
+        if args.fixed_by is not None:
+            fb["pr"] = int(args.fixed_by)
+        if args.merged_at:
+            fb["merged_at"] = args.merged_at
+        commits = dict(fb.get("commits") or {})
+        for spec in args.fix_commit or []:
+            b, _, sha = spec.partition("=")
+            commits[b] = sha[:11]
+        fb["commits"] = commits
+        e["fixed_by"] = fb
     jdump(p(args, "backlog.json"), backlog)
-    print(f"{hits[0]}: status={e['status']} override={e['classification_override'] or '-'}", file=sys.stderr)
+    print(f"{hits[0]}: status={e['status']} override={e['classification_override'] or '-'}"
+          f"{' fixed_by=#' + str(e['fixed_by']['pr']) if (e.get('fixed_by') or {}).get('pr') else ''}", file=sys.stderr)
+
+
+# ---------------------------------------------------------------- seen / backfill
+def entry_line(e):
+    occ = e["occurrences"]
+    dates = sorted(o["date"] for o in occ) or ["?"]
+    fb = e.get("fixed_by") or {}
+    fix = f" fixed_by=#{fb['pr']}" if fb.get("pr") else ""
+    opn = (e.get("fix_check") or {}).get("open_branches")
+    return (f"{e['id']} | {e.get('classification_override') or e['classification']} | {e.get('status', 'new')}{fix}"
+            f"{' open_on=' + ','.join(opn) if opn else ''} | first {dates[0]} | last {dates[-1]} | {len(occ)} occ")
+
+
+def cmd_seen(args):
+    """Answer: run already classified? / error already seen? / already fixed?"""
+    backlog = jload(p(args, "backlog.json"), {}) or {}
+    ledger = load_ledger(args)
+    if args.run:
+        r = ledger.get(args.run)
+        print(f"run {args.run}: " + (f"in runs.jsonl ({r['branch']} {r['sha']} {r['date']}, "
+                                      f"{len(r['parsed_job_ids'])} parsed / {len(r['unattributed_job_ids'])} unattributed jobs)"
+                                      if r else "NOT in runs.jsonl (not processed yet)"))
+    hits = []
+    for eid in sorted(backlog):
+        e = backlog[eid]
+        if args.key and not re.search(args.key, e["key"]):
+            continue
+        if args.run and not any(o["run_id"] == args.run for o in e["occurrences"]):
+            continue
+        if args.job and not any(o["job_id"] == args.job for o in e["occurrences"]):
+            continue
+        if args.excerpt is not None and (e["kind"] in CONSTANT_SIG_KINDS or e.get("sig") != sig_of(e["kind"], args.excerpt)):
+            continue
+        hits.append(e)
+    if args.excerpt is not None and not hits:
+        print(f"signature {sig_of('test', args.excerpt)}: never seen")
+    for e in hits:
+        print(entry_line(e))
+    if not (args.run or args.job or args.excerpt is not None or args.key):
+        sys.exit("give --run, --job, --excerpt and/or --key")
+
+
+FIX_NOTE = re.compile(r"(?:[Ff]ixed (?:in CI )?by|merged on \S+ by) #(\d+)")
+
+
+def cmd_backfill(args):
+    """Fill fixed_by {pr, merged_at, commits{branch: sha}} from "fixed by #NNNN" notes, using the
+    merge commit found with `git log --first-parent --grep` on the lowest branch of an upstream clone."""
+    backlog = jload(p(args, "backlog.json"), {}) or {}
+    branches = sorted({o["branch"] for e in backlog.values() for o in e["occurrences"]} | set(args.branches),
+                      key=branch_version)
+    found = {}
+    for eid in sorted(backlog):
+        e = backlog[eid]
+        if (e.get("fixed_by") or {}).get("commits") and not args.refresh:
+            continue
+        m = FIX_NOTE.search(e.get("notes") or "")
+        if not m:
+            continue
+        pr = int(m.group(1))
+        if pr not in found:
+            found[pr] = None
+            for b in branches:
+                r = subprocess.run(["git", "-C", args.repo, "log", f"{args.remote}/{b}", "--first-parent", "-E",
+                                    f"--grep=#{pr}([^0-9]|$)", "--format=%H %cI"], capture_output=True, text=True)
+                lines = [l for l in r.stdout.splitlines() if l.strip()]
+                if r.returncode == 0 and lines:
+                    sha, date = lines[-1].split()
+                    found[pr] = (b, sha[:11], date)
+                    break
+        if not found[pr]:
+            print(f"{eid}: #{pr} not found in {args.repo}", file=sys.stderr)
+            continue
+        b, sha, date = found[pr]
+        e["fixed_by"] = {"pr": pr, "merged_at": date, "commits": {b: sha}}
+        print(f"{eid}: fixed_by #{pr} {b}={sha}", file=sys.stderr)
+    jdump(p(args, "backlog.json"), backlog)
+
+
+# ---------------------------------------------------------------- candidates
+def kb_patterns(path):
+    """Rows of KNOWLEDGE.md section 6: (first cell, literal fragments to look for)."""
+    if not os.path.exists(path):
+        return []
+    text = open(path, encoding="utf-8").read()
+    m = re.search(r"^## 6\. .*?$(.*?)(?=^## )", text, re.M | re.S)
+    rows = []
+    for line in (m.group(1).splitlines() if m else []):
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 3 or cells[0] in ("Signature", "") or set(cells[0]) <= set("-"):
+            continue
+        frags = []
+        for f_ in re.findall(r"`([^`]+)`", cells[0]):
+            f_ = re.split(r"[\"(]", f_)[0].strip()
+            if len(f_) >= 10:
+                frags.append(f_)
+        rows.append((cells[0], cells[1], cells[2], frags))
+    return rows
+
+
+def short_component(e):
+    comp = e.get("component") or ""
+    m = re.search(r"src/Symfony/(?:Component|Bridge|Bundle|Contracts)/([\w/]+)", comp)
+    if m:
+        return m.group(1).replace("/", "-")
+    m = re.match(r"Symfony\\(?:Component|Bridge|Bundle|Contracts)\\(\w+)", e["key"])
+    return m.group(1) if m else re.sub(r"\W+", "-", e["key"].split(" ")[0]).strip("-") or "misc"
+
+
+def test_path(key):
+    if "::" not in key:
+        return None
+    return "src/" + key.split("::")[0].replace("\\", "/") + ".php"
+
+
+def candidate_scopes(e):
+    """(scope suffix, occurrences) pairs that make this entry a candidate."""
+    cls = e.get("classification_override") or e["classification"]
+    if cls not in ("flaky", "unknown") or e["kind"] in ("infra", "unattributed"):
+        return []
+    if e.get("status", "new") in OPEN_STATUSES:
+        return [("", e["occurrences"])]
+    opn = (e.get("fix_check") or {}).get("open_branches") or []
+    if opn:
+        return [("--open-" + "-".join(opn), [o for o in e["occurrences"] if o["branch"] in opn])]
+    return []
+
+
+def cmd_candidates(args):
+    backlog = jload(p(args, "backlog.json"), {}) or {}
+    kb = kb_patterns(args.kb or os.path.join(args.dir, "..", "KNOWLEDGE.md"))
+    outdir = p(args, "candidates")
+    os.makedirs(outdir, exist_ok=True)
+    written, index = set(), []
+    for eid in sorted(backlog):
+        e = backlog[eid]
+        for scope, occ in candidate_scopes(e):
+            meth = e["key"].split("::")[-1] if "::" in e["key"] else re.sub(r"\W+", "-", e["key"]).strip("-")
+            fname = re.sub(r"[^\w.\-]+", "-", f"{short_component(e)}--{meth}--{e['sig']}{scope}") + ".md"
+            written.add(fname)
+            cls = e.get("classification_override") or e["classification"]
+            fb = e.get("fixed_by") or {}
+            branches = sorted({o["branch"] for o in occ}, key=branch_version)
+            text = " ".join([e["key"]] + [o["excerpt"] for o in occ])
+            kb_hits = [r for r in kb if any(f_ in text for f_ in r[3])]
+            windows_only = all(o["workflow"] == "windows.yml" for o in occ)
+            tp = test_path(e["key"])
+            lines = [
+                f"# {e['key']}", "",
+                "<!-- generated by flaky_scan.py candidates; do not edit: change backlog.json with `annotate` -->", "",
+                "| field | value |", "|---|---|",
+                f"| test | `{md(e['key'])}` |",
+                f"| signature | `{e['sig']}` (entry id `{md(eid)}`) |",
+                f"| class | {cls} ({md(e['reason'])}) |",
+                f"| status | {e.get('status', 'new')}{' (scope: branches ' + ', '.join(branches) + ' not reached by the fix)' if scope else ''} |",
+                f"| owner | {md(e.get('owner')) or '—'} |",
+                f"| board record | {md(e.get('board')) or '— (not picked)'} |",
+                f"| branches | {', '.join(branches)} |",
+                f"| first / last seen | {min(o['date'] for o in occ)} / {max(o['date'] for o in occ)} |", "",
+                "## Occurrences", "",
+                "| run | job | branch | job name | sha | date | excerpt |", "|---|---|---|---|---|---|---|"]
+            for o in sorted(occ, key=lambda o: (o["date"], o["run_id"], o["job_id"])):
+                lines.append(f"| [{o['run_id']}]({run_url(o['run_id'])}) | [{o['job_id']}]({job_url(o['run_id'], o['job_id'])}) "
+                             f"| {o['branch']} | {md(o['job'])} | {o['sha']} | {o['date']} | {md(o['excerpt'][:160])} |")
+            lines += ["", "## Notes, links and fix status", ""]
+            lines.append(f"- Notes: {md(e.get('notes')) or '—'}")
+            lines.append("- Related issues/PRs (full-text search, may be noise): " +
+                         (", ".join(f"#{l['number']}{' (PR)' if l['pr'] else ''} {md(l['title'][:60])}" for l in e.get("links", [])) or "—"))
+            if fb.get("pr"):
+                lines.append(f"- Fixed by #{fb['pr']} (merged {fb.get('merged_at', '?')}; commits "
+                             f"{', '.join(f'{b}={c}' for b, c in sorted((fb.get('commits') or {}).items()))}).")
+            chk = e.get("fix_check") or {}
+            if chk.get("open_branches"):
+                lines.append(f"- The fix does not reach: {', '.join(chk['open_branches'])} (lower than every fix commit).")
+            if chk.get("regressed_runs"):
+                lines.append(f"- REGRESSED after the fix in runs {', '.join(map(str, chk['regressed_runs']))}.")
+            if not fb.get("pr"):
+                lines.append("- No upstream fix recorded.")
+            lines.append("- KNOWLEDGE.md section 6 pattern: " + (
+                "; ".join(f"{md(r[0][:120])} → {md(r[2][:120])}" for r in kb_hits) if kb_hits else "none matched"))
+            lines += ["", "## Worker brief", "",
+                      f"- Base branch to try: **{branches[0]}** (lowest branch with an occurrence); first check lower maintained "
+                      f"branches with `git show upstream/<branch>:{tp or '<test file>'}` (KNOWLEDGE.md section 1 step 3).",
+                      f"- Test: `{tp}`" if tp else f"- Signature `{md(e['key'])}` is not a single test: find the failing test in the run logs first.",
+                      "- Duplicates: search merged PRs and issues by method name (KNOWLEDGE.md section 1 step 2).",
+                      "- Repro: " + ("Windows only: KNOWLEDGE.md section 2b (fork Actions repro). " if windows_only else "")
+                      + "Inject the delay at the suspected point rather than looping (KNOWLEDGE.md section 6b).",
+                      "- Done when: the fix branch is pushed (or the entry is rejected), `flaky_scan.py annotate "
+                      f"'{(meth + '#' + e['sig']) if '::' in e['key'] else re.escape(eid)}' --status fix-proposed|wontfix --owner <you> --notes ... [--board fix-NN]` is committed, "
+                      "and the board record is updated."]
+            with open(os.path.join(outdir, fname), "w", encoding="utf-8") as f:
+                f.write("\n".join(lines) + "\n")
+            index.append((fname, e, cls, branches, occ))
+    for old in sorted(glob.glob(os.path.join(outdir, "*.md"))):
+        if os.path.basename(old) not in written and os.path.basename(old) != "README.md":
+            os.remove(old)
+    out = ["# Flaky candidates", "",
+           "Generated by `flaky_scan.py candidates` (part of `all`): one file per open flaky/unknown entry "
+           "(status new, triaged or regressed, or a branch a fix does not reach). Do not edit; use `annotate`.", "",
+           "| file | test | sig | class | status | branches | occ | last seen | board |", "|---|---|---|---|---|---|---|---|---|"]
+    for fname, e, cls, branches, occ in sorted(index, key=lambda x: (-len(x[4]), x[0])):
+        out.append(f"| [{fname}]({fname}) | `{md(e['key'].split(chr(92))[-1])}` | {e['sig']} | {cls} | {e.get('status', 'new')} "
+                   f"| {', '.join(branches)} | {len(occ)} | {max(o['date'] for o in occ)} | {md(e.get('board')) or '—'} |")
+    with open(os.path.join(outdir, "README.md"), "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    print(f"candidates: {len(index)} files in {outdir}", file=sys.stderr)
 
 
 def cmd_all(args):
     cmd_parse(args)
     cmd_classify(args)
     cmd_report(args)
+    cmd_candidates(args)
 
 
 # ---------------------------------------------------------------- main
@@ -590,13 +1003,16 @@ def main():
     c.add_argument("--events", nargs="+", default=["push"])
     c.add_argument("--branches", nargs="*", default=[], help="only these branches (default: all)")
     c.add_argument("--refresh", action="store_true", help="re-download logs already cached")
+    c.add_argument("--force", action="store_true", help="also re-process runs already in runs.jsonl")
 
     i = sub.add_parser("ingest-mcp", help="load GitHub MCP JSON dumps into the cache")
     i.add_argument("files", nargs="+", help="files or globs")
     i.add_argument("--run-id", type=int, help="run id for single-job dumps")
+    i.add_argument("--force", action="store_true", help="also re-ingest runs already in runs.jsonl")
 
     sub.add_parser("parse")
-    sub.add_parser("classify")
+    cl = sub.add_parser("classify")
+    cl.add_argument("--repo", help="upstream clone for fix checks (git merge-base --is-ancestor)")
     l = sub.add_parser("link", help="attach related issues/PRs via the search API")
     l.add_argument("--classes", nargs="+", default=["flaky", "unknown"])
     l.add_argument("--refresh", action="store_true")
@@ -614,7 +1030,27 @@ def main():
     a.add_argument("--owner")
     a.add_argument("--override", choices=["", "flaky", "real", "unknown"])
     a.add_argument("--notes")
-    sub.add_parser("all", help="parse + classify + report")
+    a.add_argument("--board", help="board record, e.g. fix-12")
+    a.add_argument("--fixed-by", help="upstream PR number that fixed it")
+    a.add_argument("--merged-at", help="merge date of that PR (ISO 8601)")
+    a.add_argument("--fix-commit", action="append", metavar="BRANCH=SHA",
+                   help="merge commit of the fix on a branch (repeatable)")
+    a.add_argument("--all-sigs", action="store_true", help="apply to every entry the regex matches")
+    se = sub.add_parser("seen", help="run already classified? / error already seen? / already fixed?")
+    se.add_argument("--run", type=int)
+    se.add_argument("--job", type=int)
+    se.add_argument("--excerpt", help="first error line; matched by signature")
+    se.add_argument("--key", help="regex on the test key")
+    bf = sub.add_parser("backfill", help="fixed_by from 'fixed by #NNNN' notes (git log in an upstream clone)")
+    bf.add_argument("--repo", required=True)
+    bf.add_argument("--remote", default="origin")
+    bf.add_argument("--branches", nargs="*", default=[], help="extra branches to search")
+    bf.add_argument("--refresh", action="store_true")
+    cd = sub.add_parser("candidates", help="write candidates/*.md for open flaky/unknown entries")
+    cd.add_argument("--kb", help="path to KNOWLEDGE.md (default: ../KNOWLEDGE.md)")
+    al = sub.add_parser("all", help="parse + classify + report + candidates")
+    al.add_argument("--repo", help="upstream clone for fix checks")
+    al.add_argument("--kb", help="path to KNOWLEDGE.md")
 
     args = ap.parse_args()
     os.makedirs(args.dir, exist_ok=True)
@@ -626,7 +1062,8 @@ def main():
                      "events": sorted(set(scan.get("events", [])) | set(args.events))})
         jdump(p(args, "scan.json"), scan)
     {"collect": cmd_collect, "ingest-mcp": cmd_ingest_mcp, "parse": cmd_parse, "classify": cmd_classify,
-     "link": cmd_link, "report": cmd_report, "annotate": cmd_annotate, "resolve": cmd_resolve, "all": cmd_all}[args.cmd](args)
+     "link": cmd_link, "report": cmd_report, "annotate": cmd_annotate, "resolve": cmd_resolve, "seen": cmd_seen,
+     "backfill": cmd_backfill, "candidates": cmd_candidates, "all": cmd_all}[args.cmd](args)
 
 
 if __name__ == "__main__":

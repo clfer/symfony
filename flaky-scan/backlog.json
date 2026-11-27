@@ -1,8 +1,12 @@
 {
- "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php": {
+ "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php#3b267dd1": {
+  "board": "",
   "classification": "real",
   "classification_override": "flaky",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php#3b267dd1",
   "key": "FATAL src/Symfony/Bridge/Twig/Extension/CsrfExtension.php",
   "kind": "fatal",
   "links": [
@@ -31,12 +35,26 @@
   ],
   "owner": "",
   "reason": "dependency made a parent class final",
+  "sig": "3b267dd1",
   "status": "fixed"
  },
- "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php": {
+ "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php#1e9599da": {
+  "board": "",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "c912ac79ff7"
+   },
+   "merged_at": "2026-11-19T11:02:52+01:00",
+   "pr": 68270
+  },
+  "id": "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php#1e9599da",
   "key": "FATAL src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php",
   "kind": "fatal",
   "links": [],
@@ -56,12 +74,17 @@
   ],
   "owner": "",
   "reason": "single occurrence, no flaky signature",
+  "sig": "1e9599da",
   "status": "fixed"
  },
- "INFRA composer: corrupted (0-byte) dist download": {
+ "INFRA composer: corrupted (0-byte) dist download#5e03a58d": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": "src/Symfony/Contracts",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "INFRA composer: corrupted (0-byte) dist download#5e03a58d",
   "key": "INFRA composer: corrupted (0-byte) dist download",
   "kind": "infra",
   "links": [],
@@ -103,12 +126,17 @@
   ],
   "owner": "",
   "reason": "CI infrastructure (composer download), not a test",
+  "sig": "5e03a58d",
   "status": "wontfix"
  },
- "INFRA composer: packagist network timeout": {
+ "INFRA composer: packagist network timeout#5e03a58d": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": "src/Symfony/Component/Cache",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "INFRA composer: packagist network timeout#5e03a58d",
   "key": "INFRA composer: packagist network timeout",
   "kind": "infra",
   "links": [],
@@ -128,12 +156,26 @@
   ],
   "owner": "",
   "reason": "CI infrastructure (composer download), not a test",
+  "sig": "5e03a58d",
   "status": "wontfix"
  },
- "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa": {
+ "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa#699513df": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "c912ac79ff7"
+   },
+   "merged_at": "2026-11-19T11:02:52+01:00",
+   "pr": 68270
+  },
+  "id": "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa#699513df",
   "key": "PHPUNIT-ERROR Symfony\\Bridge\\Monolog\\Tests\\Handler\\ConsoleHandlerTest::testVerbosityMa",
   "kind": "phpunit-error",
   "links": [
@@ -173,12 +215,797 @@
   ],
   "owner": "",
   "reason": "fails intermittently on 2 unrelated commits",
+  "sig": "699513df",
   "status": "fixed"
  },
- "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode": {
+ "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\PhpFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope#263da791": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/FrameworkBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\PhpFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope#263da791",
+  "key": "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\PhpFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two arrays are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139041346924,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two arrays are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139051543119,
+    "run_id": 45569250672,
+    "sha": "45c5ceb257",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "ordering / leftover state",
+  "sig": "263da791",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\YamlFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope#263da791": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/FrameworkBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\YamlFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope#263da791",
+  "key": "Symfony\\Bundle\\FrameworkBundle\\Tests\\DependencyInjection\\YamlFrameworkExtensionTest::testScopedHttpClientWithCachingSendsTheOptionsOfTheScopeOnlyToUrlsInTheScope",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two arrays are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139041346924,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two arrays are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139051543119,
+    "run_id": 45569250672,
+    "sha": "45c5ceb257",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "ordering / leftover state",
+  "sig": "263da791",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\SecurityBundle\\Tests\\DataCollector\\SecurityDataCollectorTest::testCollectImpersonationExitPath#a0cef53e": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/SecurityBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\SecurityBundle\\Tests\\DataCollector\\SecurityDataCollectorTest::testCollectImpersonationExitPath#a0cef53e",
+  "key": "Symfony\\Bundle\\SecurityBundle\\Tests\\DataCollector\\SecurityDataCollectorTest::testCollectImpersonationExitPath",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346487,
+    "run_id": 45566157825,
+    "sha": "aef620ba88",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041345911,
+    "run_id": 45566157905,
+    "sha": "bf23bcf58b",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346142,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.3)",
+    "job_id": 139041346389,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346429,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346469,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041346482,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041346810,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346646,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346868,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346901,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041347013,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041347030,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 6 jobs of the same commit",
+  "sig": "a0cef53e",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\SecurityBundle\\Tests\\Functional\\GuardedTest::testManualLoginWithAuthenticatorRunsThePostAuthCheckOfTheUserChecker#ff17c858": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\SecurityBundle\\Tests\\Functional\\GuardedTest::testManualLoginWithAuthenticatorRunsThePostAuthCheckOfTheUserChecker#ff17c858",
+  "key": "Symfony\\Bundle\\SecurityBundle\\Tests\\Functional\\GuardedTest::testManualLoginWithAuthenticatorRunsThePostAuthCheckOfTheUserChecker",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that 200 is identical to 401.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347318,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that 200 is identical to 401.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139051543314,
+    "run_id": 45569250805,
+    "sha": "2a5cce6da9",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails intermittently on 2 unrelated commits",
+  "sig": "ff17c858",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsAreBuiltFromTheCurrentUri#a0cef53e": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/SecurityBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsAreBuiltFromTheCurrentUri#a0cef53e",
+  "key": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsAreBuiltFromTheCurrentUri",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346487,
+    "run_id": 45566157825,
+    "sha": "aef620ba88",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041345911,
+    "run_id": 45566157905,
+    "sha": "bf23bcf58b",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346142,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.3)",
+    "job_id": 139041346389,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346429,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346469,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041346482,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041346810,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346646,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346868,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346901,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041347013,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041347030,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 6 jobs of the same commit",
+  "sig": "a0cef53e",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri#9388e36c": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/SecurityBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri#9388e36c",
+  "key": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)",
+    "job_id": 139041346454,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139041346924,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041347205,
+    "run_id": 45566158250,
+    "sha": "3f770e6ec9",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347263,
+    "run_id": 45566158250,
+    "sha": "3f770e6ec9",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347318,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, high-deps)",
+    "job_id": 139041347448,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)",
+    "job_id": 139051539532,
+    "run_id": 45569249678,
+    "sha": "917139298d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139051539064,
+    "run_id": 45569249895,
+    "sha": "5e5fa98f7c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 139051543119,
+    "run_id": 45569250672,
+    "sha": "45c5ceb257",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139051543314,
+    "run_id": 45569250805,
+    "sha": "2a5cce6da9",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139058098476,
+    "run_id": 45571231347,
+    "sha": "f5386afaba",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)",
+    "job_id": 139063627240,
+    "run_id": 45572894125,
+    "sha": "9512690065",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139064039449,
+    "run_id": 45573019987,
+    "sha": "cb0279e053",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails intermittently on 11 unrelated commits",
+  "sig": "9388e36c",
+  "status": "not-flaky"
+ },
+ "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri#a0cef53e": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "real",
+  "component": "src/Symfony/Bundle/SecurityBundle",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri#a0cef53e",
+  "key": "Symfony\\Bundle\\SecurityBundle\\Tests\\Impersonate\\ImpersonateUrlGeneratorTest::testExitUrlsEncodeTheLeadingDoubleSlashOfTheCurrentUri",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346487,
+    "run_id": 45566157825,
+    "sha": "aef620ba88",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041345911,
+    "run_id": 45566157905,
+    "sha": "bf23bcf58b",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346142,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.3)",
+    "job_id": 139041346389,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346429,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346469,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041346482,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041346810,
+    "run_id": 45566157988,
+    "sha": "acf682f076",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 139041346646,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.7)",
+    "job_id": 139041346868,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.6)",
+    "job_id": 139041346901,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.5)",
+    "job_id": 139041347013,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "No expectations were configured for the mock object for Symfony\\Bundle\\SecurityBundle\\Security\\FirewallMap. Consider refactoring your test code to use a test stub instead. The #[AllowMockObjectsWithou",
+    "job": "unit (8.4)",
+    "job_id": 139041347030,
+    "run_id": 45566158039,
+    "sha": "bf23bcf58b",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 6 jobs of the same commit",
+  "sig": "a0cef53e",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode#9388e36c": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "real",
   "component": "src/Symfony/Component/AssetMapper",
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "54339961ce9"
+   },
+   "merged_at": "2026-11-10T02:05:35+01:00",
+   "pr": 68056
+  },
+  "id": "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode#9388e36c",
   "key": "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode",
   "kind": "test",
   "links": [
@@ -240,12 +1067,442 @@
   ],
   "owner": "",
   "reason": "fails intermittently on 4 unrelated commits",
+  "sig": "9388e36c",
   "status": "fixed"
  },
- "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild": {
+ "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testGetItem#8464a1bf": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": [
+    46007041174,
+    46010054737,
+    46010463199
+   ]
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "e6364c2be8f"
+   },
+   "merged_at": "2026-11-27T13:46:46+01:00",
+   "pr": 68456
+  },
+  "id": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testGetItem#8464a1bf",
+  "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testGetItem",
+  "kind": "test",
+  "links": [],
+  "notes": "real: newLazyGhost() missing on PHP 8.3 (7.4 unit 8.3); fixed by #68456 (merged 2026-11-27 12:46Z)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140532694905,
+    "run_id": 46007041174,
+    "sha": "ef44babc91",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140542967300,
+    "run_id": 46010054737,
+    "sha": "0283a67638",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140544345739,
+    "run_id": 46010463199,
+    "sha": "2356d92535",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "API break / missing class",
+  "sig": "8464a1bf",
+  "status": "regressed"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSave#8464a1bf": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": [
+    46007041174,
+    46010054737,
+    46010463199
+   ]
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "e6364c2be8f"
+   },
+   "merged_at": "2026-11-27T13:46:46+01:00",
+   "pr": 68456
+  },
+  "id": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSave#8464a1bf",
+  "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSave",
+  "kind": "test",
+  "links": [],
+  "notes": "real: newLazyGhost() missing on PHP 8.3 (7.4 unit 8.3); fixed by #68456 (merged 2026-11-27 12:46Z)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140532694905,
+    "run_id": 46007041174,
+    "sha": "ef44babc91",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140542967300,
+    "run_id": 46010054737,
+    "sha": "0283a67638",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140544345739,
+    "run_id": 46010463199,
+    "sha": "2356d92535",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "API break / missing class",
+  "sig": "8464a1bf",
+  "status": "regressed"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSaveDeferred#8464a1bf": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": [
+    46007041174,
+    46010054737,
+    46010463199
+   ]
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "e6364c2be8f"
+   },
+   "merged_at": "2026-11-27T13:46:46+01:00",
+   "pr": 68456
+  },
+  "id": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSaveDeferred#8464a1bf",
+  "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testSaveDeferred",
+  "kind": "test",
+  "links": [],
+  "notes": "real: newLazyGhost() missing on PHP 8.3 (7.4 unit 8.3); fixed by #68456 (merged 2026-11-27 12:46Z)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140532694905,
+    "run_id": 46007041174,
+    "sha": "ef44babc91",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140542967300,
+    "run_id": 46010054737,
+    "sha": "0283a67638",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Error: Call to undefined method ReflectionClass::newLazyGhost()",
+    "job": "unit (8.3)",
+    "job_id": 140544345739,
+    "run_id": 46010463199,
+    "sha": "2356d92535",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "API break / missing class",
+  "sig": "8464a1bf",
+  "status": "regressed"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime#c070a267": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime#c070a267",
+  "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime",
+  "kind": "test",
+  "links": [],
+  "notes": "integration 7.4 (8.2): expired item still hit (AdapterTestCase:200, true is false) - Couchbase TTL timing; watch",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Failed asserting that true is false.",
+    "job": "Integration (8.2)",
+    "job_id": 137775183546,
+    "run_id": 45198468960,
+    "sha": "76b1fc92ca",
+    "workflow": "integration-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "c070a267",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Adapter\\RedisAdapterTest::testCreateHostConnection#bce70f00": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": "src/Symfony/Component/Cache",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Cache\\Tests\\Adapter\\RedisAdapterTest::testCreateHostConnection#bce70f00",
+  "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\RedisAdapterTest::testCreateHostConnection",
+  "kind": "test",
+  "links": [],
+  "notes": "Windows 5.4: Redis connection refused (service not ready); runner/infra, rejected in the 2026-11-27 scan",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Cache\\Exception\\InvalidArgumentException: Redis connection failed: No connection could be made because the target machine actively refused it.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139215100770,
+    "run_id": 45617069592,
+    "sha": "91d75cee7c",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "bce70f00",
+  "status": "wontfix"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayClusterProxy#972074b4": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayClusterProxy#972074b4",
+  "key": "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayClusterProxy",
+  "kind": "test",
+  "links": [],
+  "notes": "real: every PHP job of 2 commits 2026-11-24 (7.4, 8.2); relay proxy signature drift; not reproduced later",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.2)",
+    "job_id": 138478876712,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.5)",
+    "job_id": 138478876910,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.4)",
+    "job_id": 138478876969,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.3)",
+    "job_id": 138478877247,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.5)",
+    "job_id": 138479079299,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.4)",
+    "job_id": 138479080169,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 4 jobs of the same commit",
+  "sig": "972074b4",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayProxy#972074b4": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayProxy#972074b4",
+  "key": "Symfony\\Component\\Cache\\Tests\\Traits\\RedisProxiesTest::testRelayProxy",
+  "kind": "test",
+  "links": [],
+  "notes": "real: every PHP job of 2 commits 2026-11-24 (7.4, 8.2); relay proxy signature drift; not reproduced later",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.2)",
+    "job_id": 138478876712,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.5)",
+    "job_id": 138478876910,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.4)",
+    "job_id": 138478876969,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.3)",
+    "job_id": 138478877247,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.5)",
+    "job_id": 138479079299,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "unit (8.4)",
+    "job_id": 138479080169,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 4 jobs of the same commit",
+  "sig": "972074b4",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild#6a3b58e7": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild#6a3b58e7",
   "key": "Symfony\\Component\\Config\\Tests\\ResourceCheckerConfigCacheTest::testAnUnchangedGeneratedFileNeedsOnlyOneCorrectiveBuild",
   "kind": "test",
   "links": [
@@ -274,12 +1531,2193 @@
   ],
   "owner": "fix-03",
   "reason": "filesystem timing",
+  "sig": "6a3b58e7",
   "status": "fix-proposed"
  },
- "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption": {
+ "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns#972074b4": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": "src/Symfony/Component/Console",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns#972074b4",
+  "key": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky Windows 5.4: OUT printed before ERR despite usleep(500000) between them (data set #9); stdout/stderr pipe read ordering on slow runner",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are equal.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 137583869284,
+    "run_id": 45142558944,
+    "sha": "438b8f7e3c",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "972074b4",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse#3afb6ddc": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": "src/Symfony/Component/HtmlSanitizer",
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "3fe9efa8326"
+   },
+   "merged_at": "2026-11-27T13:54:08+01:00",
+   "pr": 68441
+  },
+  "id": "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse#3afb6ddc",
+  "key": "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse",
+  "kind": "test",
+  "links": [],
+  "notes": "real: deterministic on every job 2026-11-25 (PRs) to 2026-11-27 13:50Z; fixed by #68441 (merged 2026-11-27 12:54Z)",
+  "occurrences": [
+   {
+    "branch": "fix/serializer-json-int-union",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140001187786,
+    "run_id": 45846429888,
+    "sha": "498f4540ba",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "notifier-mercure-0.10",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140009685496,
+    "run_id": 45848886006,
+    "sha": "ec540789a9",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "object-mapper-abstract-target",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140039580106,
+    "run_id": 45857491582,
+    "sha": "54c70ea4d1",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "fix/ip-utils-cidr-netmask",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140050988594,
+    "run_id": 45860797935,
+    "sha": "22f0dbf97a",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "object-mapper-abstract-target",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140080685257,
+    "run_id": 45869432653,
+    "sha": "c28e154eec",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "json-schema-parameter-enricher",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140081255183,
+    "run_id": 45869596095,
+    "sha": "9145d6559c",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "profiler-phpinfo-without-env",
+    "date": "2026-11-27",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140308048427,
+    "run_id": 45938787127,
+    "sha": "01354a0558",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140419612881,
+    "run_id": 45973560297,
+    "sha": "db1e7f38c0",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140419613981,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140419614379,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140419614410,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140419614445,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140419614489,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140419614510,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140419614716,
+    "run_id": 45973560677,
+    "sha": "db1e7f38c0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140433794698,
+    "run_id": 45977793716,
+    "sha": "239ce49a09",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140433794960,
+    "run_id": 45977793716,
+    "sha": "239ce49a09",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140433795066,
+    "run_id": 45977793716,
+    "sha": "239ce49a09",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140433795204,
+    "run_id": 45977793716,
+    "sha": "239ce49a09",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140433795597,
+    "run_id": 45977793831,
+    "sha": "239ce49a09",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140434057035,
+    "run_id": 45977870369,
+    "sha": "0334cb1101",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140434056285,
+    "run_id": 45977870393,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140434056387,
+    "run_id": 45977870393,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140434056413,
+    "run_id": 45977870393,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140434056419,
+    "run_id": 45977870393,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140465304511,
+    "run_id": 45987069529,
+    "sha": "0334cb1101",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140465303999,
+    "run_id": 45987069637,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140465304432,
+    "run_id": 45987069637,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140465304442,
+    "run_id": 45987069637,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140465304559,
+    "run_id": 45987069637,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140466576711,
+    "run_id": 45987445858,
+    "sha": "0334cb1101",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140466576955,
+    "run_id": 45987445863,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140466577363,
+    "run_id": 45987445863,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140466577471,
+    "run_id": 45987445863,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140466577748,
+    "run_id": 45987445863,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140467867397,
+    "run_id": 45987836762,
+    "sha": "ef1df35596",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140467867659,
+    "run_id": 45987836762,
+    "sha": "ef1df35596",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140467867694,
+    "run_id": 45987836762,
+    "sha": "ef1df35596",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140467867941,
+    "run_id": 45987836762,
+    "sha": "ef1df35596",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140467867625,
+    "run_id": 45987836829,
+    "sha": "ef1df35596",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140473562666,
+    "run_id": 45989534417,
+    "sha": "5dd24b6919",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140473562846,
+    "run_id": 45989534466,
+    "sha": "5dd24b6919",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140473563391,
+    "run_id": 45989534466,
+    "sha": "5dd24b6919",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140473563392,
+    "run_id": 45989534466,
+    "sha": "5dd24b6919",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140473563518,
+    "run_id": 45989534466,
+    "sha": "5dd24b6919",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140473624271,
+    "run_id": 45989552999,
+    "sha": "3ea22fae8a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140473624550,
+    "run_id": 45989552999,
+    "sha": "3ea22fae8a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140473624609,
+    "run_id": 45989552999,
+    "sha": "3ea22fae8a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140473624685,
+    "run_id": 45989552999,
+    "sha": "3ea22fae8a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140473624688,
+    "run_id": 45989552999,
+    "sha": "3ea22fae8a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140473624110,
+    "run_id": 45989553005,
+    "sha": "3ea22fae8a",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140512017524,
+    "run_id": 46000915141,
+    "sha": "262d32511c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140512017526,
+    "run_id": 46000915141,
+    "sha": "262d32511c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140512017541,
+    "run_id": 46000915141,
+    "sha": "262d32511c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140512017569,
+    "run_id": 46000915141,
+    "sha": "262d32511c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140512017682,
+    "run_id": 46000915141,
+    "sha": "262d32511c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140512018155,
+    "run_id": 46000915334,
+    "sha": "262d32511c",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140514260559,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140514260828,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140514260857,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140514260936,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140514260948,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140514261106,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140514260839,
+    "run_id": 46001574598,
+    "sha": "2f6e52b686",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140518625208,
+    "run_id": 46002853711,
+    "sha": "2c8cc8c726",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140518625720,
+    "run_id": 46002853722,
+    "sha": "2c8cc8c726",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140518626032,
+    "run_id": 46002853722,
+    "sha": "2c8cc8c726",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140518626085,
+    "run_id": 46002853722,
+    "sha": "2c8cc8c726",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140518626182,
+    "run_id": 46002853722,
+    "sha": "2c8cc8c726",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140518626453,
+    "run_id": 46002853722,
+    "sha": "2c8cc8c726",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140521044707,
+    "run_id": 46003576641,
+    "sha": "13a254d6b2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140521044743,
+    "run_id": 46003576641,
+    "sha": "13a254d6b2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140521044744,
+    "run_id": 46003576641,
+    "sha": "13a254d6b2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140521044759,
+    "run_id": 46003576641,
+    "sha": "13a254d6b2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140521044721,
+    "run_id": 46003576649,
+    "sha": "13a254d6b2",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140521514928,
+    "run_id": 46003717019,
+    "sha": "4b5f68a6bf",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140521515814,
+    "run_id": 46003717284,
+    "sha": "4b5f68a6bf",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140521516101,
+    "run_id": 46003717284,
+    "sha": "4b5f68a6bf",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140521516113,
+    "run_id": 46003717284,
+    "sha": "4b5f68a6bf",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140521516136,
+    "run_id": 46003717284,
+    "sha": "4b5f68a6bf",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140521938331,
+    "run_id": 46003844141,
+    "sha": "d51261be85",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140521938709,
+    "run_id": 46003844141,
+    "sha": "d51261be85",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140521938879,
+    "run_id": 46003844141,
+    "sha": "d51261be85",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140521938908,
+    "run_id": 46003844141,
+    "sha": "d51261be85",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140521939163,
+    "run_id": 46003844141,
+    "sha": "d51261be85",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140521938825,
+    "run_id": 46003844156,
+    "sha": "d51261be85",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140523968782,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140523969060,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140523969139,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140523969207,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140523969222,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140523969315,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140523969334,
+    "run_id": 46004448244,
+    "sha": "842a2f1d74",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140523968932,
+    "run_id": 46004448355,
+    "sha": "842a2f1d74",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140525124325,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140525124350,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140525124386,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140525124413,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140525124425,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140525124537,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140525124971,
+    "run_id": 46004789731,
+    "sha": "03125d3d01",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140525883952,
+    "run_id": 46005015162,
+    "sha": "413a706e36",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140525884309,
+    "run_id": 46005015162,
+    "sha": "413a706e36",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140525884312,
+    "run_id": 46005015162,
+    "sha": "413a706e36",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140525884423,
+    "run_id": 46005015162,
+    "sha": "413a706e36",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140525884489,
+    "run_id": 46005015162,
+    "sha": "413a706e36",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140525884255,
+    "run_id": 46005015164,
+    "sha": "413a706e36",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140528410442,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140528410773,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140528410780,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140528410816,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140528410913,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140528410937,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140528412272,
+    "run_id": 46005770010,
+    "sha": "f34a6ae470",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140528967497,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140528967820,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140528967885,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140528967939,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140528968044,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140528968091,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140528968184,
+    "run_id": 46005932735,
+    "sha": "f82620c793",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140528968046,
+    "run_id": 46005932780,
+    "sha": "f82620c793",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140529379097,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140529379101,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140529379128,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140529379156,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140529379159,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140529379163,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140529379225,
+    "run_id": 46006056571,
+    "sha": "bf98ad8792",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140529378924,
+    "run_id": 46006056609,
+    "sha": "bf98ad8792",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140529709345,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140529709729,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140529709776,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140529709884,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140529710000,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140529710501,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140529709463,
+    "run_id": 46006154092,
+    "sha": "98e36e1dd3",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140530493932,
+    "run_id": 46006389825,
+    "sha": "430823892e",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140530493542,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140530493815,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140530493885,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140530493936,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140530493946,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140530493962,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140530494081,
+    "run_id": 46006389839,
+    "sha": "430823892e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140530840822,
+    "run_id": 46006491821,
+    "sha": "fa2da6312d",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140530840513,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140530840752,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140530840889,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140530840901,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140530840904,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140530841277,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140531293984,
+    "run_id": 46006626290,
+    "sha": "702d1fd253",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140531294498,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140531294643,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140531294711,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140531294717,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140531294836,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140531294980,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140532078954,
+    "run_id": 46006858500,
+    "sha": "fd2b7af90f",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140532078894,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140532079049,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.3)",
+    "job_id": 140532079074,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140532079118,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.2)",
+    "job_id": 140532079139,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140532079224,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140533460816,
+    "run_id": 46007262759,
+    "sha": "726d278633",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.6)",
+    "job_id": 140533460646,
+    "run_id": 46007262833,
+    "sha": "726d278633",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.7)",
+    "job_id": 140533460923,
+    "run_id": 46007262833,
+    "sha": "726d278633",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.5)",
+    "job_id": 140533461003,
+    "run_id": 46007262833,
+    "sha": "726d278633",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type array.",
+    "job": "unit (8.4)",
+    "job_id": 140533461128,
+    "run_id": 46007262833,
+    "sha": "726d278633",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 15 jobs of the same commit",
+  "sig": "3afb6ddc",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse#4674d04f": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": "src/Symfony/Component/HtmlSanitizer",
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "3fe9efa8326"
+   },
+   "merged_at": "2026-11-27T13:54:08+01:00",
+   "pr": 68441
+  },
+  "id": "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse#4674d04f",
+  "key": "Symfony\\Component\\HtmlSanitizer\\Tests\\TextSanitizer\\UrlSanitizerTest::testParse",
+  "kind": "test",
+  "links": [],
+  "notes": "real: deterministic on every job 2026-11-25 (PRs) to 2026-11-27 13:50Z; fixed by #68441 (merged 2026-11-27 12:54Z)",
+  "occurrences": [
+   {
+    "branch": "fix/expression-language-dump-hash-keys",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140002832746,
+    "run_id": 45846904050,
+    "sha": "b8ddb27fe1",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "fix/stopwatch-zero-section-origin",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140004933684,
+    "run_id": 45847519902,
+    "sha": "dcaab4b06d",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "mailgun-inline-cid-content-id",
+    "date": "2026-11-26",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140105262015,
+    "run_id": 45876637250,
+    "sha": "cb45bf34b5",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "fix/issue-68455-chain-adapter-lazy-ghost",
+    "date": "2026-11-27",
+    "event": "pull_request",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140289132741,
+    "run_id": 45932826737,
+    "sha": "fe6c22b8c3",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140468657273,
+    "run_id": 45988072530,
+    "sha": "f3429f1ba5",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.3)",
+    "job_id": 140468658168,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.5)",
+    "job_id": 140468658444,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.1)",
+    "job_id": 140468658574,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.4)",
+    "job_id": 140468658639,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.6)",
+    "job_id": 140468658739,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.7)",
+    "job_id": 140468658789,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140514062132,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.5)",
+    "job_id": 140514062459,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.7)",
+    "job_id": 140514062507,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.3)",
+    "job_id": 140514062584,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.4)",
+    "job_id": 140514062587,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.6)",
+    "job_id": 140514062776,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "unit (8.1)",
+    "job_id": 140514063009,
+    "run_id": 46001516923,
+    "sha": "e6364c2be8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that null is of type \"array\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140514062004,
+    "run_id": 46001516964,
+    "sha": "e6364c2be8",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 8 jobs of the same commit",
+  "sig": "4674d04f",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption#854d9dfa": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption#854d9dfa",
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureAllowsOutOfOrderResponseConsumption",
   "kind": "test",
   "links": [
@@ -327,12 +3765,26 @@
   ],
   "owner": "",
   "reason": "timeout",
+  "sig": "854d9dfa",
   "status": "fix-proposed"
  },
- "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun": {
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun#263da791": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "cea24c26b34"
+   },
+   "merged_at": "2026-11-16T10:51:39+01:00",
+   "pr": 68198
+  },
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun#263da791",
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testBackpressureWhileOtherFibersRun",
   "kind": "test",
   "links": [
@@ -369,12 +3821,56 @@
   ],
   "owner": "",
   "reason": "ordering / leftover state",
+  "sig": "263da791",
   "status": "fixed"
  },
- "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException": {
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testFailureBeforeHeadersIsNotDelayed#2a89d83a": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testFailureBeforeHeadersIsNotDelayed#2a89d83a",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testFailureBeforeHeadersIsNotDelayed",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky Windows timing: 2.65 s not less than 0.5 (AmpHttpClientTest:137), 7.4 sha 1db22af14e",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "Failed asserting that 2.6459447 is less than 0.5.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 138571293781,
+    "run_id": 45429703164,
+    "sha": "1db22af14e",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "2a89d83a",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException#b779733e": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "cea24c26b34"
+   },
+   "merged_at": "2026-11-16T10:51:39+01:00",
+   "pr": 68198
+  },
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException#b779733e",
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testHandleIsRemovedOnException",
   "kind": "test",
   "links": [
@@ -403,16 +3899,32 @@
   ],
   "owner": "",
   "reason": "ordering / leftover state",
+  "sig": "b779733e",
   "status": "fixed"
  },
- "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout": {
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout#854d9dfa": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {
+   "open_branches": [
+    "6.4"
+   ],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "cc3c1c9a3d8"
+   },
+   "merged_at": "2026-11-23T09:07:50Z",
+   "pr": 68318
+  },
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout#854d9dfa",
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout",
   "kind": "test",
   "links": [],
-  "notes": "timing margin (0.3 s after a 0.8 s pause); transient-on-windows on fix-amp-pause-during-body-transient-windows (7.4, 98006dc0a77), precedent #66077; not reproduced (0/1100 runs Win+Linux)",
+  "notes": "transient-on-windows on 7.4+ by #68318 (merged 2026-11-23). Failed on 6.4 Windows 2026-11-27 (run 46017715889) although 6.4 runs HttpClient separately; 6.4 has no group: extend the fix to 6.4 (@group docblock)",
   "occurrences": [
    {
     "branch": "8.2",
@@ -424,16 +3936,234 @@
     "run_id": 43439332522,
     "sha": "8edd1145d8",
     "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TimeoutException: Idle timeout reached for \"http://localhost:8057/timeout-body\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140569012257,
+    "run_id": 46017715889,
+    "sha": "cd3bcbf6b8",
+    "workflow": "windows.yml"
    }
   ],
-  "owner": "",
+  "owner": "scan",
   "reason": "timeout",
-  "status": "fix-proposed"
+  "sig": "854d9dfa",
+  "status": "fixed"
  },
- "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct": {
+ "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky Windows timing: TransportException (max_duration) not thrown, 8.2 sha 37f89e19dc",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Failed asserting that exception of type \"Symfony\\Component\\HttpClient\\Exception\\TransportException\" is thrown.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 137635370823,
+    "run_id": 45157881637,
+    "sha": "37f89e19dc",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "9d80d5c5",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testPauseReplace#fbd78660": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testPauseReplace#fbd78660",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testPauseReplace",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky Windows timing: 6.08 s not <= 5 (HttpClientTestCase:306), 7.4 sha 446428ad1d; #67222/#66588 fixed testPause stalls, not this one",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that 6.082103967666626 is equal to 5 or is less than 5.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139202460451,
+    "run_id": 45613395660,
+    "sha": "446428ad1d",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "fbd78660",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct#2a89d83a": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct#2a89d83a",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky Windows timing: 2.34 s not less than 1.0 (Contracts HttpClientTestCase:935), 8.2 sha 148fbd455a; Curl/Amp siblings are transient-on-windows, AsyncDecoratorTrait one is not",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that 2.336195230484009 is less than 1.0.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140543488027,
+    "run_id": 46010208736,
+    "sha": "148fbd455a",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "2a89d83a",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#19caa1ea": {
+  "board": "",
   "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Component/HttpClient",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#19caa1ea",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed",
+  "kind": "test",
+  "links": [],
+  "notes": "real: failed on all 5 branches Windows at the 2026-11-25 07:11Z security merge (curl connects to port 9 proxy, 2 s); next Windows pushes 07:34Z green; not flaky",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TransportException: Failed to connect to 127.0.0.1 port 9: Connection refused for \"http://127.0.0.1:8057/\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041346748,
+    "run_id": 45566158181,
+    "sha": "3f770e6ec9",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TransportException: Failed to connect to 127.0.0.1 port 9: Connection refused for \"http://127.0.0.1:8057/\".",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041347112,
+    "run_id": 45566158262,
+    "sha": "fff709d765",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "network/port",
+  "sig": "19caa1ea",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#9822a344": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Component/HttpClient",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#9822a344",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed",
+  "kind": "test",
+  "links": [],
+  "notes": "real: failed on all 5 branches Windows at the 2026-11-25 07:11Z security merge (curl connects to port 9 proxy, 2 s); next Windows pushes 07:34Z green; not flaky",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TransportException: Failed to connect to 127.0.0.1 port 9 after 2027 ms: Connection refused for \"http://127.0.0.1:8057/\".",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 139041347082,
+    "run_id": 45566158055,
+    "sha": "acf682f076",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "network/port",
+  "sig": "9822a344",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#e0cf4986": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Component/HttpClient",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#e0cf4986",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed",
+  "kind": "test",
+  "links": [],
+  "notes": "real: failed on all 5 branches Windows at the 2026-11-25 07:11Z security merge (curl connects to port 9 proxy, 2 s); next Windows pushes 07:34Z green; not flaky",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TransportException: Failed to connect to 127.0.0.1 port 9 after 2025 ms: Could not connect to server for \"http://127.0.0.1:8057/\".",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 139041346280,
+    "run_id": 45566157886,
+    "sha": "aef620ba88",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\HttpClient\\Exception\\TransportException: Failed to connect to 127.0.0.1 port 9 after 2018 ms: Could not connect to server for \"http://127.0.0.1:8057/\".",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 139041346233,
+    "run_id": 45566157905,
+    "sha": "bf23bcf58b",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "network/port",
+  "sig": "e0cf4986",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct#04e5a358": {
+  "board": "",
+  "classification": "unknown",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct#04e5a358",
   "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct",
   "kind": "test",
   "links": [
@@ -466,7 +4196,43 @@
     "run_id": 43843829136,
     "sha": "661b301fea",
     "workflow": "windows.yml"
+   }
+  ],
+  "owner": "",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "04e5a358",
+  "status": "fix-proposed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct#854d9dfa": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct#854d9dfa",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct",
+  "kind": "test",
+  "links": [
+   {
+    "date": "2026-09-03",
+    "matched": "testTimeoutOnDestruct",
+    "number": 65830,
+    "pr": true,
+    "state": "closed",
+    "title": "[Security] Let an authenticator tell why it did not support the request"
    },
+   {
+    "date": "2022-09-12",
+    "matched": "testTimeoutOnDestruct",
+    "number": 47551,
+    "pr": false,
+    "state": "closed",
+    "title": "Add phpdoc return type to v6 codebase to prepare v7 typehint"
+   }
+  ],
+  "notes": "transient-on-windows on branch fix-curl-timeout-on-destruct-windows (7.4), precedent d6e861ab6",
+  "occurrences": [
    {
     "branch": "7.4",
     "date": "2026-11-16",
@@ -481,12 +4247,137 @@
   ],
   "owner": "",
   "reason": "timeout",
+  "sig": "854d9dfa",
   "status": "fix-proposed"
  },
- "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest": {
+ "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByHost#9d80d5c5": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "real",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByHost#9d80d5c5",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByHost",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that exception of type \"Symfony\\Component\\HttpClient\\Exception\\TransportException\" is thrown.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347318,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "9d80d5c5",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByIp#9d80d5c5": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "real",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByIp#9d80d5c5",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testExcludeByIp",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that exception of type \"Symfony\\Component\\HttpClient\\Exception\\TransportException\" is thrown.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347318,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "9d80d5c5",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testIpv4MappedAddressIsCheckedAgainstCustomIpv4Subnets#9d80d5c5": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "real",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testIpv4MappedAddressIsCheckedAgainstCustomIpv4Subnets#9d80d5c5",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\NoPrivateNetworkHttpClientTest::testIpv4MappedAddressIsCheckedAgainstCustomIpv4Subnets",
+  "kind": "test",
+  "links": [],
+  "notes": "real — 2026-11-25 security release merge (07:11Z, all branches); deterministic on every job of the same commits; green on the next pushes; not flaky",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that exception of type \"Symfony\\Component\\HttpClient\\Exception\\TransportException\" is thrown.",
+    "job": "unit (8.2, low-deps)",
+    "job_id": 139041347318,
+    "run_id": 45566158257,
+    "sha": "fff709d765",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "9d80d5c5",
+  "status": "not-flaky"
+ },
+ "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender#1b60bd89": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": "src/Symfony/Component/HttpKernel",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender#1b60bd89",
+  "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky: REQUEST_TIME second boundary. testRender compares Request::create() made in the test with the one in setUp()/RequestStack using ==, ignoring only REQUEST_TIME_FLOAT (same family as fix #5 InlineFragmentRendererTest; the latent sibling predicted in KNOWLEDGE 6b). Failure shows REQUEST_TIME differs. 7.4 high-deps, sha 6267b1041a. Fix: also remove REQUEST_TIME (6.4+)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Expectation for Symfony\\Component\\HttpKernel\\Fragment\\FragmentRendererInterface::render() failed.",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 137589730919,
+    "run_id": 45144322785,
+    "sha": "6267b1041a",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "1b60bd89",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest#c28b516e": {
+  "board": "",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest#c28b516e",
   "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest",
   "kind": "test",
   "links": [
@@ -515,12 +4406,17 @@
   ],
   "owner": "",
   "reason": "single occurrence, no flaky signature",
+  "sig": "c28b516e",
   "status": "fix-proposed"
  },
- "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted": {
+ "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted#1a70fb86": {
+  "board": "",
   "classification": "unknown",
   "classification_override": "",
   "component": "src/Symfony/Component/JsonSchema",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted#1a70fb86",
   "key": "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted",
   "kind": "test",
   "links": [
@@ -549,12 +4445,17 @@
   ],
   "owner": "",
   "reason": "single occurrence, no flaky signature",
+  "sig": "1a70fb86",
   "status": "triaged"
  },
- "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed": {
+ "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed#cfd1000c": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed#cfd1000c",
   "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed",
   "kind": "test",
   "links": [],
@@ -574,12 +4475,17 @@
   ],
   "owner": "",
   "reason": "external service / transport race",
+  "sig": "cfd1000c",
   "status": "triaged"
  },
- "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent": {
+ "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent#ed00ea84": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent#ed00ea84",
   "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent",
   "kind": "test",
   "links": [],
@@ -599,12 +4505,26 @@
   ],
   "owner": "",
   "reason": "external service / transport race",
+  "sig": "ed00ea84",
   "status": "triaged"
  },
- "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName": {
+ "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName#d636a3db": {
+  "board": "",
   "classification": "real",
   "classification_override": "real",
   "component": "src/Symfony/Component/Messenger",
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "8.2": "0c4e41a62e9"
+   },
+   "merged_at": "2026-11-17T22:22:20+01:00",
+   "pr": 68252
+  },
+  "id": "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName#d636a3db",
   "key": "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName",
   "kind": "test",
   "links": [],
@@ -679,12 +4599,182 @@
   ],
   "owner": "",
   "reason": "fails in 6 jobs of the same commit",
+  "sig": "d636a3db",
   "status": "fixed"
  },
- "TIMEOUT src/Symfony/Bridge/Doctrine": {
+ "Symfony\\Component\\Mime\\Tests\\AddressTest::testConstructorWithACommentAfterADomainLiteral#b37eec54": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "5.4": "e5bc7642112"
+   },
+   "merged_at": "2026-11-23T09:13:01+01:00",
+   "pr": 68325
+  },
+  "id": "Symfony\\Component\\Mime\\Tests\\AddressTest::testConstructorWithACommentAfterADomainLiteral#b37eec54",
+  "key": "Symfony\\Component\\Mime\\Tests\\AddressTest::testConstructorWithACommentAfterADomainLiteral",
+  "kind": "test",
+  "links": [],
+  "notes": "real: egulias/email-validator 4.0.5; fixed by #68325 (merged 2026-11-23 08:13Z)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.5)",
+    "job_id": 137577634467,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.6)",
+    "job_id": 137577634754,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.3)",
+    "job_id": 137577634798,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.4)",
+    "job_id": 137577634823,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.7)",
+    "job_id": 137577634893,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "unit (8.2)",
+    "job_id": 137577634937,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Mime\\Exception\\RfcComplianceException: Email \"user@[em@il] (comment)\" does not comply with addr-spec of RFC 2822.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 137577635010,
+    "run_id": 45140690402,
+    "sha": "15c600b1d8",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails in 7 jobs of the same commit",
+  "sig": "b37eec54",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\Process\\Tests\\ProcessTest::testPreparedCommandMulti#9388e36c": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Process\\Tests\\ProcessTest::testPreparedCommandMulti#9388e36c",
+  "key": "Symfony\\Component\\Process\\Tests\\ProcessTest::testPreparedCommandMulti",
+  "kind": "test",
+  "links": [],
+  "notes": "single Linux occurrence 7.4 unit (8.2): empty output instead of ABCDEF; watch",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "unit (8.2)",
+    "job_id": 139051539177,
+    "run_id": 45569249678,
+    "sha": "917139298d",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "9388e36c",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes#919219f8": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes#919219f8",
+  "key": "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes",
+  "kind": "test",
+  "links": [],
+  "notes": "Windows 7.4 sha db1e7f38c0: RecursiveDirectoryIterator on HttpKernel/Tests/Fixtures/.2Gs\\d (temp dir of a concurrently running HttpKernel test vanished) via Contracts/Deprecation/function.php:25; cross-component race",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "UnexpectedValueException: RecursiveDirectoryIterator::__construct(D:\\a\\symfony\\symfony\\src\\Symfony\\Component\\HttpKernel\\Tests\\Fixtures\\.2Gs\\d): The system cannot find the path specifi (code: 3)",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140419612881,
+    "run_id": 45973560297,
+    "sha": "db1e7f38c0",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "919219f8",
+  "status": "triaged"
+ },
+ "TIMEOUT src/Symfony/Bridge/Doctrine#56d3c949": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": "src/Symfony/Bridge/Doctrine",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "TIMEOUT src/Symfony/Bridge/Doctrine#56d3c949",
   "key": "TIMEOUT src/Symfony/Bridge/Doctrine",
   "kind": "timeout",
   "links": [
@@ -753,12 +4843,47 @@
   ],
   "owner": "",
   "reason": "timeout",
+  "sig": "56d3c949",
   "status": "triaged"
  },
- "TIMEOUT src/Symfony/Component/Workflow": {
+ "TIMEOUT src/Symfony/Bridge/Monolog#56d3c949": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": "src/Symfony/Bridge/Monolog",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "TIMEOUT src/Symfony/Bridge/Monolog#56d3c949",
+  "key": "TIMEOUT src/Symfony/Bridge/Monolog",
+  "kind": "timeout",
+  "links": [],
+  "notes": "5.4 Windows process timeout; slow runner (same family as Doctrine/Workflow 5.4 timeouts); rejected in the 2026-11-27 scan",
+  "occurrences": [
+   {
+    "branch": "5.4",
+    "date": "2026-11-25",
+    "event": "push",
+    "excerpt": "Timeout src\\Symfony/Bridge/Monolog",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 139041347112,
+    "run_id": 45566158262,
+    "sha": "fff709d765",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "timeout",
+  "sig": "56d3c949",
+  "status": "wontfix"
+ },
+ "TIMEOUT src/Symfony/Component/Workflow#56d3c949": {
+  "board": "",
   "classification": "flaky",
   "classification_override": "",
   "component": "src/Symfony/Component/Workflow",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "TIMEOUT src/Symfony/Component/Workflow#56d3c949",
   "key": "TIMEOUT src/Symfony/Component/Workflow",
   "kind": "timeout",
   "links": [
@@ -827,12 +4952,579 @@
   ],
   "owner": "",
   "reason": "timeout",
+  "sig": "56d3c949",
   "status": "triaged"
  },
- "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93": {
+ "UNATTRIBUTED Integration (8.4)#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED Integration (8.4)#40b9188f",
+  "key": "UNATTRIBUTED Integration (8.4)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Remove container network: github_network_0a5d0867d09142158607ab8515769519 | github_network_0a5d0867d09142158607ab8515769519 | Cleaning up orphan processes",
+    "job": "Integration (8.4)",
+    "job_id": 140534225433,
+    "run_id": 46007483567,
+    "sha": "acf54f39a2",
+    "workflow": "integration-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)#40b9188f",
+  "key": "UNATTRIBUTED unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1655, Assertions: 5448, Deprecations: 12, Skipped: 23. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.2, low-deps, amqp,apcu,brotli,igbinary,intl,mbstring,memcached,redis-5.3.7,relay,zstd)",
+    "job_id": 138478877121,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED unit (8.4)#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED unit (8.4)#40b9188f",
+  "key": "UNATTRIBUTED unit (8.4)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Reading package lists... | E: Failed to fetch https://ppa.launchpadcontent.net/ondrej/php/ubuntu/dists/noble/main/binary-amd64/Packages  503  Service Unavailable [IP: 185.125.189.186 443] | E: Some in",
+    "job": "unit (8.4)",
+    "job_id": 137773400664,
+    "run_id": 45197965427,
+    "sha": "14229669bc",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Reading package lists... | E: Failed to fetch https://packages.microsoft.com/ubuntu/24.04/prod/dists/noble/InRelease  403  Forbidden [IP: 13.107.213.40 443] | E: The repository 'https://packages.micro",
+    "job": "unit (8.4)",
+    "job_id": 140533572411,
+    "run_id": 46007295955,
+    "sha": "da590a9e17",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED unit (8.4, high-deps)#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED unit (8.4, high-deps)#40b9188f",
+  "key": "UNATTRIBUTED unit (8.4, high-deps)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Remaining indirect deprecation notices (20)",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 137577634853,
+    "run_id": 45140690317,
+    "sha": "15c600b1d8",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Reading package lists... | E: Failed to fetch https://ppa.launchpadcontent.net/ondrej/php/ubuntu/dists/noble/main/i18n/Translation-en  503  Service Unavailable [IP: 185.125.189.186 443] | E: Some inde",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 137933333134,
+    "run_id": 45243284479,
+    "sha": "9b1f87542f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "OK, but incomplete, skipped, or risky tests! | Tests: 1808, Assertions: 3517, Skipped: 26. | OK src/Symfony/Component/HttpFoundation^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 138478876342,
+    "run_id": 45403762373,
+    "sha": "6eed879d27",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1535, Assertions: 4903, Deprecations: 4, Skipped: 16. | OK src/Symfony/Bundle/FrameworkBundle^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 138479079984,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 466, Assertions: 1275, Skipped: 2. | OK src/Symfony/Bridge/Doctrine",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140433795142,
+    "run_id": 45977793716,
+    "sha": "239ce49a09",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 220, Assertions: 358, Skipped: 12. | OK src/Symfony/Component/Process^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140434055939,
+    "run_id": 45977870393,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140465304655,
+    "run_id": 45987069637,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140466577559,
+    "run_id": 45987445863,
+    "sha": "0334cb1101",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 577, Assertions: 1576, Skipped: 5. | OK src/Symfony/Bridge/Doctrine^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140467867802,
+    "run_id": 45987836762,
+    "sha": "ef1df35596",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Remaining indirect deprecation notices (1)",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140468658562,
+    "run_id": 45988072679,
+    "sha": "f3429f1ba5",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140473563440,
+    "run_id": 45989534466,
+    "sha": "5dd24b6919",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Reading package lists... | E: Failed to fetch https://packages.microsoft.com/ubuntu/24.04/prod/dists/noble/InRelease  403  Forbidden [IP: 13.107.213.40 443] | E: The repository 'https://packages.micro",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140514260982,
+    "run_id": 46001574536,
+    "sha": "2f6e52b686",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 577, Assertions: 1576, Skipped: 5. | OK src/Symfony/Bridge/Doctrine",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140521044399,
+    "run_id": 46003576641,
+    "sha": "13a254d6b2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140521516267,
+    "run_id": 46003717284,
+    "sha": "4b5f68a6bf",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Remaining direct deprecation notices (799)",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140525124651,
+    "run_id": 46004789359,
+    "sha": "03125d3d01",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but incomplete, skipped, or risky tests! | Tests: 1817, Assertions: 3527, Skipped: 26. | OK src/Symfony/Component/HttpFoundation^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140528411245,
+    "run_id": 46005769855,
+    "sha": "f34a6ae470",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Time: 00:00.005, Memory: 6.00 MB | OK (18 tests, 22 assertions) | OK src/Symfony/Component/Notifier/Bridge/Brevo^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140529709716,
+    "run_id": 46006154009,
+    "sha": "98e36e1dd3",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Time: 00:00.485, Memory: 14.00 MB | OK (285 tests, 743 assertions) | OK src/Symfony/Component/BrowserKit^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140530840631,
+    "run_id": 46006491862,
+    "sha": "fa2da6312d",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Time: 00:00.008, Memory: 6.00 MB | OK (18 tests, 22 assertions) | OK src/Symfony/Component/Notifier/Bridge/Brevo^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140531294942,
+    "run_id": 46006626340,
+    "sha": "702d1fd253",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but incomplete, skipped, or risky tests! | Tests: 1191, Assertions: 2746, Skipped: 54. | OK src/Symfony/Component/HttpClient^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140532078658,
+    "run_id": 46006858514,
+    "sha": "fd2b7af90f",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140533461058,
+    "run_id": 46007262833,
+    "sha": "726d278633",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1802, Assertions: 17556, PHPUnit Deprecations: 1, Skipped: 71. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140534226338,
+    "run_id": 46007483474,
+    "sha": "acf54f39a2",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.3",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process^",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140534392613,
+    "run_id": 46007530994,
+    "sha": "d17124b13e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1802, Assertions: 17556, PHPUnit Deprecations: 1, Skipped: 71. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140542823092,
+    "run_id": 46010013846,
+    "sha": "3751458e44",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140543487776,
+    "run_id": 46010208522,
+    "sha": "148fbd455a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1803, Assertions: 17560, PHPUnit Deprecations: 1, Skipped: 71. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140547606727,
+    "run_id": 46011421659,
+    "sha": "57e39160a7",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1803, Assertions: 17560, PHPUnit Deprecations: 1, Skipped: 71. | OK src/Symfony/Component/HttpClient",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140550928540,
+    "run_id": 46012396305,
+    "sha": "80c410514a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "OK, but some tests were skipped! | Tests: 235, Assertions: 383, Skipped: 13. | OK src/Symfony/Component/Process",
+    "job": "unit (8.4, high-deps)",
+    "job_id": 140554297480,
+    "run_id": 46013390672,
+    "sha": "45a03bd5f8",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED unit (8.4, low-deps)#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED unit (8.4, low-deps)#40b9188f",
+  "key": "UNATTRIBUTED unit (8.4, low-deps)",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "8.1",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1535, Assertions: 4877, Deprecations: 157, Skipped: 24. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 137645679858,
+    "run_id": 45160875577,
+    "sha": "6da9a2575c",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "Reading package lists... | E: Failed to fetch https://ppa.launchpadcontent.net/ondrej/php/ubuntu/dists/noble/main/binary-amd64/Packages  503  Service Unavailable [IP: 185.125.189.186 443] | E: Some in",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 137864827690,
+    "run_id": 45223811323,
+    "sha": "b116ffb77a",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-24",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1458, Assertions: 4182, Deprecations: 9, Skipped: 56. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 138479079882,
+    "run_id": 45403820566,
+    "sha": "86003d6012",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED x86 / all extensions / lowest-php#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED x86 / all extensions / lowest-php#40b9188f",
+  "key": "UNATTRIBUTED x86 / all extensions / lowest-php",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "  The \"https://api.github.com/repos/php-fig/cache/zipball/588d5ff7035e78cd4f69eb798890749ac4641b30\" file could not be    |   downloaded (HTTP/2 504 )                                                   ",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 137870486799,
+    "run_id": 45225423393,
+    "sha": "72e7ebca25",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "  The \"https://api.github.com/repos/thephpleague/mime-type-detection/zipball/f5f47eff7c48ed1003069a2ca67f316fb4021c76\"   |    file could not be downloaded (HTTP/2 504 )                                ",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 137874600304,
+    "run_id": 45226586489,
+    "sha": "5d5580a56f",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "UNATTRIBUTED x86 / minimal-exts / lowest-php#40b9188f": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "UNATTRIBUTED x86 / minimal-exts / lowest-php#40b9188f",
+  "key": "UNATTRIBUTED x86 / minimal-exts / lowest-php",
+  "kind": "unattributed",
+  "links": [],
+  "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "  The \"https://api.github.com/repos/guzzle/promises/zipball/72e93ed2b1f3d8c09d1460c950bd5726face7ccd\" file could not b   |   e downloaded (HTTP/2 504 )                                                 ",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 137870487481,
+    "run_id": 45225423393,
+    "sha": "72e7ebca25",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-23",
+    "event": "push",
+    "excerpt": "  The \"https://api.github.com/repos/DaveRandom/LibDNS/zipball/b84c94e8fe6b7ee4aecfe121bfe3b6177d303c8a\" file could not   |    be downloaded (HTTP/2 504 )                                               ",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 137874599556,
+    "run_id": 45226586489,
+    "sha": "5d5580a56f",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "failing test not visible in log (re-fetch full log)",
+  "sig": "40b9188f",
+  "status": "wontfix"
+ },
+ "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93#7e22f6e1": {
+  "board": "",
   "classification": "real",
   "classification_override": "",
   "component": "src/Symfony/Component/JsonSchema",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93#7e22f6e1",
   "key": "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93",
   "kind": "deprecation",
   "links": [],
@@ -852,12 +5544,47 @@
   ],
   "owner": "",
   "reason": "deprecation",
+  "sig": "7e22f6e1",
   "status": "not-flaky"
  },
- "vendor/doctrine/orm/src/Tools/SchemaTool.php:96": {
+ "src/Symfony/Component/Runtime/Tests/phpt/kernel-loop.phpt#208314a1": {
+  "board": "",
+  "classification": "real",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "src/Symfony/Component/Runtime/Tests/phpt/kernel-loop.phpt#208314a1",
+  "key": "src/Symfony/Component/Runtime/Tests/phpt/kernel-loop.phpt",
+  "kind": "deprecation",
+  "links": [],
+  "notes": "Windows 6.4: child php \"Can't initialize heap: [0x000001e7] Attempt to access invalid address\" - runner memory, not a test bug",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-27",
+    "event": "push",
+    "excerpt": "Failed asserting that string matches format description.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 140468657273,
+    "run_id": 45988072530,
+    "sha": "f3429f1ba5",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "deprecation",
+  "sig": "208314a1",
+  "status": "wontfix"
+ },
+ "vendor/doctrine/orm/src/Tools/SchemaTool.php:96#a96f7190": {
+  "board": "",
   "classification": "real",
   "classification_override": "",
   "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "vendor/doctrine/orm/src/Tools/SchemaTool.php:96#a96f7190",
   "key": "vendor/doctrine/orm/src/Tools/SchemaTool.php:96",
   "kind": "deprecation",
   "links": [],
@@ -910,6 +5637,7 @@
   ],
   "owner": "",
   "reason": "deprecation",
+  "sig": "a96f7190",
   "status": "triaged"
  }
 }

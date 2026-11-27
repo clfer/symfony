@@ -1,1 +1,1 @@
-{"since":"2026-11-07","until":"2026-11-22","workflows":["integration-tests.yml","unit-tests.yml","windows.yml"],"events":["push"],"source":"mcp"}
+{"events":["push","pull_request"],"note":"pull_request: only 11 failed Windows runs sampled (2026-11-25..27), all UrlSanitizer; push is the full scan","since":"2026-11-07","source":"mcp","until":"2026-11-27","workflows":["integration-tests.yml","unit-tests.yml","windows.yml"]}
