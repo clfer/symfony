@@ -6,7 +6,7 @@ Last verified: 2026-11-27 (orchestrator, fix #10 PR prep).
 | Rule | Source |
 |---|---|
 | Body = upstream template table (Branch, Bug fix?, New feature?, Deprecations?, Issues `Fix #…` or `-`, License MIT), and replace the HTML comment with the explanation. | `.github/PULL_REQUEST_TEMPLATE.md` on the base branch |
-| Bug fixes target the lowest maintained branch where the bug exists. Since 2026-11-27 the template lists 7.4, 8.1, 8.2: **6.4 is out of bug-fix maintenance** (upstream 0c59c9423e "Bye bye 6.4"; 6.4 `Kernel::END_OF_MAINTENANCE` = 11/2026, security fixes only until 11/2027). | https://symfony.com/doc/current/contributing/code.html#proposing-a-change ("Choose the Branch") |
+| Bug fixes target the lowest maintained branch where the bug exists. Since 2026-11-27 the template lists 7.4, 8.1, 8.2 (upstream 0c59c9423e "Bye bye 6.4"; 6.4 `Kernel::END_OF_MAINTENANCE` = 11/2026). **Test-only fixes still go to the lowest branch where the test fails, 6.4 included:** maintainers merge them into security-only branches (2a5cce6da9 on 5.4, 2026-11-25; #68321, opened on 6.4, merged into 5.4 as 438b8f7e3c). | template on 6.4/7.4; `git log upstream/5.4` |
 | Commit and PR title: `[Component] Capitalized imperative sentence`, no trailing period. | same page, "Make your Change" |
 | Change only the files the fix needs. | same page |
 | No CHANGELOG/UPGRADE entry for test-only changes (only features, behaviour changes, BC breaks, deprecations). | https://symfony.com/doc/current/contributing/code/conventions.html#writing-a-changelog-entry |
