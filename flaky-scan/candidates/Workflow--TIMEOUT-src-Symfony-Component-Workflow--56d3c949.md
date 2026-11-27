@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: 5.4 Windows process timeout; slow runner
+- Notes: REJECT (analyst 2026-11-27): same as Doctrine: 4a4695401f predates c3857b64b2 (MAX_PARALLEL=12), uncapped run; Workflow tests do no I/O; no repeat since
 - Related issues/PRs (full-text search, may be noise): #67873 (PR) [CI] Retry the downloads of the Windows workflow, #66588 (PR) [HttpClient] Fix flaky CachingHttpClientTest and testPause(), #66077 (PR) [HttpClient] Skip the timing-sensitive timeout tests on Wind, #64149 (PR)  Release v8.1.0-BETA1, #64052 (PR) [KeyManagement] Add a new component for Key Management Syste, #62128 (PR) [Messenger] Add MongoDB bridge
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

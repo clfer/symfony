@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: single Linux occurrence 7.4 unit (8.2): empty output instead of ABCDEF; watch
+- Notes: WATCH: echo of two escaped args returned empty stdout (7.4 unit 8.2 Linux); no evident mechanism in replacePlaceholders/UnixPipes, no related change since; log (exit code, stderr, concurrent Process failures) needed on a 2nd occurrence
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

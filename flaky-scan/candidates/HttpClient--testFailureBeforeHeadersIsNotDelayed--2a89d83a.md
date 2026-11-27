@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: NEW flaky Windows timing: 2.65 s not less than 0.5 (AmpHttpClientTest:137), 7.4 sha 1db22af14e
+- Notes: WATCH (desk triage): regression test of 5c46d307ed (V5 select up to 1 s late), which is in the failing sha 1db22af14e; 2.65 s exceeds that 1 s bug, so a runner stall or connect delay, not evident. Do not tag (would hide the regression). 2nd occurrence in 0.5-1.5 s -> look at AmpResponseV5::select; >2 s -> environment
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

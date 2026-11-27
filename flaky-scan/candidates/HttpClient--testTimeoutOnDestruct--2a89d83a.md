@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: NEW flaky Windows timing: 2.34 s not less than 1.0 (Contracts HttpClientTestCase:935), 8.2 sha 148fbd455a; Curl/Amp siblings are transient-on-windows, AsyncDecoratorTrait one is not
+- Notes: EVIDENT-FIX (desk triage): AsyncDecoratorTraitTest overrides getHttpClient() with HttpClient::create() (Curl/Amp), same code path and 0.25 s/1.0 s margin as the Curl/Amp overrides tagged transient-on-windows (#66077, #68316); add the missing tag. Sig 2a89d83a shared with testFailureBeforeHeadersIsNotDelayed by normalisation (numbers -> <n>), harmless: entry ids differ
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

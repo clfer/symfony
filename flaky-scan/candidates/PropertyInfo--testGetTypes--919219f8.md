@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: Windows 7.4 sha db1e7f38c0: RecursiveDirectoryIterator on HttpKernel/Tests/Fixtures/.2Gs\d (temp dir of a concurrently running HttpKernel test vanished) via Contracts/Deprecation/function.php:25; cross-component race
+- Notes: analyst 11-27: EVIDENT-FIX (test bug, 7.4, HttpKernel KernelTest). Windows runs each component with the root phpunit.xml (cwd), source ./src/Symfony/; PHPUnit 11.5+ SourceMapper walks the whole include tree on the first deprecation (excludes subtracted afterwards). KernelTest::tearDown removes Fixtures/var with Filesystem::remove(), which renames it to Fixtures/.XXX/d first, so the walker can list .2Gs/d and find it gone. Same race as #67790 (FrameworkBundle, fixed by moving the test kernels project dir to the temp dir). Injected repro (RecursiveDirectoryIterator SELF_FIRST, rmdir .2Gs/d after it is listed) gives the CI exception. 6.4 uses PHPUnit 9.6: no listing.
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

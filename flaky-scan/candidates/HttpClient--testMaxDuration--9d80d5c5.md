@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: NEW flaky Windows timing: TransportException (max_duration) not thrown, 8.2 sha 37f89e19dc
+- Notes: EVIDENT-FIX (desk triage, probe on 7.4 Linux NativeHttpClient): idle gap margin is 0.1 s (server sleeps 0.5 s after <1>, timeout 0.4 s). A usleep injected after the first chunk in the filter fails with the CI message for stalls 0.1-0.7 s (2/2 each), passes at 0 and 0.05 s; then the first request completes and no TransportException is thrown. Inherent margin -> transient-on-windows
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

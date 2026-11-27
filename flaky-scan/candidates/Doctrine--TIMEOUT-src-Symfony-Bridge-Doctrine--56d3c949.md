@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: 5.4 Windows process timeout; slow runner
+- Notes: REJECT (analyst 2026-11-27): 5.4 Windows wrapper watchdog (simple-phpunit: last suite silent 60 s); a2276ec6ad predates c3857b64b2 (SYMFONY_PHPUNIT_MAX_PARALLEL=12 on 5.4, 2 h later), run was uncapped; no unbounded wait in Doctrine bridge tests; no repeat since
 - Related issues/PRs (full-text search, may be noise): #66059 (PR) [Messenger] Keep the worker running when a keepalive fails, #65021 (PR) [Lock] Allow advisory locks when reusing a PDO/DBAL connecti, #64052 (PR) [KeyManagement] Add a new component for Key Management Syste, #62128 (PR) [Messenger] Add MongoDB bridge, #48911 Web developer toolbar fails to load with security-bundle, #40433 Doctrine migrations : the "amqp" extension is not installed.
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

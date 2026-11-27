@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: integration 7.4 (8.2): expired item still hit (AdapterTestCase:200, true is false) - Couchbase TTL timing; watch
+- Notes: analyst 11-27: EVIDENT-FIX (inherent margin, test-only, 7.4): TTL 2 s checked at 3 s+delta; Couchbase stores expiry in whole uptime seconds and expires only when exptime < now (kv_engine StoredValue::isExpired), so the margin is the PHP overhead plus server clock-tick jitter; Memcached/Redis/APCu tests already skip testDefaultLifeTime. Proposed: add it to $skippedTests (or wait 1 s longer); testExpiration override has the same margin. Repro needs a Couchbase 6.5.1 container (not run).
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

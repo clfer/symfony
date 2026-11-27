@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: NEW flaky Windows 5.4: OUT printed before ERR despite usleep(500000) between them (data set #9); stdout/stderr pipe read ordering on slow runner
+- Notes: EVIDENT-FIX (test bug, all OS): child writes ERR, sleeps 0.5 s, writes OUT; a parent stall >= 0.5 s before the first pipe read returns both buffers in one pass, stdout read first (UnixPipes/WindowsPipes iterate fd 1 then 2). Injected usleep after start(): OUT-first from 0.52 s, never <= 0.48 s (Linux, 7.4 sources). Same data set on 6.4/7.4; the 50 ms DEBUG set has the same race. Fix: stdin handshake (child fgets(STDIN), callback writes on ERR) instead of usleep
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

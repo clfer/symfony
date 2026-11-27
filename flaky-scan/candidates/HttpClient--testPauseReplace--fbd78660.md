@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: NEW flaky Windows timing: 6.08 s not <= 5 (HttpClientTestCase:306), 7.4 sha 446428ad1d; #67222/#66588 fixed testPause stalls, not this one
+- Notes: WATCH (desk triage): expected ~0.5 s, bound 5 s, seen 6.08 s: a >5 s stall, not a margin issue; NativeResponse pause replace (pause_handler line 82) works; no evident mechanism. A 2nd occurrence near 10 s would mean the 10 s pause was not replaced
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: none matched

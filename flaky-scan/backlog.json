@@ -4414,7 +4414,10 @@
   "classification": "unknown",
   "classification_override": "real",
   "component": "src/Symfony/Component/JsonSchema",
-  "fix_check": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
   "fixed_by": {
    "commits": {
     "8.2": "0106358dfd"
@@ -5552,7 +5555,7 @@
   "key": "src/Symfony/Component/JsonSchema/Tests/JsonSchemaBundleTest.php:93",
   "kind": "deprecation",
   "links": [],
-  "notes": "duplicate: PHP warnings of the testGenericPropertiesAreExtracted failure (undefined key Envelope-of.string)",
+  "notes": "duplicate warnings of testGenericPropertiesAreExtracted; real, fixed by #68484",
   "occurrences": [
    {
     "branch": "8.2",
