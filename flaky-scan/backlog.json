@@ -1266,7 +1266,7 @@
   "status": "regressed"
  },
  "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime#c070a267": {
-  "board": "",
+  "board": "fix-15",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
@@ -1276,7 +1276,7 @@
   "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime",
   "kind": "test",
   "links": [],
-  "notes": "analyst 11-27: EVIDENT-FIX (inherent margin, test-only, 7.4): TTL 2 s checked at 3 s+delta; Couchbase stores expiry in whole uptime seconds and expires only when exptime < now (kv_engine StoredValue::isExpired), so the margin is the PHP overhead plus server clock-tick jitter; Memcached/Redis/APCu tests already skip testDefaultLifeTime. Proposed: add it to $skippedTests (or wait 1 s longer); testExpiration override has the same margin. Repro needs a Couchbase 6.5.1 container (not run).",
+  "notes": "fix-15: confirmed from kv_engine v6.5.1 source: memcached_uptime is whole seconds, advanced by a 1 s timer on the main thread (daemon/mc_time.cc:44,208); reads expire only when exptime < now (stored-value.h:261). A TTL-2 item lives 2-3 s (measured 2.009-2.997 s), so the check at save+3 s has a few ms of margin against a late server clock tick. Injected stop of the clock thread: 10/10 fail vs 0/10 (repro/couchbase-expiry). Fix (test-only, 7.4): skip testDefaultLifeTime like Memcached/Redis/APCu; testExpiration override sleep(3)->sleep(4). Branch fix-couchbase-default-lifetime 50aaeb911. PHPUnit Couchbase tests not run: pecl.php.net and packages.couchbase.com blocked.",
   "occurrences": [
    {
     "branch": "7.4",
@@ -1290,10 +1290,10 @@
     "workflow": "integration-tests.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-15",
   "reason": "single occurrence, no flaky signature",
   "sig": "c070a267",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\Cache\\Tests\\Adapter\\RedisAdapterTest::testCreateHostConnection#bce70f00": {
   "board": "",
