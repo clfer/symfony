@@ -1545,7 +1545,7 @@
   "key": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky Windows 5.4: OUT printed before ERR despite usleep(500000) between them (data set #9); stdout/stderr pipe read ordering on slow runner",
+  "notes": "EVIDENT-FIX (test bug, all OS): child writes ERR, sleeps 0.5 s, writes OUT; a parent stall >= 0.5 s before the first pipe read returns both buffers in one pass, stdout read first (UnixPipes/WindowsPipes iterate fd 1 then 2). Injected usleep after start(): OUT-first from 0.52 s, never <= 0.48 s (Linux, 7.4 sources). Same data set on 6.4/7.4; the 50 ms DEBUG set has the same race. Fix: stdin handshake (child fgets(STDIN), callback writes on ERR) instead of usleep",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4736,7 +4736,7 @@
   "key": "Symfony\\Component\\Process\\Tests\\ProcessTest::testPreparedCommandMulti",
   "kind": "test",
   "links": [],
-  "notes": "single Linux occurrence 7.4 unit (8.2): empty output instead of ABCDEF; watch",
+  "notes": "WATCH: echo of two escaped args returned empty stdout (7.4 unit 8.2 Linux); no evident mechanism in replacePlaceholders/UnixPipes, no related change since; log (exit code, stderr, concurrent Process failures) needed on a 2nd occurrence",
   "occurrences": [
    {
     "branch": "7.4",
