@@ -4845,7 +4845,7 @@
     "title": "Doctrine migrations : the \"amqp\" extension is not installed."
    }
   ],
-  "notes": "5.4 Windows process timeout; slow runner",
+  "notes": "REJECT (analyst 2026-11-27): 5.4 Windows wrapper watchdog (simple-phpunit: last suite silent 60 s); a2276ec6ad predates c3857b64b2 (SYMFONY_PHPUNIT_MAX_PARALLEL=12 on 5.4, 2 h later), run was uncapped; no unbounded wait in Doctrine bridge tests; no repeat since",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4875,7 +4875,7 @@
   "key": "TIMEOUT src/Symfony/Bridge/Monolog",
   "kind": "timeout",
   "links": [],
-  "notes": "5.4 Windows process timeout; slow runner (same family as Doctrine/Workflow 5.4 timeouts); rejected in the 2026-11-27 scan",
+  "notes": "WATCH (analyst 2026-11-27, was scan reject): post-cap run (fff709d765). Candidate hang: ServerLogHandlerTest::testWritingAndFormatting stream_select(..., null) waits forever if the async/persistent client drops the record (ServerLogHandler.php:101-106, createSocket :128); test-only change: finite select timeout so it fails by name. Unproven: no log naming the test",
   "occurrences": [
    {
     "branch": "5.4",
@@ -4954,7 +4954,7 @@
     "title": "[Messenger] Add MongoDB bridge"
    }
   ],
-  "notes": "5.4 Windows process timeout; slow runner",
+  "notes": "REJECT (analyst 2026-11-27): same as Doctrine: 4a4695401f predates c3857b64b2 (MAX_PARALLEL=12), uncapped run; Workflow tests do no I/O; no repeat since",
   "occurrences": [
    {
     "branch": "5.4",
