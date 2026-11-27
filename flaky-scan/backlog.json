@@ -3835,7 +3835,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testFailureBeforeHeadersIsNotDelayed",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky Windows timing: 2.65 s not less than 0.5 (AmpHttpClientTest:137), 7.4 sha 1db22af14e",
+  "notes": "WATCH (desk triage): regression test of 5c46d307ed (V5 select up to 1 s late), which is in the failing sha 1db22af14e; 2.65 s exceeds that 1 s bug, so a runner stall or connect delay, not evident. Do not tag (would hide the regression). 2nd occurrence in 0.5-1.5 s -> look at AmpResponseV5::select; >2 s -> environment",
   "occurrences": [
    {
     "branch": "7.4",
@@ -3965,7 +3965,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky Windows timing: TransportException (max_duration) not thrown, 8.2 sha 37f89e19dc",
+  "notes": "EVIDENT-FIX (desk triage, probe on 7.4 Linux NativeHttpClient): idle gap margin is 0.1 s (server sleeps 0.5 s after <1>, timeout 0.4 s). A usleep injected after the first chunk in the filter fails with the CI message for stalls 0.1-0.7 s (2/2 each), passes at 0 and 0.05 s; then the first request completes and no TransportException is thrown. Inherent margin -> transient-on-windows",
   "occurrences": [
    {
     "branch": "8.2",
@@ -3995,7 +3995,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testPauseReplace",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky Windows timing: 6.08 s not <= 5 (HttpClientTestCase:306), 7.4 sha 446428ad1d; #67222/#66588 fixed testPause stalls, not this one",
+  "notes": "WATCH (desk triage): expected ~0.5 s, bound 5 s, seen 6.08 s: a >5 s stall, not a margin issue; NativeResponse pause replace (pause_handler line 82) works; no evident mechanism. A 2nd occurrence near 10 s would mean the 10 s pause was not replaced",
   "occurrences": [
    {
     "branch": "7.4",
@@ -4025,7 +4025,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky Windows timing: 2.34 s not less than 1.0 (Contracts HttpClientTestCase:935), 8.2 sha 148fbd455a; Curl/Amp siblings are transient-on-windows, AsyncDecoratorTrait one is not",
+  "notes": "EVIDENT-FIX (desk triage): AsyncDecoratorTraitTest overrides getHttpClient() with HttpClient::create() (Curl/Amp), same code path and 0.25 s/1.0 s margin as the Curl/Amp overrides tagged transient-on-windows (#66077, #68316); add the missing tag. Sig 2a89d83a shared with testFailureBeforeHeadersIsNotDelayed by normalisation (numbers -> <n>), harmless: entry ids differ",
   "occurrences": [
    {
     "branch": "8.2",
