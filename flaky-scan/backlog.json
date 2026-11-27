@@ -1276,7 +1276,7 @@
   "key": "Symfony\\Component\\Cache\\Tests\\Adapter\\CouchbaseCollectionAdapterTest::testDefaultLifeTime",
   "kind": "test",
   "links": [],
-  "notes": "integration 7.4 (8.2): expired item still hit (AdapterTestCase:200, true is false) - Couchbase TTL timing; watch",
+  "notes": "analyst 11-27: EVIDENT-FIX (inherent margin, test-only, 7.4): TTL 2 s checked at 3 s+delta; Couchbase stores expiry in whole uptime seconds and expires only when exptime < now (kv_engine StoredValue::isExpired), so the margin is the PHP overhead plus server clock-tick jitter; Memcached/Redis/APCu tests already skip testDefaultLifeTime. Proposed: add it to $skippedTests (or wait 1 s longer); testExpiration override has the same margin. Repro needs a Couchbase 6.5.1 container (not run).",
   "occurrences": [
    {
     "branch": "7.4",
@@ -4412,10 +4412,16 @@
  "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted#1a70fb86": {
   "board": "",
   "classification": "unknown",
-  "classification_override": "",
+  "classification_override": "real",
   "component": "src/Symfony/Component/JsonSchema",
   "fix_check": {},
-  "fixed_by": {},
+  "fixed_by": {
+   "commits": {
+    "8.2": "0106358dfd"
+   },
+   "merged_at": "2026-11-27T14:42:42Z",
+   "pr": 68484
+  },
   "id": "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted#1a70fb86",
   "key": "Symfony\\Component\\JsonSchema\\Tests\\JsonSchemaBundleTest::testGenericPropertiesAreExtracted",
   "kind": "test",
@@ -4429,7 +4435,7 @@
     "title": "[JsonSchema] Preserve generic class arguments in schema definitions"
    }
   ],
-  "notes": "single occurrence, 8.2 high-deps, ae0a0c11d2 (2026-11-13): definition Envelope-of.string missing; JsonSchema generics work landed 11-04..11-13; no recurrence in later 8.2 high-deps runs (all green 11-19..11-20); likely a transient high-deps/dev-dependency mismatch, not timing",
+  "notes": "analyst 11-27: REJECT, real and fixed: PropertyInfoBundle does not register the PHPStan extractor when phpstan/phpdoc-parser is only a dev dependency (component installed alone, high-deps), so the generic Envelope-of.string definition is missing. Fixed by #68484 (2d64381a22, 8.2, 2026-11-27); failing sha ae0a0c11d2 predates it.",
   "occurrences": [
    {
     "branch": "8.2",
@@ -4446,7 +4452,7 @@
   "owner": "",
   "reason": "single occurrence, no flaky signature",
   "sig": "1a70fb86",
-  "status": "triaged"
+  "status": "not-flaky"
  },
  "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed#cfd1000c": {
   "board": "fix-02",
@@ -4766,7 +4772,7 @@
   "key": "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes",
   "kind": "test",
   "links": [],
-  "notes": "Windows 7.4 sha db1e7f38c0: RecursiveDirectoryIterator on HttpKernel/Tests/Fixtures/.2Gs\\d (temp dir of a concurrently running HttpKernel test vanished) via Contracts/Deprecation/function.php:25; cross-component race",
+  "notes": "analyst 11-27: EVIDENT-FIX (test bug, 7.4, HttpKernel KernelTest). Windows runs each component with the root phpunit.xml (cwd), source ./src/Symfony/; PHPUnit 11.5+ SourceMapper walks the whole include tree on the first deprecation (excludes subtracted afterwards). KernelTest::tearDown removes Fixtures/var with Filesystem::remove(), which renames it to Fixtures/.XXX/d first, so the walker can list .2Gs/d and find it gone. Same race as #67790 (FrameworkBundle, fixed by moving the test kernels project dir to the temp dir). Injected repro (RecursiveDirectoryIterator SELF_FIRST, rmdir .2Gs/d after it is listed) gives the CI exception. 6.4 uses PHPUnit 9.6: no listing.",
   "occurrences": [
    {
     "branch": "7.4",
