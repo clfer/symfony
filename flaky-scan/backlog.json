@@ -4449,17 +4449,26 @@
   "status": "triaged"
  },
  "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed#cfd1000c": {
-  "board": "",
+  "board": "fix-02",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "8.2": "37f89e19d"
+   },
+   "merged_at": "2026-11-23T10:37:00Z",
+   "pr": 68320
+  },
   "id": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed#cfd1000c",
   "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportFactoryTest::testTheTransportCanBeUsedAgainAfterBeingClosed",
   "kind": "test",
   "links": [],
-  "notes": "test added by #67168 (reconnect after close)",
+  "notes": "fixed by #68320 (transient-on-windows on 8.2, user PR); root cause in amphp/sql-common, PR amphp/sql-common#10 + #68322 pending",
   "occurrences": [
    {
     "branch": "8.2",
@@ -4476,20 +4485,29 @@
   "owner": "",
   "reason": "external service / transport race",
   "sig": "cfd1000c",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent#ed00ea84": {
-  "board": "",
+  "board": "fix-02",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "8.2": "37f89e19d"
+   },
+   "merged_at": "2026-11-23T10:37:00Z",
+   "pr": 68320
+  },
   "id": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent#ed00ea84",
   "key": "Symfony\\Component\\Messenger\\Bridge\\AmpSql\\Tests\\Transport\\AmpSqlTransportTest::testSetupIsIdempotent",
   "kind": "test",
   "links": [],
-  "notes": "AmpSql on Windows; same family as next row; related #67168",
+  "notes": "fixed by #68320 (transient-on-windows on 8.2, user PR); root cause in amphp/sql-common, PR amphp/sql-common#10 + #68322 pending",
   "occurrences": [
    {
     "branch": "8.2",
@@ -4506,7 +4524,7 @@
   "owner": "",
   "reason": "external service / transport race",
   "sig": "ed00ea84",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName#d636a3db": {
   "board": "",
