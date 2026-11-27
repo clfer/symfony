@@ -3903,7 +3903,7 @@
   "status": "fixed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout#854d9dfa": {
-  "board": "",
+  "board": "fix-11",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
@@ -3924,7 +3924,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout",
   "kind": "test",
   "links": [],
-  "notes": "transient-on-windows on 7.4+ by #68318 (merged 2026-11-23). Failed on 6.4 Windows 2026-11-27 (run 46017715889) although 6.4 runs HttpClient separately; 6.4 has no group: extend the fix to 6.4 (@group docblock)",
+  "notes": "6.4: fix-proposed on branch fix-amp-pause-during-body-transient-windows-6.4 (e14184276), @group transient-on-windows like #68318 on 7.4. 6.4 runs HttpClient on its own on Windows, so the stall is not contention from the suite; mechanism (Amp v2): body read ahead during the pause, only EOF left at expiry; the 0.3 s select slot after <2> ends ~1 ms before expiry, and a >=0.3 s main-thread stall right after it fails the check before the loop runs again. Injected stall: fails from 0.305 s, never at <=0.295 s.",
   "occurrences": [
    {
     "branch": "8.2",
@@ -3949,10 +3949,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-11",
   "reason": "timeout",
   "sig": "854d9dfa",
-  "status": "fixed"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5": {
   "board": "",

@@ -7,9 +7,9 @@
 | test | `Symfony\Component\HttpClient\Tests\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout` |
 | signature | `854d9dfa` (entry id `Symfony\Component\HttpClient\Tests\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout#854d9dfa`) |
 | class | flaky (timeout) |
-| status | fixed (scope: branches 6.4 not reached by the fix) |
-| owner | scan |
-| board record | — (not picked) |
+| status | fix-proposed (scope: branches 6.4 not reached by the fix) |
+| owner | fix-11 |
+| board record | fix-11 |
 | branches | 6.4 |
 | first / last seen | 2026-11-27 / 2026-11-27 |
 
@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: transient-on-windows on 7.4+ by #68318 (merged 2026-11-23). Failed on 6.4 Windows 2026-11-27 (run 46017715889) although 6.4 runs HttpClient separately; 6.4 has no group: extend the fix to 6.4 (@group docblock)
+- Notes: 6.4: fix-proposed on branch fix-amp-pause-during-body-transient-windows-6.4 (e14184276), @group transient-on-windows like #68318 on 7.4. 6.4 runs HttpClient on its own on Windows, so the stall is not contention from the suite; mechanism (Amp v2): body read ahead during the pause, only EOF left at expiry; the 0.3 s select slot after <2> ends ~1 ms before expiry, and a >=0.3 s main-thread stall right after it fails the check before the loop runs again. Injected stall: fails from 0.305 s, never at <=0.295 s.
 - Related issues/PRs (full-text search, may be noise): —
 - Fixed by #68318 (merged 2026-11-23T09:07:50Z; commits 7.4=cc3c1c9a3d8).
 - The fix does not reach: 6.4 (lower than every fix commit).

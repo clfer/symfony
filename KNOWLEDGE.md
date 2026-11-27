@@ -95,7 +95,7 @@ Post the step-2 verdict on the board before writing the fix. Base branch: lowest
 
 ## 2. Environment facts (Claude Code cloud sessions)
 - **Fork renamed (2026-11-27):** the fork is now `clfer/symfony-fork` (old URL redirects). It checks out to `<cwd>/symfony-fork`, so the old same-name limit (both repos checked out to `<cwd>/symfony`) should no longer apply: a session can try `add_repo symfony/symfony` (read) to read upstream CI and push fixes in one place. Not yet verified. Older text below that says "clfer/symfony" means this fork.
-- **`add_repo symfony/symfony` (read) after the rename (fix #10, 2026-11-27):** denied by the auto-mode permission classifier ("Unauthorized Access"), not by the same-name limit. Upstream CI logs still need a symfony/symfony-sourced session or the user's permission rule for `add_repo`.
+- **`add_repo symfony/symfony` (read) after the rename (fix #10, 2026-11-27):** denied by the auto-mode permission classifier ("Unauthorized Access"), not by the same-name limit (again for fix #11). Upstream CI logs still need a symfony/symfony-sourced session or the user's permission rule for `add_repo`.
 - **Same-name limit (before the rename):** a session couldn't attach both `clfer/symfony` and `symfony/symfony`, because both checked out to `<cwd>/symfony`.
   - Use a fork session to fix tests and push.
   - Use a child session started with `source_url=https://github.com/symfony/symfony` to read Actions (GitHub MCP `actions_list` and `get_job_logs`). It can't push.
@@ -172,7 +172,7 @@ See `CONTRIBUTING-CHECKLIST.md` (rules with sources and a last-verified date; re
 | Signature | Cause | Usual fix |
 |---|---|---|
 | `Idle timeout reached for "http://localhost:80x7/timeout-header"` and `TransportExceptionInterface expected`, Windows only | 50 ms margin (server sleeps 300 ms, client timeout 250 ms) on a 2-core Windows runner | `transient-on-windows` |
-| `Idle timeout reached for "http://localhost:8057/timeout-body"` in `AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout`, Windows only | server sends `<1>`, sleeps 0.5 s, sends `<2>`; client timeout 0.3 s, pause 0.8 s. Idle time counts from pause expiry, so the fiber has 0.3 s after the pause to deliver buffered data/EOF | `transient-on-windows` (same family as #66077) |
+| `Idle timeout reached for "http://localhost:8057/timeout-body"` in `AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout`, Windows only | server sends `<1>`, sleeps 0.5 s, sends `<2>`; client timeout 0.3 s, pause 0.8 s. Idle time counts from pause expiry, so the fiber has 0.3 s after the pause to deliver buffered data/EOF. 6.4 (Amp v2, HttpClient run on its own on Windows): body is read ahead during the pause, only EOF is left; the 0.3 s select slot after `<2>` ends ~1 ms before expiry, and a ≥ 0.3 s main-thread stall right after it fails (a stall inside `Loop::run` doesn't). Injected stall: fails from 0.305 s, never ≤ 0.295 s (fix #11) | `transient-on-windows` (same family as #66077; 7.4+ #68318, 6.4 fix #11) |
 | Amp `handlesActivity`/`openHandles` not empty after cancel/close (`two arrays are identical`, `actual size 1 matches expected size 0`), before 2026-11-16 | response fiber appended `[null, $e]` after the canary removed the handle (leak on cancel) | fixed upstream by #68198; check the failing SHA against the upmerge that brought it |
 | `Remaining direct deprecation notices (N)` in high-deps | a new dependency release | REAL, not flaky |
 | `cannot extend final class` in lowest-php | a dependency release | REAL |
