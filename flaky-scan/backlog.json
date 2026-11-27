@@ -4775,7 +4775,7 @@
   "key": "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes",
   "kind": "test",
   "links": [],
-  "notes": "analyst 11-27: EVIDENT-FIX (test bug, 7.4, HttpKernel KernelTest). Windows runs each component with the root phpunit.xml (cwd), source ./src/Symfony/; PHPUnit 11.5+ SourceMapper walks the whole include tree on the first deprecation (excludes subtracted afterwards). KernelTest::tearDown removes Fixtures/var with Filesystem::remove(), which renames it to Fixtures/.XXX/d first, so the walker can list .2Gs/d and find it gone. Same race as #67790 (FrameworkBundle, fixed by moving the test kernels project dir to the temp dir). Injected repro (RecursiveDirectoryIterator SELF_FIRST, rmdir .2Gs/d after it is listed) gives the CI exception. 6.4 uses PHPUnit 9.6: no listing.",
+  "notes": "fix-13 11-27: CONFIRMED + fix pushed: fix-kernel-test-var-dir-in-temp da97be214 (7.4). Only PHPUnit 11.5 jobs (php-file-iterator 5.1.1, no CATCH_GET_CHILD); PHPUnit 12 (php-file-iterator 6.0.2) skips vanished dirs. Repro: hook in the real 5.1.1 ExcludeIterator::accept + real Filesystem::remove gives the CI exception incl. .2Gs/d; natural Linux loop (walker vs KernelTest x15): before 85/5684 walks fail, after 0/5405. KernelTest kernels now write cache/log/http_cache under sys_get_temp_dir()/sf_kernel_test_<rand>, like #67790. Latent siblings: AssetMapper tests writing/removing Fixtures/* (ImportMapConfigReaderTest, ImportMapManagerTest, ImportMapGeneratorTest, RemotePackageDownloaderTest, LocalPublicAssetsFilesystemTest, CompiledAssetMapperConfigReaderTest, Gzip/Zstandard/Chain/BrotliCompressorTest, AssetMapperCompileCommandTest + ImportMapRequireCommandTest + MapperAwareAssetPackageIntegrationTest remove Fixtures/var and public).",
   "occurrences": [
    {
     "branch": "7.4",
@@ -4792,7 +4792,7 @@
   "owner": "fix-13",
   "reason": "single occurrence, no flaky signature",
   "sig": "919219f8",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "TIMEOUT src/Symfony/Bridge/Doctrine#56d3c949": {
   "board": "",
