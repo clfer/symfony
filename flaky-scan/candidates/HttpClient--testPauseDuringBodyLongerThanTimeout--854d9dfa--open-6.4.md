@@ -25,7 +25,7 @@
 - Related issues/PRs (full-text search, may be noise): —
 - Fixed by #68318 (merged 2026-11-23T09:07:50Z; commits 7.4=cc3c1c9a3d8).
 - The fix does not reach: 6.4 (lower than every fix commit).
-- KNOWLEDGE.md section 6 pattern: `Idle timeout reached for "http://localhost:80x7/timeout-header"` and `TransportExceptionInterface expected`, Windows on → `transient-on-windows`; `Idle timeout reached for "http://localhost:8057/timeout-body"` in `AmpHttpClientTest::testPauseDuringBodyLongerThanTime → `transient-on-windows` (same family as #66077)
+- KNOWLEDGE.md section 6 pattern: `Idle timeout reached for "http://localhost:80x7/timeout-header"` and `TransportExceptionInterface expected`, Windows on → `transient-on-windows`; `Idle timeout reached for "http://localhost:8057/timeout-body"` in `AmpHttpClientTest::testPauseDuringBodyLongerThanTime → `transient-on-windows` (same family as #66077; 7.4+ #68318, 6.4 fix #11)
 
 ## Worker brief
 

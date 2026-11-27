@@ -4351,7 +4351,7 @@
   "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender",
   "kind": "test",
   "links": [],
-  "notes": "REQUEST_TIME second boundary between setUp() and testRender() Request::create() calls (test not time-sensitive, so real clock on 6.4 and 7.4). Injected \\usleep to next second fails it on 6.4 and 7.4; fix ignores REQUEST_TIME like #68321. Branch fix-fragment-handler-test-request-time (6.4, d09b6773dbb). HttpKernel suite green on 6.4 (1303) and 7.4 (1667).",
+  "notes": "REQUEST_TIME second boundary between setUp() and testRender() Request::create() calls (test not time-sensitive, real clock on all branches). Injected \\usleep to next second fails it on 6.4 and 7.4; fix ignores REQUEST_TIME like #68321. Branch fix-fragment-handler-test-request-time-7.4 (7.4, 15e42d55873; retargeted from 6.4, which left bug-fix maintenance in 0c59c9423ee). HttpKernel suite green on 7.4 (1667).",
   "occurrences": [
    {
     "branch": "7.4",
