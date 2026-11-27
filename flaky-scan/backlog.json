@@ -3955,7 +3955,7 @@
   "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5": {
-  "board": "",
+  "board": "fix-12",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
@@ -3965,7 +3965,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration",
   "kind": "test",
   "links": [],
-  "notes": "EVIDENT-FIX (desk triage, probe on 7.4 Linux NativeHttpClient): idle gap margin is 0.1 s (server sleeps 0.5 s after <1>, timeout 0.4 s). A usleep injected after the first chunk in the filter fails with the CI message for stalls 0.1-0.7 s (2/2 each), passes at 0 and 0.05 s; then the first request completes and no TransportException is thrown. Inherent margin -> transient-on-windows",
+  "notes": "fix-12: transient-on-windows on branch fix-async-decorator-timing-transient-windows (7.4, 77fc061b2). usleep after the first chunk: <=0.09 s pass, >=0.11 s fails with the CI message (3/3 each) -> 0.1 s margin (0.5 s server pause vs 0.4 s idle timeout). Precedents #66077, #68318",
   "occurrences": [
    {
     "branch": "8.2",
@@ -3979,10 +3979,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-12",
   "reason": "single occurrence, no flaky signature",
   "sig": "9d80d5c5",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testPauseReplace#fbd78660": {
   "board": "",
@@ -4015,7 +4015,7 @@
   "status": "triaged"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct#2a89d83a": {
-  "board": "",
+  "board": "fix-12",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
@@ -4025,7 +4025,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testTimeoutOnDestruct",
   "kind": "test",
   "links": [],
-  "notes": "EVIDENT-FIX (desk triage): AsyncDecoratorTraitTest overrides getHttpClient() with HttpClient::create() (Curl/Amp), same code path and 0.25 s/1.0 s margin as the Curl/Amp overrides tagged transient-on-windows (#66077, #68316); add the missing tag. Sig 2a89d83a shared with testFailureBeforeHeadersIsNotDelayed by normalisation (numbers -> <n>), harmless: entry ids differ",
+  "notes": "fix-12: transient-on-windows on branch fix-async-decorator-timing-transient-windows (7.4, 77fc061b2). Injected usleep after each CurlHttpClient::request(): 4x0.15 s pass, 4x0.2 s fails \"1.055 is less than 1.0\" (3/3); baseline ~0.255 s. A stall inside __destruct gives the sibling \"TransportExceptionInterface expected\" instead. Precedents #66077, #68316",
   "occurrences": [
    {
     "branch": "8.2",
@@ -4039,10 +4039,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-12",
   "reason": "single occurrence, no flaky signature",
   "sig": "2a89d83a",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testProxyFromProcessEnvIsNotUsed#19caa1ea": {
   "board": "",
