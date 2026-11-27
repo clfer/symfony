@@ -111,3 +111,6 @@ Open leads:
 - `CurlHttpClientTest::testTimeoutOnDestruct` (7.4 Windows) has no issue.
 - The AmpSql transport tests on Windows have no issue.
 - Three AmpHttpClient tests are not covered by #68183/#68184.
+
+## Starting a fixer from a candidate
+Only for candidates with ≥ 2 occurrences, or 1 occurrence plus a known KNOWLEDGE.md section 6 pattern or sibling fix. The fixer follows the "Fixer protocol" in KNOWLEDGE.md section 1 and records results with `annotate`; it never edits the generated candidate files.

@@ -78,6 +78,21 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 7. **Push** the branch `fix-<slug>` to `origin` (clfer/symfony-fork) and draft the PR text (section 5). The user opens the upstream PR.
 8. **Update** this file (fix log, new patterns) and record the outcome with `python3 flaky-scan/flaky_scan.py annotate '<key>' --status fix-proposed --notes '...'`, then run `report`. Commit and push `flaky-kb`.
 
+### Fixer protocol (user-approved 2026-11-27)
+**Gate:** start a fixer only for a candidate (`flaky-scan/candidates/`) with ≥ 2 occurrences, or 1 occurrence plus a known section-6 pattern or a sibling fix. Others wait for a repeat.
+
+| step | done when | budget |
+|---|---|---|
+| 0 Triage | full exception chain; failing SHA vs upmerges/fixes (`git merge-base --is-ancestor`); duplicate PRs/issues; section 6 patterns. Verdict: proceed / already-fixed / environmental | ~30 min |
+| 1 Mechanism | written hypothesis (file:line, timing window or shared state) | ~1 h |
+| 2 Deterministic repro | an injected delay/clock shift at the suspected point fails the test with the CI message; without it the test passes (section 6b). Natural loops (section 2b) only confirm; 0/N proves nothing | ~2 h |
+| 3 Fix | by outcome: **test bug** → fix the test; **product bug** → bug-fix on the lowest branch + regression test; **environment/CI** → reject or CI-config PR. The injected repro passes; the whole component suite is green (section 4) | — |
+| 3b Attribute | `transient(-on-windows)` only when steps 1-2 show an inherent timing margin that can't be made deterministic; rationale + precedent (#66077) in the commit | — |
+| 4 Record | `flaky_scan.py annotate` (status, `--board fix-NN`, `--fixed-by` later) + board record + section 6 pattern; hand over to the orchestrator for the independent review | — |
+| Stop | no mechanism after step 1 → `annotate --status triaged --notes 'watch: …'`, board `on-hold`, no PR. Never tag a test whose cause is unknown | — |
+
+Post the step-2 verdict on the board before writing the fix. Base branch: lowest maintained branch where the test exists and failed.
+
 ## 2. Environment facts (Claude Code cloud sessions)
 - **Fork renamed (2026-11-27):** the fork is now `clfer/symfony-fork` (old URL redirects). It checks out to `<cwd>/symfony-fork`, so the old same-name limit (both repos checked out to `<cwd>/symfony`) should no longer apply: a session can try `add_repo symfony/symfony` (read) to read upstream CI and push fixes in one place. Not yet verified. Older text below that says "clfer/symfony" means this fork.
 - **Same-name limit (before the rename):** a session couldn't attach both `clfer/symfony` and `symfony/symfony`, because both checked out to `<cwd>/symfony`.
