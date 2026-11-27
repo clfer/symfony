@@ -8,8 +8,8 @@
 | signature | `919219f8` (entry id `Symfony\Component\PropertyInfo\Tests\AbstractPropertyInfoExtractorTest::testGetTypes#919219f8`) |
 | class | flaky (single occurrence, no flaky signature) |
 | status | triaged |
-| owner | scan |
-| board record | — (not picked) |
+| owner | fix-13 |
+| board record | fix-13 |
 | branches | 7.4 |
 | first / last seen | 2026-11-27 / 2026-11-27 |
 

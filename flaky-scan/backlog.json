@@ -4765,7 +4765,7 @@
   "status": "triaged"
  },
  "Symfony\\Component\\PropertyInfo\\Tests\\AbstractPropertyInfoExtractorTest::testGetTypes#919219f8": {
-  "board": "",
+  "board": "fix-13",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
@@ -4789,7 +4789,7 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-13",
   "reason": "single occurrence, no flaky signature",
   "sig": "919219f8",
   "status": "triaged"
