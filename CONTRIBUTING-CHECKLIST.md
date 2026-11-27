@@ -6,7 +6,7 @@ Last verified: 2026-11-27 (orchestrator, fix #10 PR prep).
 | Rule | Source |
 |---|---|
 | Body = upstream template table (Branch, Bug fix?, New feature?, Deprecations?, Issues `Fix #…` or `-`, License MIT), and replace the HTML comment with the explanation. | `.github/PULL_REQUEST_TEMPLATE.md` on the base branch |
-| Bug fixes target the lowest maintained branch where the bug exists. Since 2026-11-27 the template lists 7.4, 8.1, 8.2 (upstream 0c59c9423e "Bye bye 6.4"; 6.4 `Kernel::END_OF_MAINTENANCE` = 11/2026). **Test-only fixes still go to the lowest branch where the test fails, 6.4 included:** maintainers merge them into security-only branches (2a5cce6da9 on 5.4, 2026-11-25; #68321, opened on 6.4, merged into 5.4 as 438b8f7e3c). | template on 6.4/7.4; `git log upstream/5.4` |
+| Target the lowest branch in the PR template (since 2026-11-27: 7.4, 8.1, 8.2), **test-only fixes included** (user decision 2026-11-27: 6.4 is security-only after v6.4.51, 2026-11-25; upstream 0c59c9423e "Bye bye 6.4"). In the PR body, say the change also applies to 6.4/5.4 when it does, and ask the maintainer whether test-only fixes should keep targeting older branches, citing #68321, #68325, #68244, #68249, #68250 (test-only, merged into 5.4 in Nov 2026). A fix that only applies to 6.4/5.4 stays on hold until a maintainer answers. | template on 7.4; `git log upstream/5.4`; user |
 | Commit and PR title: `[Component] Capitalized imperative sentence`, no trailing period. | same page, "Make your Change" |
 | Change only the files the fix needs. | same page |
 | No CHANGELOG/UPGRADE entry for test-only changes (only features, behaviour changes, BC breaks, deprecations). | https://symfony.com/doc/current/contributing/code/conventions.html#writing-a-changelog-entry |
