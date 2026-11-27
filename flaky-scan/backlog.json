@@ -4341,7 +4341,7 @@
   "status": "not-flaky"
  },
  "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender#1b60bd89": {
-  "board": "",
+  "board": "fix-10",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": "src/Symfony/Component/HttpKernel",
@@ -4351,7 +4351,7 @@
   "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\FragmentHandlerTest::testRender",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky: REQUEST_TIME second boundary. testRender compares Request::create() made in the test with the one in setUp()/RequestStack using ==, ignoring only REQUEST_TIME_FLOAT (same family as fix #5 InlineFragmentRendererTest; the latent sibling predicted in KNOWLEDGE 6b). Failure shows REQUEST_TIME differs. 7.4 high-deps, sha 6267b1041a. Fix: also remove REQUEST_TIME (6.4+)",
+  "notes": "REQUEST_TIME second boundary between setUp() and testRender() Request::create() calls (test not time-sensitive, so real clock on 6.4 and 7.4). Injected \\usleep to next second fails it on 6.4 and 7.4; fix ignores REQUEST_TIME like #68321. Branch fix-fragment-handler-test-request-time (6.4, d09b6773dbb). HttpKernel suite green on 6.4 (1303) and 7.4 (1667).",
   "occurrences": [
    {
     "branch": "7.4",
@@ -4365,10 +4365,10 @@
     "workflow": "unit-tests.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-10",
   "reason": "single occurrence, no flaky signature",
   "sig": "1b60bd89",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest#c28b516e": {
   "board": "",
