@@ -59,6 +59,7 @@ class AsyncDecoratorTraitTest extends NativeHttpClientTest
         };
     }
 
+    #[Group('transient-on-windows')]
     public function testTimeoutOnDestruct()
     {
         if (HttpClient::create() instanceof NativeHttpClient) {
@@ -390,6 +391,7 @@ class AsyncDecoratorTraitTest extends NativeHttpClientTest
         }
     }
 
+    #[Group('transient-on-windows')]
     public function testMaxDuration()
     {
         $client = $this->getHttpClient(__FUNCTION__, static function (ChunkInterface $chunk, AsyncContext $context) {
