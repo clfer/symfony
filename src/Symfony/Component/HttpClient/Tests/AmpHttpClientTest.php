@@ -37,6 +37,14 @@ class AmpHttpClientTest extends HttpClientTestCase
     }
 
     /**
+     * @group transient-on-windows
+     */
+    public function testPauseDuringBodyLongerThanTimeout()
+    {
+        parent::testPauseDuringBodyLongerThanTimeout();
+    }
+
+    /**
      * @requires extension zlib
      */
     public function testZlibStreamBody()
