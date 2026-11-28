@@ -77,6 +77,45 @@
   "sig": "1e9599da",
   "status": "fixed"
  },
+ "FATAL src/Symfony/Component/EventDispatcher/EventDispatcherInterface.php#cec3a6dc": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "c912ac79ff7"
+   },
+   "merged_at": "2026-11-19T10:02:52Z",
+   "pr": 68270
+  },
+  "id": "FATAL src/Symfony/Component/EventDispatcher/EventDispatcherInterface.php#cec3a6dc",
+  "key": "FATAL src/Symfony/Component/EventDispatcher/EventDispatcherInterface.php",
+  "kind": "fatal",
+  "links": [],
+  "notes": "opcache class-table corruption on PHP 8.2.0 x86 (\"cannot implement  - it is not an interface\", empty name), 7.4 all-extensions; fixed in CI by #68270; failing sha 78b7c7987c predates it",
+  "occurrences": [
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\EventDispatcher\\EventDispatcherInterface cannot implement  - it is not an interface on line 23",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131328199303,
+    "run_id": 43259923355,
+    "sha": "78b7c7987c",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "cec3a6dc",
+  "status": "fixed"
+ },
  "INFRA composer: corrupted (0-byte) dist download#5e03a58d": {
   "board": "",
   "classification": "flaky",
@@ -988,6 +1027,36 @@
   "reason": "fails in 6 jobs of the same commit",
   "sig": "a0cef53e",
   "status": "not-flaky"
+ },
+ "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\BrotliCompressorTest::testCompress#790586c9": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\BrotliCompressorTest::testCompress#790586c9",
+  "key": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\BrotliCompressorTest::testCompress",
+  "kind": "test",
+  "links": [],
+  "notes": "Windows 8.2 (2026-11-12): ProcessTimedOutException running brotli.EXE --best; slow runner; watch",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\Process\\Exception\\ProcessTimedOutException: The process \"\"C:\\Program Files\\Git\\ucrt64\\bin\\brotli.EXE\" --best --force \"--output=D:\\a\\symfony\\symfony\\src\\Symfony\\Component\\AssetMapper\\",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131131212037,
+    "run_id": 43203074366,
+    "sha": "d8936adf85",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "790586c9",
+  "status": "triaged"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode#9388e36c": {
   "board": "",
@@ -3911,6 +3980,44 @@
   "sig": "b779733e",
   "status": "fixed"
  },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testMaxConnectDuration#8f0a617e": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "978d433e272"
+   },
+   "merged_at": "2026-11-15T23:43:52Z"
+  },
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testMaxConnectDuration#8f0a617e",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testMaxConnectDuration",
+  "kind": "test",
+  "links": [],
+  "notes": "Windows timing (5.2 s not < 2); marked transient-on-windows by 978d433e272 (7.4, 2026-11-16); the 8.2 failure (2026-11-12) predates it",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Should timeout much faster than the 10s timeout option",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131130664978,
+    "run_id": 43202918380,
+    "sha": "134fa19ccd",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "8f0a617e",
+  "status": "fixed"
+ },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseDuringBodyLongerThanTimeout#854d9dfa": {
   "board": "fix-11",
   "classification": "flaky",
@@ -3962,6 +4069,47 @@
   "reason": "timeout",
   "sig": "854d9dfa",
   "status": "fix-proposed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW flaky (2026-11-10..20 scan): Windows 8.2, 2 commits: RuntimeException \"Script trailers/server.php did not listen on port 8061\" (TestSocketServer.php:59); socket server start too slow on the 2-core runner; not transient-on-windows yet",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "RuntimeException: Script \"trailers/server.php\" did not listen on port 8061.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 129532745205,
+    "run_id": 42726321796,
+    "sha": "923a931162",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-13",
+    "event": "push",
+    "excerpt": "RuntimeException: Script \"trailers/server.php\" did not listen on port 8061.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131903214724,
+    "run_id": 43430720186,
+    "sha": "ae0a0c11d2",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails intermittently on 2 unrelated commits",
+  "sig": "6cd69431",
+  "status": "triaged"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5": {
   "board": "fix-12",
@@ -4163,6 +4311,212 @@
   "owner": "scan",
   "reason": "network/port",
   "sig": "e0cf4986",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testRelativeRedirectToGetDropsCredentialsOnOtherOrigins#9388e36c": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testRelativeRedirectToGetDropsCredentialsOnOtherOrigins#9388e36c",
+  "key": "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testRelativeRedirectToGetDropsCredentialsOnOtherOrigins",
+  "kind": "test",
+  "links": [],
+  "notes": "real: every Windows job on all branches 2026-11-12 (libcurl on Windows reports the user info); fixed by ed846fe1fc1 \"Fix testing redirects with user info on libcurl < 8.23\" (6.4, 2026-11-12 12:44+01:00); not seen after 11-12",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131130653509,
+    "run_id": 43202915098,
+    "sha": "99228226d3",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131130657910,
+    "run_id": 43202916314,
+    "sha": "715cb6c601",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131130658066,
+    "run_id": 43202916359,
+    "sha": "29d00d16b9",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131130664618,
+    "run_id": 43202918380,
+    "sha": "134fa19ccd",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131131211707,
+    "run_id": 43203074366,
+    "sha": "d8936adf85",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131173456459,
+    "run_id": 43215463925,
+    "sha": "43de4ec230",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131173748179,
+    "run_id": 43215552348,
+    "sha": "cbef7e1c6a",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131187549642,
+    "run_id": 43219632898,
+    "sha": "f40f2cac52",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131220357970,
+    "run_id": 43229462366,
+    "sha": "9ef699bcfe",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131253353102,
+    "run_id": 43238822577,
+    "sha": "12b439494c",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131254489665,
+    "run_id": 43239143949,
+    "sha": "5c8a2749bc",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.1",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131254916317,
+    "run_id": 43239265669,
+    "sha": "f335ac515e",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131255742708,
+    "run_id": 43239495720,
+    "sha": "bbad402a1f",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "6.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 131273591457,
+    "run_id": 43244551144,
+    "sha": "6925244865",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131280768238,
+    "run_id": 43246583679,
+    "sha": "9b8be99dd9",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131291185974,
+    "run_id": 43249524516,
+    "sha": "745fc2c740",
+    "workflow": "windows.yml"
+   },
+   {
+    "branch": "7.4",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Failed asserting that two strings are identical.",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131296926708,
+    "run_id": 43251137174,
+    "sha": "ddb61be038",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails intermittently on 17 unrelated commits",
+  "sig": "9388e36c",
   "status": "fixed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\CurlHttpClientTest::testTimeoutOnDestruct#04e5a358": {
@@ -4743,6 +5097,36 @@
   "sig": "b37eec54",
   "status": "fixed"
  },
+ "Symfony\\Component\\Notifier\\Tests\\Exception\\UnsupportedSchemeExceptionTest::testMessageWhereSchemeIsPartOfSchemeToPackageMap#7cca2ed5": {
+  "board": "",
+  "classification": "unknown",
+  "classification_override": "flaky",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\Notifier\\Tests\\Exception\\UnsupportedSchemeExceptionTest::testMessageWhereSchemeIsPartOfSchemeToPackageMap#7cca2ed5",
+  "key": "Symfony\\Component\\Notifier\\Tests\\Exception\\UnsupportedSchemeExceptionTest::testMessageWhereSchemeIsPartOfSchemeToPackageMap",
+  "kind": "test",
+  "links": [],
+  "notes": "Windows 6.4: child php \"Can't initialize heap: [0x000001e7]\"; runner memory, same as kernel-loop.phpt; not a test bug",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "PHPUnit\\Framework\\Exception: Can't initialize heap: [0x000001e7] Attempt to access invalid address",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 129793965149,
+    "run_id": 42805648451,
+    "sha": "d27a7ffbe3",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "single occurrence, no flaky signature",
+  "sig": "7cca2ed5",
+  "status": "wontfix"
+ },
  "Symfony\\Component\\Process\\Tests\\ProcessTest::testPreparedCommandMulti#9388e36c": {
   "board": "",
   "classification": "unknown",
@@ -4802,6 +5186,137 @@
   "reason": "single occurrence, no flaky signature",
   "sig": "919219f8",
   "status": "fix-proposed"
+ },
+ "Symfony\\Component\\PropertyInfo\\Tests\\Extractor\\PhpStanExtractorTest::testInheritedTypes#98f162cf": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "real",
+  "component": "src/Symfony/Component/PropertyInfo",
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\PropertyInfo\\Tests\\Extractor\\PhpStanExtractorTest::testInheritedTypes#98f162cf",
+  "key": "Symfony\\Component\\PropertyInfo\\Tests\\Extractor\\PhpStanExtractorTest::testInheritedTypes",
+  "kind": "test",
+  "links": [],
+  "notes": "real: 8.2 low-deps after d3331e369e6 (TypeInfo resolves conditional PHPDoc types); test fixed by bdfe38b4267 (2026-11-16 12:50+01:00, reached 8.2 with 4107c1eb622); both failing SHAs predate it",
+  "occurrences": [
+   {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\TypeInfo\\Type\\UnionType Object (...) does not match expected type \"NULL\".",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 133220574494,
+    "run_id": 43844330294,
+    "sha": "7da438612e",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "Symfony\\Component\\TypeInfo\\Type\\UnionType Object (...) does not match expected type \"NULL\".",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 133275567875,
+    "run_id": 43860446765,
+    "sha": "a1c117f002",
+    "workflow": "unit-tests.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "fails intermittently on 2 unrelated commits",
+  "sig": "98f162cf",
+  "status": "fixed"
+ },
+ "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeIsRefusedUntilTheLatestRetryAfter#6a3b58e7": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeIsRefusedUntilTheLatestRetryAfter#6a3b58e7",
+  "key": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeIsRefusedUntilTheLatestRetryAfter",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW (2026-11-10..20 scan): 3 tests in one Windows 6.4 job (sha c34fbefb20) fail \"false is true\" although the class is @group time-sensitive with ClockMock; suspect the PHPUnit 9 ClockMock registration gap of KNOWLEDGE 6b (6.4 only); watch",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that false is true.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 129531341523,
+    "run_id": 42725906265,
+    "sha": "c34fbefb20",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "filesystem timing",
+  "sig": "6a3b58e7",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfSeveralTokensIsRefusedUntilTheLatestRetryAfter#6a3b58e7": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfSeveralTokensIsRefusedUntilTheLatestRetryAfter#6a3b58e7",
+  "key": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfSeveralTokensIsRefusedUntilTheLatestRetryAfter",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW (2026-11-10..20 scan): 3 tests in one Windows 6.4 job (sha c34fbefb20) fail \"false is true\" although the class is @group time-sensitive with ClockMock; suspect the PHPUnit 9 ClockMock registration gap of KNOWLEDGE 6b (6.4 only); watch",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that false is true.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 129531341523,
+    "run_id": 42725906265,
+    "sha": "c34fbefb20",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "filesystem timing",
+  "sig": "6a3b58e7",
+  "status": "triaged"
+ },
+ "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfTheLastTokensTellsTheLatestRetryAfter#6a3b58e7": {
+  "board": "",
+  "classification": "flaky",
+  "classification_override": "",
+  "component": null,
+  "fix_check": {},
+  "fixed_by": {},
+  "id": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfTheLastTokensTellsTheLatestRetryAfter#6a3b58e7",
+  "key": "Symfony\\Component\\RateLimiter\\Tests\\CompoundLimiterTest::testConsumeOfTheLastTokensTellsTheLatestRetryAfter",
+  "kind": "test",
+  "links": [],
+  "notes": "NEW (2026-11-10..20 scan): 3 tests in one Windows 6.4 job (sha c34fbefb20) fail \"false is true\" although the class is @group time-sensitive with ClockMock; suspect the PHPUnit 9 ClockMock registration gap of KNOWLEDGE 6b (6.4 only); watch",
+  "occurrences": [
+   {
+    "branch": "6.4",
+    "date": "2026-11-10",
+    "event": "push",
+    "excerpt": "Failed asserting that false is true.",
+    "job": "x86 / minimal-exts / lowest-php",
+    "job_id": 129531341523,
+    "run_id": 42725906265,
+    "sha": "c34fbefb20",
+    "workflow": "windows.yml"
+   }
+  ],
+  "owner": "scan",
+  "reason": "filesystem timing",
+  "sig": "6a3b58e7",
+  "status": "triaged"
  },
  "TIMEOUT src/Symfony/Bridge/Doctrine#56d3c949": {
   "board": "",
@@ -5433,6 +5948,28 @@
   "notes": "not resolved (no full logs): tails show infra (apt ppa.launchpadcontent.net / packages.microsoft.com fetch errors, GitHub zipball downloads, container network) or the failing test is outside the 5000-line tail (mostly the UrlSanitizer/Impersonate bursts)",
   "occurrences": [
    {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1448, Assertions: 4150, Deprecations: 9, Skipped: 54. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 133211282528,
+    "run_id": 43841581912,
+    "sha": "65fbaddfb0",
+    "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-16",
+    "event": "push",
+    "excerpt": "OK, but there were issues! | Tests: 1448, Assertions: 4150, Deprecations: 9, Skipped: 54. | OK src/Symfony/Bundle/FrameworkBundle",
+    "job": "unit (8.4, low-deps)",
+    "job_id": 133275772294,
+    "run_id": 43860508426,
+    "sha": "6b530cfa7a",
+    "workflow": "unit-tests.yml"
+   },
+   {
     "branch": "8.1",
     "date": "2026-11-23",
     "event": "push",
@@ -5669,6 +6206,17 @@
     "run_id": 43202918315,
     "sha": "134fa19ccd",
     "workflow": "unit-tests.yml"
+   },
+   {
+    "branch": "8.2",
+    "date": "2026-11-12",
+    "event": "push",
+    "excerpt": "Not using the schema editor API is deprecated and will be impossible in Doctrine ORM 4.0. Call Doctrine\\ORM\\Configuration::setUseSchemaEditorApi(true) to enable it. (SchemaTool.php:96 called by Automa",
+    "job": "x86 / all extensions / lowest-php",
+    "job_id": 131130664618,
+    "run_id": 43202918380,
+    "sha": "134fa19ccd",
+    "workflow": "windows.yml"
    }
   ],
   "owner": "",
