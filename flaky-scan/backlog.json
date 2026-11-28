@@ -5781,7 +5781,10 @@
   "classification": "flaky",
   "classification_override": "",
   "component": null,
-  "fix_check": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
   "fixed_by": {
    "commits": {
     "8.2": "a1c117f00"

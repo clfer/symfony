@@ -67,7 +67,7 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 2. **Check for duplicates.** Run both searches, because the search API requires `is:issue` or `is:pull-request`:
    `gh api -X GET search/issues -f q='repo:symfony/symfony is:pull-request <testName>'`
    and the same with `is:issue`. Also run `git log upstream/<branch> -S'<testName>'` to find a past fix.
-3. **Pick the base branch**: 7.4 (or the lowest of 7.4/8.1/8.2 where the test exists), per CONTRIBUTING-CHECKLIST.md. 6.4: in scope only if the maintainer's answer on the fix #10 PR says so (6.4-only fixes on hold until then). 5.4: out of scope (user rule 2026-11-27); a 5.4-only failure is recorded as `wontfix` with the reason.
+3. **Pick the base branch**: the lowest branch in the PR template (7.4, 8.1, 8.2) where the test exists and failed. **6.4 and 5.4 are out of scope** (user rule 2026-11-28): a failure only reachable on them is rejected at triage; when a 7.4 fix also applies to 6.4, the PR body ends with a one-line backport offer only.
 4. **Create a worktree per fix**: `git worktree add ../sfXY upstream/X.Y`, run `composer install`, then `git checkout -b fix-<slug> upstream/X.Y`.
 5. **Fix and verify**:
    - Run `./phpunit <TestFile> --filter <method>`.
@@ -91,7 +91,7 @@ Each `send_message` wakes the receiver for a full turn, which re-reads its whole
 | 4 Record | `flaky_scan.py annotate` (status, `--board fix-NN`, `--fixed-by` later) + board record + section 6 pattern; hand over to the orchestrator for the independent review | — |
 | Stop | no mechanism after step 1 → `annotate --status triaged --notes 'watch: …'`, board `on-hold`, no PR. Never tag a test whose cause is unknown | — |
 
-Post the step-2 verdict on the board before writing the fix. Base branch: see step 3 above (7.4 by default; 6.4 pending the fix #10 answer; 5.4 out of scope).
+Post the step-2 verdict on the board before writing the fix. Base branch: see step 3 above (template branches only).
 
 ## 2. Environment facts (Claude Code cloud sessions)
 - **Fork renamed (2026-11-27):** the fork is now `clfer/symfony-fork` (old URL redirects). It checks out to `<cwd>/symfony-fork`, so the old same-name limit (both repos checked out to `<cwd>/symfony`) should no longer apply: a session can try `add_repo symfony/symfony` (read) to read upstream CI and push fixes in one place. Not yet verified. Older text below that says "clfer/symfony" means this fork.
