@@ -2,7 +2,7 @@ name: Windows flaky repro
 
 # Reproduce Windows-only flaky tests in a loop. Never meant for an upstream PR.
 on:
-  push: { branches: [ 'ci-windows-repro', 'ci-repro-timeout-slow-endpoint' ] }
+  push: { branches: [ 'ci-windows-repro', 'ci-repro-timeout-slow-endpoint', 'ci-repro-timeout-slow-hang' ] }
   workflow_dispatch:
     inputs:
       filter: { description: 'phpunit --filter', default: '/::testTimeoutOn(Destruct|Initialize)$/' }
@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [ before, after ]
+        variant: [ after ]
     runs-on: windows-2022
     timeout-minutes: 120
     defaults:
@@ -29,7 +29,7 @@ jobs:
       SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: '1'
       FILTER: ${{ inputs.filter || '/::testTimeoutOn(Destruct|Initialize)$/' }}
       TEST_PATH: ${{ inputs.path || 'src\Symfony\Component\HttpClient\Tests' }}
-      ITERATIONS: ${{ inputs.iterations || '60' }}
+      ITERATIONS: ${{ inputs.iterations || '40' }}
 
     steps:
       - name: Setup Git

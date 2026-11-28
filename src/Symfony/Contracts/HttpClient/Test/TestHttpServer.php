@@ -48,8 +48,14 @@ class TestHttpServer
         $process->start();
         self::$process[$port] = $process;
 
+        $t0 = microtime(true);
+        $next = 5;
         do {
             usleep(50000);
+            if (microtime(true) - $t0 > $next) {
+                $next += 5;
+                fwrite(\STDERR, \sprintf("\n[HANGDBG] start(%d) spinning %.1fs running=%s exit=%s out=%s err=%s\n", $port, microtime(true) - $t0, var_export($process->isRunning(), true), var_export($process->getExitCode(), true), $process->getOutput(), $process->getErrorOutput()));
+            }
         } while (!@fopen('http://'.$ip.':'.$port, 'r'));
 
         return $process;

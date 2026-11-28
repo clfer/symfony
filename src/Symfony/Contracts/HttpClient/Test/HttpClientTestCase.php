@@ -911,6 +911,9 @@ abstract class HttpClientTestCase extends TestCase
     {
         $p1 = TestHttpServer::start(self::port(8067));
         $p2 = TestHttpServer::start(self::port(8077));
+        $dbg = static function ($m) use (&$t) { fwrite(\STDERR, \sprintf("\n[HANGDBG] %s %.3f %s\n", static::class, microtime(true) - $t, $m)); };
+        $t = microtime(true);
+        $dbg('servers started');
 
         $client = $this->getHttpClient(__FUNCTION__);
         $start = microtime(true);
@@ -921,9 +924,11 @@ abstract class HttpClientTestCase extends TestCase
         $responses[] = $client->request('GET', 'http://localhost:'.self::port(8067).'/timeout-header-slow', ['timeout' => 0.25]);
         $responses[] = $client->request('GET', 'http://localhost:'.self::port(8077).'/timeout-header-slow', ['timeout' => 0.25]);
 
+        $dbg('requests created');
         try {
             while ($response = array_shift($responses)) {
                 try {
+                    $dbg('unset '.\count($responses));
                     unset($response);
                     $this->fail(TransportExceptionInterface::class.' expected');
                 } catch (TransportExceptionInterface) {
@@ -931,11 +936,15 @@ abstract class HttpClientTestCase extends TestCase
             }
 
             $duration = microtime(true) - $start;
+            $dbg('loop done');
 
             $this->assertLessThan(1.0, $duration);
         } finally {
+            $dbg('stopping p1');
             $p1->stop();
+            $dbg('stopping p2');
             $p2->stop();
+            $dbg('stopped');
         }
     }
 
