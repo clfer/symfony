@@ -21,7 +21,7 @@
 
 ## Notes, links and fix status
 
-- Notes: Windows: RecursiveDirectoryIterator on a temp dir that vanished (another component test deletes it concurrently); same family as AbstractPropertyInfoExtractorTest::testGetTypes (2026-11-27)
+- Notes: NOT covered by #68497: vanished path is AssetMapper/Tests/Fixtures/.OlA/d/assets (the AssetMapper latent sibling listed by fix-13); fix = same temp-dir pattern in the AssetMapper tests
 - Related issues/PRs (full-text search, may be noise): —
 - No upstream fix recorded.
 - KNOWLEDGE.md section 6 pattern: `RecursiveDirectoryIterator::__construct(…\src\Symfony\…\Tests\…\.XXX\d)` (or another dir under `Tests/`) `cannot find t → test-only: write to a unique dir under `sys_get_temp_dir()` (#67790 FrameworkBundle; fix #13 HttpKernel KernelTest). Lat

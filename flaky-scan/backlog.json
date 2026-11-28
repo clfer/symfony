@@ -1929,13 +1929,21 @@
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "96f87c286c6"
+   },
+   "pr": 67790
+  },
   "id": "Symfony\\Bundle\\TwigBundle\\Tests\\DependencyInjection\\TwigExtensionTest::testLoadFullXmlConfiguration#23ef04f1",
   "key": "Symfony\\Bundle\\TwigBundle\\Tests\\DependencyInjection\\TwigExtensionTest::testLoadFullXmlConfiguration",
   "kind": "test",
   "links": [],
-  "notes": "Windows: RecursiveDirectoryIterator on a temp dir that vanished (another component test deletes it concurrently); same family as AbstractPropertyInfoExtractorTest::testGetTypes (2026-11-27)",
+  "notes": "vanished path is FrameworkBundle Tests/Command/CacheClearCommand/Fixtures, fixed by #67790 (96f87c286c6); failing sha ffd90172ac (11-01) predates it",
   "occurrences": [
    {
     "branch": "7.4",
@@ -1952,7 +1960,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "23ef04f1",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\Compiler\\JavaScriptImportPathCompilerTest::testCompileFindsRelativePathsWithWindowsPathsViaSourcePath#1091ca3e": {
   "board": "",
@@ -7424,13 +7432,22 @@
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "6.4": "438b8f7e3c3"
+   },
+   "merged_at": "2026-11-23T08:55:00Z",
+   "pr": 68321
+  },
   "id": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersSetOnTheRequestAreKeptInSubrequest#c28b516e",
   "key": "Symfony\\Component\\HttpKernel\\Tests\\Fragment\\InlineFragmentRendererTest::testHeadersSetOnTheRequestAreKeptInSubrequest",
   "kind": "test",
   "links": [],
-  "notes": "6.4 low-deps: \"Expectation failed for method name is handle\"; same REQUEST_TIME second-boundary family as fix #5 (testHeadersPossiblyResultingIn304AreNotAssignedToSubrequest) but another method: check whether fix #5 covers it",
+  "notes": "covered by #68321: the shared getKernelExpectingRequest() helper now ignores REQUEST_TIME (6.4 line 408); failing sha 3444d67843 (11-05) predates it",
   "occurrences": [
    {
     "branch": "6.4",
@@ -7447,7 +7464,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "c28b516e",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\HttpKernel\\Tests\\HttpCache\\SubRequestHandlerTest::testUntrustedHeadersAreRemoved#c070a267": {
   "board": "",
@@ -10657,7 +10674,7 @@
   "key": "Symfony\\Component\\Mime\\Tests\\Part\\AbstractPartTest::testUnserializeCallsWakeupOfMultipartSubclasses",
   "kind": "test",
   "links": [],
-  "notes": "Windows: RecursiveDirectoryIterator on a temp dir that vanished (another component test deletes it concurrently); same family as AbstractPropertyInfoExtractorTest::testGetTypes (2026-11-27)",
+  "notes": "NOT covered by #68497: vanished path is AssetMapper/Tests/Fixtures/.OlA/d/assets (the AssetMapper latent sibling listed by fix-13); fix = same temp-dir pattern in the AssetMapper tests",
   "occurrences": [
    {
     "branch": "7.4",
