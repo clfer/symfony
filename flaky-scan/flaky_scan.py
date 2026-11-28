@@ -490,7 +490,8 @@ def fix_check(entry, git, prev_check):
         relevant = [c for b, c in sorted(commits.items()) if branch_version(b) <= branch_version(o["branch"])]
         if not relevant:
             open_b.add(o["branch"])
-        elif git and any(git.is_ancestor(c, o["sha"]) for c in relevant):
+        elif git and all(git.is_ancestor(c, o["sha"]) for c in relevant):
+            # contains every recorded fix commit: a regression (record a re-fix with --fix-commit to close it)
             regressed.add(o["run_id"])
     check = {"open_branches": sorted(open_b)}
     check["regressed_runs"] = sorted(regressed) if git else list(prev_check.get("regressed_runs", []))

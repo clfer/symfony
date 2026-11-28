@@ -6,17 +6,19 @@
 |---|---|
 | test | `Symfony\Component\HttpClient\Tests\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete` |
 | signature | `6cd69431` (entry id `Symfony\Component\HttpClient\Tests\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431`) |
-| class | flaky (fails intermittently on 2 unrelated commits) |
+| class | flaky (fails intermittently on 4 unrelated commits) |
 | status | triaged |
 | owner | scan |
 | board record | — (not picked) |
 | branches | 8.2 |
-| first / last seen | 2026-11-10 / 2026-11-13 |
+| first / last seen | 2026-11-03 / 2026-11-13 |
 
 ## Occurrences
 
 | run | job | branch | job name | sha | date | excerpt |
 |---|---|---|---|---|---|---|
+| [41690016390](https://github.com/symfony/symfony/actions/runs/41690016390) | [126105822510](https://github.com/symfony/symfony/actions/runs/41690016390/job/126105822510) | 8.2 | x86 / minimal-exts / lowest-php | 06c62e2a6c | 2026-11-03 | RuntimeException: Script "trailers/server.php" did not listen on port 8061. |
+| [42269910480](https://github.com/symfony/symfony/actions/runs/42269910480) | [128071475404](https://github.com/symfony/symfony/actions/runs/42269910480/job/128071475404) | 8.2 | x86 / minimal-exts / lowest-php | 230bc59a15 | 2026-11-06 | RuntimeException: Script "trailers/server.php" did not listen on port 8061. |
 | [42726321796](https://github.com/symfony/symfony/actions/runs/42726321796) | [129532745205](https://github.com/symfony/symfony/actions/runs/42726321796/job/129532745205) | 8.2 | x86 / minimal-exts / lowest-php | 923a931162 | 2026-11-10 | RuntimeException: Script "trailers/server.php" did not listen on port 8061. |
 | [43430720186](https://github.com/symfony/symfony/actions/runs/43430720186) | [131903214724](https://github.com/symfony/symfony/actions/runs/43430720186/job/131903214724) | 8.2 | x86 / minimal-exts / lowest-php | ae0a0c11d2 | 2026-11-13 | RuntimeException: Script "trailers/server.php" did not listen on port 8061. |
 
