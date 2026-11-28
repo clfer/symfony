@@ -5777,17 +5777,23 @@
   "status": "triaged"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431": {
-  "board": "",
+  "board": "fix-17",
   "classification": "flaky",
   "classification_override": "",
   "component": null,
   "fix_check": {},
-  "fixed_by": {},
+  "fixed_by": {
+   "commits": {
+    "8.2": "a1c117f00"
+   },
+   "merged_at": "2026-11-16",
+   "pr": 68183
+  },
   "id": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431",
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete",
   "kind": "test",
   "links": [],
-  "notes": "NEW flaky (2026-11-10..20 scan): Windows 8.2, 2 commits: RuntimeException \"Script trailers/server.php did not listen on port 8061\" (TestSocketServer.php:59); socket server start too slow on the 2-core runner; not transient-on-windows yet",
+  "notes": "Already fixed upstream (fix #17): all 4 failing SHAs (8.2, 11-03..11-13) predate #68183 (5d5160565, TestSocketServer start-up wait 10 s -> 30 s, on 8.2 via a1c117f00 2026-11-16) and #68211 (b78cc10dc, Windows parallel cap). The CI message lacks the \"after X.Xs\" suffix #68183 added, so it came from the old 10 s code. No occurrence since. Test exists on 8.2 only.",
   "occurrences": [
    {
     "branch": "8.2",
@@ -5834,10 +5840,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-17",
   "reason": "fails intermittently on 4 unrelated commits",
   "sig": "6cd69431",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testDestruct#2a89d83a": {
   "board": "",
