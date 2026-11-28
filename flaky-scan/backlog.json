@@ -2260,7 +2260,7 @@
   "status": "fixed"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\MapperAwareAssetPackageIntegrationTest::testDefaultAssetPackageIsDecorated#12719404": {
-  "board": "",
+  "board": "fix-18",
   "classification": "unknown",
   "classification_override": "",
   "component": null,
@@ -2270,7 +2270,7 @@
   "key": "Symfony\\Component\\AssetMapper\\Tests\\MapperAwareAssetPackageIntegrationTest::testDefaultAssetPackageIsDecorated",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Deleting side of the fix #18 race: MapperAwareAssetPackageIntegrationTest::tearDown removes the AssetMapperTestAppKernel project dir var/ under Tests/Fixtures; on Windows rename/rmdir fails while another suite source walk holds a handle on it. No upstream change since 11-04. Covered by fix-asset-mapper-tests-temp-dir (kernel project dir moved to sys_get_temp_dir()); Windows handle behaviour not reproducible on Linux.",
   "occurrences": [
    {
     "branch": "7.4",
@@ -2284,10 +2284,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-18",
   "reason": "single occurrence, no flaky signature",
   "sig": "12719404",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\BrowserKit\\Tests\\AbstractBrowserTest::testInsulatedRequests#98e27fad": {
   "board": "",
