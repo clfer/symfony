@@ -10673,7 +10673,7 @@
   "status": "fixed"
  },
  "Symfony\\Component\\Mime\\Tests\\Part\\AbstractPartTest::testUnserializeCallsWakeupOfMultipartSubclasses#99d93a60": {
-  "board": "",
+  "board": "fix-18",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
@@ -10683,7 +10683,7 @@
   "key": "Symfony\\Component\\Mime\\Tests\\Part\\AbstractPartTest::testUnserializeCallsWakeupOfMultipartSubclasses",
   "kind": "test",
   "links": [],
-  "notes": "NOT covered by #68497: vanished path is AssetMapper/Tests/Fixtures/.OlA/d/assets (the AssetMapper latent sibling listed by fix-13); fix = same temp-dir pattern in the AssetMapper tests",
+  "notes": "Caused by AssetMapper tests removing dirs under Tests/Fixtures (Filesystem::remove renames to .<rand>/d) during the PHPUnit 11.5 source walk. Deterministic repro (is_dir hook in remove + paused php-file-iterator walk): ImportMapConfigReaderTest, ImportMapGeneratorTest, AssetMapperCompileCommandTest fail with the CI shape. Fix branch fix-asset-mapper-tests-temp-dir: all writes moved to sys_get_temp_dir(), test kernels project dir in temp (like #67790/#68497).",
   "occurrences": [
    {
     "branch": "7.4",
@@ -10697,10 +10697,10 @@
     "workflow": "windows.yml"
    }
   ],
-  "owner": "scan",
+  "owner": "fix-18",
   "reason": "single occurrence, no flaky signature",
   "sig": "99d93a60",
-  "status": "triaged"
+  "status": "fix-proposed"
  },
  "Symfony\\Component\\Notifier\\Bridge\\Mailjet\\Tests\\MailjetTransportFactoryTest::testIncompleteDsnException#b68cb51a": {
   "board": "",
