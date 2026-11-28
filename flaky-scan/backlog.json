@@ -2033,13 +2033,23 @@
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\BrotliCompressorTest::testCompress#790586c9",
   "key": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\BrotliCompressorTest::testCompress",
   "kind": "test",
   "links": [],
-  "notes": "Windows 8.2 (2026-11-12): ProcessTimedOutException running brotli.EXE --best; slow runner; watch",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "8.2",
@@ -2056,20 +2066,30 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "790586c9",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress#790586c9": {
   "board": "",
   "classification": "flaky",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress#790586c9",
   "key": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "8.2",
@@ -2108,20 +2128,30 @@
   "owner": "scan",
   "reason": "fails intermittently on 3 unrelated commits",
   "sig": "790586c9",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress#7bc1d71d": {
   "board": "",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress#7bc1d71d",
   "key": "Symfony\\Component\\AssetMapper\\Tests\\Compressor\\ChainCompressorTest::testCompress",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "7.4",
@@ -2138,7 +2168,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "7bc1d71d",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\AssetMapper\\Tests\\Factory\\CachedMappedAssetFactoryTest::testAssetCacheFreshnessIsNotMemoizedInDebugMode#9388e36c": {
   "board": "",
@@ -2256,13 +2286,23 @@
   "classification": "flaky",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\BrowserKit\\Tests\\AbstractBrowserTest::testInsulatedRequests#98e27fad",
   "key": "Symfony\\Component\\BrowserKit\\Tests\\AbstractBrowserTest::testInsulatedRequests",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "7.4",
@@ -2290,20 +2330,30 @@
   "owner": "scan",
   "reason": "fails intermittently on 2 unrelated commits",
   "sig": "98e27fad",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\BrowserKit\\Tests\\HttpBrowserTest::testInsulatedRequests#98e27fad": {
   "board": "",
   "classification": "unknown",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\BrowserKit\\Tests\\HttpBrowserTest::testInsulatedRequests#98e27fad",
   "key": "Symfony\\Component\\BrowserKit\\Tests\\HttpBrowserTest::testInsulatedRequests",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "8.2",
@@ -2320,7 +2370,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "98e27fad",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Cache\\Tests\\Adapter\\ChainAdapterLazyGhostTest::testGetItem#8464a1bf": {
   "board": "",
@@ -2791,13 +2841,23 @@
   "classification": "flaky",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns#3709182f",
   "key": "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "8.2",
@@ -2825,7 +2885,7 @@
   "owner": "scan",
   "reason": "fails intermittently on 2 unrelated commits",
   "sig": "3709182f",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Console\\Tests\\Helper\\ProcessHelperTest::testVariousProcessRuns#972074b4": {
   "board": "fix-14",
@@ -6409,13 +6469,23 @@
   "classification": "real",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\HttpKernel\\Tests\\CacheWarmer\\CacheWarmerAggregateTest::testWarmupReadsTheDeprecationLogWithoutInstantiatingObjects#f05ef4b9",
   "key": "Symfony\\Component\\HttpKernel\\Tests\\CacheWarmer\\CacheWarmerAggregateTest::testWarmupReadsTheDeprecationLogWithoutInstantiatingObjects",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27",
   "occurrences": [
    {
     "branch": "7.4",
@@ -6432,7 +6502,7 @@
   "owner": "scan",
   "reason": "deprecation triggered (usually a dependency release)",
   "sig": "f05ef4b9",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\HttpKernel\\Tests\\Controller\\ArgumentResolver\\LockValueResolverTest::testLockArgumentThrowsWhenTheRequestHasNoLockOfItsOwn#954ea2c9": {
   "board": "",
@@ -7783,13 +7853,23 @@
   "classification": "flaky",
   "classification_override": "flaky",
   "component": null,
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "b78cc10dc",
+    "8.2": "b78cc10dc"
+   },
+   "merged_at": "2026-11-16T12:46:39Z",
+   "pr": 68211
+  },
   "id": "Symfony\\Component\\Mailer\\Tests\\EventListener\\PgpMimeEncryptedMessageListenerTest::testPgpMessageEncryptionProcess#04472eea",
   "key": "Symfony\\Component\\Mailer\\Tests\\EventListener\\PgpMimeEncryptedMessageListenerTest::testPgpMessageEncryptionProcess",
   "kind": "test",
   "links": [],
-  "notes": "Windows ProcessTimedOutException family (child process: brotli/gpg/php insulated client/php -r) on the 2-core runner; same family as BrotliCompressorTest; candidate for transient-on-windows or a larger timeout",
+  "notes": "already fixed upstream: Windows job started all suites at once, trivial child processes hit the 60s Process timeout (4/10 jobs had 2-4 such timeouts); #68211 (b78cc10dc, 2026-11-16) caps parallel suites at 12; 0 timeouts in 67 failed Windows runs 11-16..11-27; plus #68203 (c3b4a397e, 8.2) gpg timeout 300s",
   "occurrences": [
    {
     "branch": "8.2",
@@ -7828,7 +7908,7 @@
   "owner": "scan",
   "reason": "fails intermittently on 3 unrelated commits",
   "sig": "04472eea",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Mailer\\Tests\\EventListener\\PgpMimeSignAndEncryptListenerTest::testMessageIsSignedBeforeBeingEncrypted#6deab2b2": {
   "board": "",
