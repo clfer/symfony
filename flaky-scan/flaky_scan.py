@@ -501,6 +501,14 @@ def cmd_classify(args):
     recs = [json.loads(l) for l in open(p(args, "failures.jsonl"), encoding="utf-8") if l.strip()]
     old = migrate_legacy(jload(p(args, "backlog.json"), {}) or {})
     git = Git(args.repo) if getattr(args, "repo", None) else None
+    # a shorter (tail-only) log must not downgrade a job the backlog already attributes to a test:
+    # drop its UNATTRIBUTED record and keep the old occurrences of that job
+    attributed = {o["job_id"] for e in old.values() if e["kind"] != "unattributed" for o in e.get("occurrences", [])}
+    kinds_by_job = {}
+    for r in recs:
+        kinds_by_job.setdefault(r["job_id"], set()).add(r["kind"])
+    downgraded = {j for j, k in kinds_by_job.items() if k == {"unattributed"} and j in attributed}
+    recs = [r for r in recs if r["job_id"] not in downgraded]
     groups = {}
     for r in recs:
         sg = r.get("sig") or sig_of(r["kind"], r.get("excerpt", ""))
@@ -627,7 +635,7 @@ def cmd_report(args):
             i, md(e["key"]), e.get("sig", ""), cls, md(e["reason"]), len(occ),
             ", ".join(sorted({o["branch"] for o in occ})),
             md("; ".join(sorted({o["job"] for o in occ}))[:120]),
-            md(occ[0]["excerpt"][:110]),
+            md(occ[0]["excerpt"][:110] if occ else "(no occurrence left)"),
             " ".join(f"[{r}]({run_url(r)})" for r in runs[:4]) + (" …" if len(runs) > 4 else ""),
             " ".join(f"#{l['number']}{'(PR)' if l['pr'] else ''}" for l in e.get("links", [])[:4]) or "—",
             md(e.get("status", "new")) + md(fixed) + (f" — {md(e['notes'])}" if e.get("notes") else ""),
