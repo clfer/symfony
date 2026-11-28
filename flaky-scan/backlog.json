@@ -5463,7 +5463,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testCompletedResponseDoesNotBlockOtherResponses",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Rejected: idle timeout, Windows x86/minimal-exts/lowest-php load at job start, pre-#68211 (b78cc10dc, 11-16); SHA lacks #68211/#68183/#68198; no recurrence 11-08..11-28",
   "occurrences": [
    {
     "branch": "7.4",
@@ -5480,7 +5480,7 @@
   "owner": "scan",
   "reason": "timeout",
   "sig": "854d9dfa",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testDestruct#2a89d83a": {
   "board": "",
@@ -5493,7 +5493,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testDestruct",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Rejected: 7.37s > 4s budget, Windows x86/minimal-exts/lowest-php load at job start, pre-#68211 (b78cc10dc, 11-16); SHA lacks #68211/#68183/#68198; no recurrence 11-08..11-28",
   "occurrences": [
    {
     "branch": "8.2",
@@ -5510,7 +5510,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "2a89d83a",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testFailureBeforeHeadersIsNotDelayed#2a89d83a": {
   "board": "",
@@ -5746,7 +5746,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testPauseLongerThanTimeout",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Rejected: idle timeout on 8057, Windows x86/minimal-exts/lowest-php load at job start, pre-#68211 (b78cc10dc, 11-16); SHA lacks #68211/#68183/#68198; no recurrence 11-08..11-28",
   "occurrences": [
    {
     "branch": "7.4",
@@ -5774,7 +5774,7 @@
   "owner": "scan",
   "reason": "timeout",
   "sig": "854d9dfa",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AmpHttpClientTest::testTrailersAreExposedOnceTheResponseIsComplete#6cd69431": {
   "board": "fix-17",
@@ -5859,7 +5859,7 @@
   "key": "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testDestruct",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Rejected: 7.38s > 4s budget, Windows x86/minimal-exts/lowest-php load at job start, pre-#68211 (b78cc10dc, 11-16); SHA lacks #68211/#68183/#68198; no recurrence 11-08..11-28",
   "occurrences": [
    {
     "branch": "7.4",
@@ -5876,7 +5876,7 @@
   "owner": "scan",
   "reason": "single occurrence, no flaky signature",
   "sig": "2a89d83a",
-  "status": "triaged"
+  "status": "wontfix"
  },
  "Symfony\\Component\\HttpClient\\Tests\\AsyncDecoratorTraitTest::testMaxDuration#9d80d5c5": {
   "board": "fix-12",
@@ -9057,15 +9057,24 @@
  "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\ConnectionTest::testConnectionFailureDoesNotExposeCredentialsInTrace#77ede551": {
   "board": "",
   "classification": "flaky",
-  "classification_override": "",
+  "classification_override": "real",
   "component": "src/Symfony/Component/Messenger/Bridge/Redis",
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "431c4e122"
+   },
+   "merged_at": "2026-11-01T22:02:43+01:00",
+   "pr": 67767
+  },
   "id": "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\ConnectionTest::testConnectionFailureDoesNotExposeCredentialsInTrace#77ede551",
   "key": "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\ConnectionTest::testConnectionFailureDoesNotExposeCredentialsInTrace",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Real break: test added 11-01 by 53cacc731; phpredis getLastError() throws after failed connect; fixed by #67767 (b1c64ae3e), on 7.4 via 431c4e122 (11-01 23:26); failing SHAs predate it; no recurrence",
   "occurrences": [
    {
     "branch": "7.4",
@@ -9104,7 +9113,7 @@
   "owner": "scan",
   "reason": "fails intermittently on 3 unrelated commits",
   "sig": "77ede551",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\ConnectionTest::testDeleteAfterAck#527d83b5": {
   "board": "",
@@ -10396,15 +10405,24 @@
  "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\RedisReceiverTest::testItRejectsAStreamEntryThatIsNotAMessengerEnvelope#8131baff": {
   "board": "",
   "classification": "flaky",
-  "classification_override": "",
+  "classification_override": "real",
   "component": "src/Symfony/Component/Messenger/Bridge/Redis",
-  "fix_check": {},
-  "fixed_by": {},
+  "fix_check": {
+   "open_branches": [],
+   "regressed_runs": []
+  },
+  "fixed_by": {
+   "commits": {
+    "7.4": "431c4e122"
+   },
+   "merged_at": "2026-11-01T21:35:39+01:00",
+   "pr": 67758
+  },
   "id": "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\RedisReceiverTest::testItRejectsAStreamEntryThatIsNotAMessengerEnvelope#8131baff",
   "key": "Symfony\\Component\\Messenger\\Bridge\\Redis\\Tests\\Transport\\RedisReceiverTest::testItRejectsAStreamEntryThatIsNotAMessengerEnvelope",
   "kind": "test",
   "links": [],
-  "notes": "2026-11-01..10 scan; watch",
+  "notes": "Real break: test added 11-01 by 230e6f4ad (#67754) used PhpSerializer, broke with high-deps messenger; fixed by #67758 (5cd796c0e, serializer mock), on 7.4 via 431c4e122; failing SHAs predate it; no recurrence",
   "occurrences": [
    {
     "branch": "7.4",
@@ -10432,7 +10450,7 @@
   "owner": "scan",
   "reason": "fails intermittently on 2 unrelated commits",
   "sig": "8131baff",
-  "status": "triaged"
+  "status": "fixed"
  },
  "Symfony\\Component\\Messenger\\Tests\\Command\\FailedMessagesShowCommandTest::testMarkupInFailureDetailsAndTransportName#d636a3db": {
   "board": "",
